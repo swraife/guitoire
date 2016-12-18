@@ -24,17 +24,22 @@ $blue: #1565c0;
 $dark-gray: #333;
 $medium-gray: #999;
 $light-gray: #ddd;
+$salmon: rgba(239, 131, 84, 1);
+$sand: rgba(242, 192, 120, 1);
+$cloud: rgba(237, 244, 237, 1);
+$marine-blue: rgba(60, 122, 137, 1);
+$slate-blue: rgba(46, 71, 86, 1);
 
 // Font Colors
-$base-font-color: $dark-gray;
-$action-color: $blue;
+$base-font-color: $slate-blue;
+$action-color: $marine-blue;
 
 // Border
 $base-border-color: $light-gray;
 $base-border: 1px solid $base-border-color;
 
 // Background Colors
-$base-background-color: #fff;
+$base-background-color: $cloud;
 $secondary-background-color: tint($base-border-color, 75%);
 
 // Forms
