@@ -10,4 +10,6 @@
 #
 
 class SongResource < ApplicationRecord
+  belongs_to :song
+  belongs_to :resource
 end

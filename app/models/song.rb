@@ -14,4 +14,8 @@
 #
 
 class Song < ApplicationRecord
+  belongs_to :user
+  belongs_to :composer
+  has_many :song_resources
+  has_many :resources, through: :song_resources
 end

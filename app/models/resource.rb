@@ -13,4 +13,6 @@
 #
 
 class Resource < ApplicationRecord
+  has_many :song_resources
+  has_many :songs, through: :song_resources
 end
