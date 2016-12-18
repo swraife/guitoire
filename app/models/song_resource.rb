@@ -1,0 +1,2 @@
+class SongResource < ApplicationRecord
+end
