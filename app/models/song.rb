@@ -18,4 +18,6 @@ class Song < ApplicationRecord
   belongs_to :composer
   has_many :song_resources
   has_many :resources, through: :song_resources
+
+  MUSICKEYS = %w(A A# B B# C D D# E F F# G G#)
 end
