@@ -1,2 +1,16 @@
-<h1>Songs#show</h1>
-<p>Find me in app/views/songs/show.html.erb</p>
+.jumbotron
+  .song__title
+    %h1
+      = @song.name
+  .song__description
+    %h2
+      Description:
+    %p
+      = @song.description || 'None'
+  .song__key
+    %h2
+      = "Key: #{@song.music_key || 'none'}"
+  .song__tempo
+    %h2
+      = "Tempo: #{@song.tempo || 'none'}"
+
