@@ -6,7 +6,6 @@ class SetListsController < ApplicationController
   def create
     @set_list = SetList.create(set_list_params)
     @set_list.users << current_user
-    redirect_to 'root'
   end
 
   private
