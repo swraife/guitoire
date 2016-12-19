@@ -1,4 +1,4 @@
-if ENV.fetch('COVERAGE', false)
+if ENV.fetch('COVERAGE', true)
   require 'simplecov'
 
   if ENV['CIRCLE_ARTIFACTS']
