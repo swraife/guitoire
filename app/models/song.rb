@@ -19,5 +19,7 @@ class Song < ApplicationRecord
   has_many :song_resources
   has_many :resources, through: :song_resources
 
+  accepts_nested_attributes_for :composer
+
   MUSICKEYS = %w(A A# B B# C D D# E F F# G G#)
 end
