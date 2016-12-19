@@ -9,6 +9,7 @@
 #  tempo       :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  sort_value  :integer
 #
 
 require 'rails_helper'

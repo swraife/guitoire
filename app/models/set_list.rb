@@ -10,4 +10,5 @@
 #
 
 class SetList < ApplicationRecord
+  has_many :events
 end
