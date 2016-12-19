@@ -6,7 +6,7 @@ class SongsController < ApplicationController
   end
 
   def index
-    @songs = @user.songs
+    @songs = @user.songs.order(:name)
   end
 
   def new
