@@ -1,0 +1,14 @@
+= form_for [@user, @song] do |f|
+  = f.label :name
+  = f.text_field :name
+
+  = f.label :description
+  = f.text_field :description
+
+  = f.label 'Key'
+  = f.select :music_key, options_for_select(Song::MUSICKEYS, @song.music_key), include_blank: true
+
+  = f.label :tempo
+  = f.select :tempo, options_for_select((55..155).step(5).to_a, @song.tempo), include_blank: true
+
+  = f.submit
