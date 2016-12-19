@@ -1,4 +1,9 @@
 FactoryGirl.define do
+  factory :set_list_user do
+    user_id 1
+    set_list_id 1
+    role 1
+  end
   factory :note_resource do
     
   end
