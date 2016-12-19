@@ -26,4 +26,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :songs
+
+  has_many :set_list_users
+  has_many :set_lists, through: :set_list_users
 end

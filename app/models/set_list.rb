@@ -11,4 +11,7 @@
 
 class SetList < ApplicationRecord
   has_many :events
+
+  has_many :set_list_users
+  has_many :users, through: :set_list_users
 end
