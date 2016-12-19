@@ -1,4 +1,18 @@
 FactoryGirl.define do
+  factory :set_list_song do
+    song_id 1
+    set_list_id 1
+    music_key "MyString"
+  end
+  factory :set_list do
+    name "MyString"
+    description "MyString"
+  end
+  factory :event do
+    name "MyString"
+    date "2016-12-18"
+    set_list_id 1
+  end
   factory :song_resource do
     song_id 1
     resource_id 1

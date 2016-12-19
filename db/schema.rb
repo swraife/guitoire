@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161218221056) do
+ActiveRecord::Schema.define(version: 20161219042459) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,14 @@ ActiveRecord::Schema.define(version: 20161218221056) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
   end
 
+  create_table "events", force: :cascade do |t|
+    t.string   "name"
+    t.date     "date"
+    t.integer  "set_list_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "resources", force: :cascade do |t|
     t.string   "name"
     t.string   "main_file_name"
@@ -44,6 +52,22 @@ ActiveRecord::Schema.define(version: 20161218221056) do
     t.datetime "main_updated_at"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+  end
+
+  create_table "set_list_songs", force: :cascade do |t|
+    t.integer  "song_id"
+    t.integer  "set_list_id"
+    t.string   "music_key"
+    t.integer  "tempo"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "set_lists", force: :cascade do |t|
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "song_resources", force: :cascade do |t|
