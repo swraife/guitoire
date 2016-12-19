@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161219042459) do
+ActiveRecord::Schema.define(version: 20161219063538) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,14 +44,28 @@ ActiveRecord::Schema.define(version: 20161219042459) do
     t.datetime "updated_at",  null: false
   end
 
-  create_table "resources", force: :cascade do |t|
-    t.string   "name"
+  create_table "file_resources", force: :cascade do |t|
     t.string   "main_file_name"
     t.string   "main_content_type"
     t.integer  "main_file_size"
     t.datetime "main_updated_at"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+  end
+
+  create_table "note_resources", force: :cascade do |t|
+    t.text     "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "resources", force: :cascade do |t|
+    t.string   "name"
+    t.string   "resourceable_type"
+    t.integer  "resourceable_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.index ["resourceable_type", "resourceable_id"], name: "index_resources_on_resourceable_type_and_resourceable_id", using: :btree
   end
 
   create_table "set_list_songs", force: :cascade do |t|
@@ -86,6 +100,12 @@ ActiveRecord::Schema.define(version: 20161219042459) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "user_id"
+  end
+
+  create_table "url_resources", force: :cascade do |t|
+    t.string   "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

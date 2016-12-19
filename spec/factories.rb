@@ -1,4 +1,13 @@
 FactoryGirl.define do
+  factory :note_resource do
+    
+  end
+  factory :url_resource do
+    
+  end
+  factory :file_resource do
+    
+  end
   factory :set_list_song do
     song_id 1
     set_list_id 1

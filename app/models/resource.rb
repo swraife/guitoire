@@ -4,10 +4,8 @@
 #
 #  id                :integer          not null, primary key
 #  name              :string
-#  main_file_name    :string
-#  main_content_type :string
-#  main_file_size    :integer
-#  main_updated_at   :datetime
+#  resourceable_type :string
+#  resourceable_id   :integer
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #
@@ -15,6 +13,5 @@
 class Resource < ApplicationRecord
   has_many :song_resources
   has_many :songs, through: :song_resources
-
-  has_attached_file :main
+  belongs_to :resourceable, polymorphic: true
 end
