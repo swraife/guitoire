@@ -1,6 +1,4 @@
 class SongsController < ApplicationController
-  before_action :set_user
-
   def show
     @song = Song.find(params[:id])
   end
@@ -33,9 +31,5 @@ class SongsController < ApplicationController
 
   def song_params
     params.require(:song).permit(:name, :description, :tempo, :music_key, :composer_id)
-  end
-
-  def set_user
-    @user = User.find(params[:user_id])
   end
 end

@@ -15,4 +15,14 @@
 
 = form_for FileResource.new do |f|
   = f.label 'Upload File'
-  = f.file_field :main, multiple: true
+  = f.file_field :main, multiple: true, name: 'file_resource[main]'
+  = hidden_field_tag :song_id, @song.id
+  = f.submit 'Upload'
+
+.song__resources-wrapper
+  - @song.resources.each do |resource|
+    .song__resource
+      - download_target = resource.resourceable.displayable_in_browser? ? '_blank' : '_top'
+      = link_to resource.resourceable.main.url(:original), target: download_target do
+        %i{class: "fa #{file_icon_class(resource.resourceable.main_content_type)}"}
+        = resource.resourceable.main_file_name
