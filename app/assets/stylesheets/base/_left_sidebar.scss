@@ -1,14 +1,18 @@
+$left-sidebar-width: 138px;
 .left-sidebar {
   float: left;
   padding-top: 20px;
   padding-right: 10px;
   padding-left: 10px;
-  width: 138px;
+  width: $left-sidebar-width;
   display: none;
   @media ($screen-sm) {
     display: block;
   }
   @media ($screen-md) {
-    margin-left: calc(20% - 138px);
+    margin-left: calc(20% - #{$left-sidebar-width});
+  }
+  @media ($screen-xl) {
+    margin-left: calc((100% - 768px) / 2 - #{$left-sidebar-width});
   }
 }
