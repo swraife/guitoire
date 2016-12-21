@@ -14,8 +14,12 @@
   <%= csrf_meta_tags %>
 </head>
 <body class="<%= body_class %>">
+  <%= render 'shared/header' %>
   <%= render "flashes" -%>
-  <%= yield %>
+  <%= render 'shared/left_sidebar' %>
+  <div class='jumbotron'>
+    <%= yield %>
+  </div>
   <%= render "javascript" %>
   <%= render "css_overrides" %>
 </body>

@@ -1,0 +1,14 @@
+.left-sidebar {
+  float: left;
+  padding-top: 20px;
+  padding-right: 10px;
+  padding-left: 10px;
+  width: 138px;
+  display: none;
+  @media ($screen-sm) {
+    display: block;
+  }
+  @media ($screen-md) {
+    margin-left: calc(20% - 138px);
+  }
+}

@@ -1,16 +1,18 @@
-.jumbotron
-  .song__title
-    %h1
-      = @song.name
-  .song__description
-    %h2
-      Description:
-    %p
-      = @song.description || 'None'
-  .song__key
-    %h2
-      = "Key: #{@song.music_key || 'none'}"
-  .song__tempo
-    %h2
-      = "Tempo: #{@song.tempo || 'none'}"
+.song__title
+  %h1
+    = @song.name
+.song__description
+  %h2
+    Description:
+  %p
+    = @song.description || 'None'
+.song__key
+  %h2
+    = "Key: #{@song.music_key || 'none'}"
+.song__tempo
+  %h2
+    = "Tempo: #{@song.tempo || 'none'}"
 
+= form_for FileResource.new do |f|
+  = f.label 'Upload File'
+  = f.file_field :main, multiple: true

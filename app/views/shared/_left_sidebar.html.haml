@@ -1,0 +1,18 @@
+.left-sidebar
+  .left-sidebar__main-links
+    .left-sidebar__link
+      = link_to '' do
+        %i.fa.fa-fw.fa-home
+        Home
+    .left-sidebar__link
+      = link_to user_songs_path(current_user) do
+        %i.fa.fa-fw.fa-search
+        Songs
+    .left-sidebar__link
+      = link_to new_user_song_path(current_user) do
+        %i.fa.fa-fw.fa-plus
+        Add Song
+    .left-sidebar__link
+      = link_to new_set_list_path do
+        %i.fa.fa-fw.fa-plus
+        Add Set List

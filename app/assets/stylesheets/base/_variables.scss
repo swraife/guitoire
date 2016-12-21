@@ -1,6 +1,10 @@
 // Breakpoints
-$medium-screen: 600px;
-$large-screen: 900px;
+$screen-xs: 'min-width: 380px';
+$screen-sm: 'min-width: 544px';
+$screen-md: 'min-width: 768px';
+$screen-lg: 'min-width: 992px';
+$screen-xl: 'min-width: 1200px';
+$screen-xxl: 'min-width: 1500px';
 
 // Typography
 $base-font-family: $font-stack-system;

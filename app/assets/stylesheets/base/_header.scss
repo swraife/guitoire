@@ -1,0 +1,32 @@
+.header {
+  background-color: $marine-blue;
+  height: 48px;
+}
+.header__title {
+  font-size: 32px;
+  a {
+    color: $sand;
+  }
+  padding-left: 10px;
+  color: $sand;
+}
+.header__title--full {
+  display: none;
+  @media ($screen-xs) {
+    display: inline-block;
+  }
+}
+.header__title--min {
+  display: inline-block;
+  @media ($screen-xs) {
+    display: none;
+  }
+}
+.header__menu {
+  display: inline-block;
+  float: right;
+  a {
+    color: $sand;
+    font-size: 32px;
+  }
+}

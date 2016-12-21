@@ -14,11 +14,19 @@ body {
   background-color: $cloud;
 }
 .jumbotron {
-  padding-top: 10px;
+  float: left;
+  background-color: $sand;
+  padding: 20px;
   @include clearfix;
-  max-width: 75%;
-  margin: {
-    left: auto;
-    right: auto;
+  width: 100%;
+  max-width: 768px;
+  min-height: 75%;
+  border-radius: 3px;
+  @media ($screen-sm) {
+    width: 75%;
+    margin-top: 10px;
+  }
+  @media ($screen-md) {
+    width: 64%;
   }
 }

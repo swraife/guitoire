@@ -1,0 +1,18 @@
+.header
+  .header__title.header__title--full
+    = link_to '' do
+      %h1
+        GUITOIRE
+  .header__title.header__title--min
+    = link_to '' do
+      %h1
+        G
+  .header__menu
+    = link_to '' do
+      %i.fa.fa-home
+    = link_to '#' do
+      %i.fa.fa-fw.fa-plus
+    = link_to user_songs_path(current_user) do
+      %i.fa.fa-fw.fa-search
+    = link_to '#' do
+      %i.fa.fa-fw.fa-user
