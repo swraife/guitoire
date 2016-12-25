@@ -13,6 +13,7 @@ class SongsController < ApplicationController
 
   def create
     @song = Song.create(song_params.merge(user: current_user))
+    redirect_to user_song_path(current_user, @song)
   end
 
   def destroy
@@ -30,6 +31,6 @@ class SongsController < ApplicationController
   private
 
   def song_params
-    params.require(:song).permit(:name, :description, :tempo, :music_key, :composer_id)
+    params.require(:song).permit(:name, :description, :tempo, :music_key, :composer_id, :scale)
   end
 end

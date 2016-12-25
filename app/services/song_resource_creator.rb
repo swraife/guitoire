@@ -1,5 +1,5 @@
 class SongResourceCreator
-  attr_reader :song_id, :resource, :resourceable, :song_resource
+  attr_reader :song_id, :resource, :resourceable, :song_resource, :errors
 
   def initialize(song_id:, resource: Resource.new, resourceable:)
     @song_id = song_id
@@ -14,9 +14,7 @@ class SongResourceCreator
       resource.save!
       @song_resource = SongResource.create!(song_id: song_id, resource: resource)
     end
-    {resource: resource, song_resource: song_resource, resourceable: resourceable}
   rescue ActiveRecord::ActiveRecordError => exception
-    # TODO: do something with the exception
-    return false
+    @errors = exception
   end
 end

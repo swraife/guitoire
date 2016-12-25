@@ -15,5 +15,24 @@
         %i.fa.fa-fw.fa-plus
       = link_to user_songs_path(current_user) do
         %i.fa.fa-fw.fa-search
-      = link_to '#' do
+      = link_to '#', class: 'user-dropdown-link' do
         %i.fa.fa-fw.fa-user
+  .header__user-dropdown.hide
+    .header__dropdown-item
+      - if current_user
+        = link_to 'Log Out', destroy_user_session_path(current_user), method: :delete, remote: true
+      - else
+        = link_to 'Log In', new_user_session_path
+
+:javascript
+  // $(document).ready(function() {
+  //   $('.user-dropdown-link').click(function() {
+  //     $('.header__user-dropdown').toggle();
+  //   });
+
+  //   $(window).click(function() {
+  //     if ($('.header__user-dropdown').is(':hidden') == false) {
+  //       $('.header__user-dropdown').hide();
+  //     };
+  //   });
+  // });

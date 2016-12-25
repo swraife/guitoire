@@ -2,5 +2,5 @@
   Songs
 - @songs.each do |song|
   .song__wrapper
-    = link_to song.name, user_song_path(@user, song)
+    = link_to song.name, user_song_path(current_user, song)
 
