@@ -22,4 +22,5 @@ class Song < ApplicationRecord
   accepts_nested_attributes_for :composer
 
   MUSICKEYS = %w(A A# B B# C D D# E F F# G G#)
+  SCALES = %w(Major Minor Blues)
 end

@@ -1,5 +1,5 @@
 .song-form__wrapper
-  = form_for [@user, @song] do |f|
+  = form_for [current_user, @song] do |f|
     = f.label :name
     = f.text_field :name
 
@@ -8,6 +8,9 @@
 
     = f.label 'Key'
     = f.select :music_key, options_for_select(Song::MUSICKEYS, @song.music_key), include_blank: true
+
+    = f.label :scale
+    = f.select :scale, options_for_select(Song::SCALES, @song.scale), include_blank: true
 
     = f.label :tempo
     = f.select :tempo, options_for_select((55..155).step(5).to_a, @song.tempo), include_blank: true

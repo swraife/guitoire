@@ -9,6 +9,9 @@
 .song__key
   %h2
     = "Key: #{@song.music_key || 'none'}"
+.song__scale
+  %h2
+    = "Scale: #{@song.scale || 'none'}"
 .song__tempo
   %h2
     = "Tempo: #{@song.tempo || 'none'}"
@@ -17,7 +20,7 @@
   = f.label 'Upload File'
   = f.file_field :main, multiple: true, name: 'file_resource[main]'
   = hidden_field_tag :song_id, @song.id
-  = f.submit 'Upload'
+  = f.submit 'Upload', class: 'file_resource-upload-btn'
 
 .song__resources-wrapper
   - @song.resources.each do |resource|
