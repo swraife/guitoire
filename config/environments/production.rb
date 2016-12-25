@@ -30,6 +30,22 @@ Rails.application.configure do
   config.public_file_server.headers = {
     'Cache-Control' => 'public, max-age=31557600',
   }
-  config.action_mailer.default_url_options = { host: ENV.fetch('APPLICATION_HOST') }
+  config.action_mailer.default_url_options = { :host => 'guitoire.herokuapp.com' }
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :smtp
+
+  config.action_mailer.asset_host = 'https://guitoire.herokuapp.com'
+
+  ActionMailer::Base.smtp_settings = {
+    :address        => ENV['SMTP_SERVER'],
+    :port           => ENV['SMTP_PORT'],
+    :authentication => :plain,
+    :user_name      => ENV['SMTP_USERNAME'],
+    :password       => ENV['SMTP_PASSWORD'],
+    :domain         => 'heroku.com',
+    :enable_starttls_auto => true
+  }
+
 end
 Rack::Timeout.timeout = (ENV['RACK_TIMEOUT'] || 10).to_i
