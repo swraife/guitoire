@@ -20,9 +20,6 @@
     "SECRET_KEY_BASE":{
       "generator":"secret"
     },
-    "SMTP_DOMAIN":{
-      "required":true
-    },
     "SMTP_PASSWORD":{
       "required":true
     },
