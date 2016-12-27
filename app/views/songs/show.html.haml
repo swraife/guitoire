@@ -16,16 +16,43 @@
   %h2
     = "Tempo: #{@song.tempo || 'none'}"
 
+= button_tag 'Attach File', class: 'add-resource-btn btn'
+= button_tag 'Add Link', class: 'add-link-btn btn'
+
 = form_for FileResource.new do |f|
   = f.label 'Upload File'
   = f.file_field :main, multiple: true, name: 'file_resource[main]'
   = hidden_field_tag :song_id, @song.id
-  = f.submit 'Upload', class: 'file_resource-upload-btn'
+  = f.submit 'Upload', class: 'file_resource-upload-btn hide'
+
+= form_for UrlResource.new do |f|
+  = f.label 'Add Link'
+  = f.text_field :url
+  = hidden_field_tag :song_id, @song.id
+  = f.submit 'Save', class: 'url_resource-submit-btn'
 
 .song__resources-wrapper
   - @song.resources.each do |resource|
     .song__resource
       - download_target = resource.resourceable.displayable_in_browser? ? '_blank' : '_top'
-      = link_to resource.resourceable.main.url(:original), target: download_target do
-        %i{class: "fa #{file_icon_class(resource.resourceable.main_content_type)}"}
-        = resource.resourceable.main_file_name
+      = link_to resource.resourceable.main_link, target: download_target do
+        %i{class: "fa #{resource.resourceable.icon}"}
+        = resource.resourceable.main_link_name
+
+:javascript
+  $(document).ready(function() {
+    $('#new_file_resource').hide();
+    $('.add-resource-btn').click(function() {
+      $('#new_url_resource').hide();
+      $('#new_file_resource').toggle();
+    });
+
+    $('#new_url_resource').hide();
+    $('.add-link-btn').click(function() {
+      $('#new_file_resource').hide();
+      $('#new_url_resource').toggle();
+    });
+    $('input:file').change(function (){
+      $('.file_resource-upload-btn').show();
+    });
+  });

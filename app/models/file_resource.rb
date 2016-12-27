@@ -28,4 +28,23 @@ class FileResource < ApplicationRecord
     extension = File.extname(self.main_file_name)
     ['.pdf', '.jpg', '.png', '.gif', '.txt'].include? extension
   end
+
+  def main_link
+    main.url(:original)
+  end
+
+  def main_link_name
+    main_file_name
+  end
+
+  def icon
+    case main_content_type
+    when 'application/pdf'
+      return 'fa-file-pdf-o'
+    when 'image/jpeg', 'image/gif', 'image/png'
+      return 'fa-file-image-o'
+    else
+      return "fa-file-o"
+    end
+  end
 end
