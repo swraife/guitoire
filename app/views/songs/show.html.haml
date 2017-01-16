@@ -1,6 +1,8 @@
-.song__title
+.song__name
   %h1
     = @song.name
+.song__edit-button
+  = link_to '(edit)', edit_user_song_path(@song)
 .song__description
   %h2
     Description:
@@ -15,6 +17,15 @@
 .song__tempo
   %h2
     = "Tempo: #{@song.tempo || 'none'}"
+.song__resources-wrapper
+  %h2
+    Attachments:
+  - @song.resources.each do |resource|
+    .song__resource
+      - download_target = resource.resourceable.displayable_in_browser? ? '_blank' : '_top'
+      = link_to resource.resourceable.main_link, target: download_target do
+        %i{class: "fa #{resource.resourceable.icon}"}
+        = resource.resourceable.main_link_name
 
 = button_tag 'Attach File', class: 'add-resource-btn btn'
 = button_tag 'Add Link', class: 'add-link-btn btn'
@@ -30,14 +41,6 @@
   = f.text_field :url
   = hidden_field_tag :song_id, @song.id
   = f.submit 'Save', class: 'url_resource-submit-btn'
-
-.song__resources-wrapper
-  - @song.resources.each do |resource|
-    .song__resource
-      - download_target = resource.resourceable.displayable_in_browser? ? '_blank' : '_top'
-      = link_to resource.resourceable.main_link, target: download_target do
-        %i{class: "fa #{resource.resourceable.icon}"}
-        = resource.resourceable.main_link_name
 
 :javascript
   $(document).ready(function() {
