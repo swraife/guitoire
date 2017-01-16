@@ -41,7 +41,7 @@ Rails.application.configure do
     :domain         => 'heroku.com',
     :enable_starttls_auto => true
   }
-  
+
   config.paperclip_defaults = {
     :storage => :s3,
     :s3_credentials => {
@@ -51,6 +51,11 @@ Rails.application.configure do
     },
     :s3_protocol => 'https'
   }
+
+  Aws.config.update({
+    region: 'us-west-2',
+    credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'])
+  })
 
 end
 Rack::Timeout.timeout = (ENV['RACK_TIMEOUT'] || 10).to_i
