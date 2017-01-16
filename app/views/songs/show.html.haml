@@ -20,12 +20,16 @@
 .song__resources-wrapper
   %h2
     Attachments:
-  - @song.resources.each do |resource|
+  - @song.song_resources.each do |song_resource|
+    - resource = song_resource.resource
     .song__resource
       - download_target = resource.resourceable.displayable_in_browser? ? '_blank' : '_top'
       = link_to resource.resourceable.main_link, target: download_target do
         %i{class: "fa #{resource.resourceable.icon}"}
         = resource.resourceable.main_link_name
+      .song__resource-delete-link
+        = link_to song_resource_path(song_resource), method: :delete, data: { confirm: "Are you sure you want to delete this #{resource.resourceable.is_a?(FileResource) ? 'file' : 'link'}?" } do
+          = '(delete)'
 
 = button_tag 'Attach File', class: 'add-resource-btn btn'
 = button_tag 'Add Link', class: 'add-link-btn btn'

@@ -1,6 +1,6 @@
 class SongsController < ApplicationController
   def show
-    @song = Song.find(params[:id])
+    @song = Song.includes(:resources, :song_resources).find(params[:id])
   end
 
   def index

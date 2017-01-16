@@ -11,5 +11,5 @@
 
 class SongResource < ApplicationRecord
   belongs_to :song
-  belongs_to :resource
+  belongs_to :resource, dependent: :destroy
 end
