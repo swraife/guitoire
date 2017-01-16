@@ -20,7 +20,7 @@
   .header__user-dropdown.hide
     .header__dropdown-item.log-in-link
       - if current_user
-        = link_to 'Log Out', destroy_user_session_path(current_user), method: :delete, remote: true
+        = link_to 'Log Out', destroy_user_session_path, method: :delete
       - else
         = link_to 'Log In', new_user_session_path
 
