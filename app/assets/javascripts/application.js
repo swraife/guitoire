@@ -15,3 +15,5 @@
 //= require jquery-fileupload
 
 //= require_tree .
+//= require select2
+
