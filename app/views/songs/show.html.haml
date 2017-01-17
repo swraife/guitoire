@@ -17,9 +17,13 @@
 .song__tempo
   %h2
     = "Tempo: #{@song.tempo || 'none'}"
+.song_composers
+  %h2.inl-block
+    Composers:
+  = @song.composer_list
 .song__versions
   %h2.inl-block
-    Composers / Performers:
+    Performers / Versions:
   = @song.version_list
 .song__genres
   %h2.inl-block

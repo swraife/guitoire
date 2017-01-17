@@ -18,7 +18,10 @@
     = f.label :tempo
     = f.select :tempo, options_for_select((55..155).step(5).to_a, @song.tempo), include_blank: true
 
-    = f.label 'Composers / Performers'
+    = f.label 'Composers'
+    = f.select :composer_list, options_for_select(current_user.song_tags('composers'), @song.composer_list), {include_blank: true}, {multiple: true, class: 'select2'}
+
+    = f.label 'Performers / Versions'
     = f.select :version_list, options_for_select(current_user.song_tags('versions'), @song.version_list), {include_blank: true}, {multiple: true, class: 'select2'}
 
     = f.label 'Genres'

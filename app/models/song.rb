@@ -21,7 +21,7 @@ class Song < ApplicationRecord
   has_many :song_resources
   has_many :resources, through: :song_resources
 
-  acts_as_taggable_on :versions, :genres, :generics 
+  acts_as_taggable_on :composers, :versions, :genres, :generics
 
   accepts_nested_attributes_for :composer
 
