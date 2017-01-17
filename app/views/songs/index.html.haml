@@ -1,6 +1,27 @@
 %h2
   Songs
+= text_field_tag 'song_search', nil, placeholder: 'Search by song name'
 - @songs.each do |song|
-  .song__wrapper
+  .song__wrapper{id: "song_#{song.id}"}
     = link_to song.name, user_song_path(current_user, song)
+
+:javascript
+  var songNames = #{@songs.map { |song| [song.id, song.name.downcase] }};
+
+  $(document).ready(function() { 
+    $('#song_search').keyup(function() {
+      var searchInput = $(this).val().toLowerCase();
+      if (searchInput != '') {
+        result = songNames.filter(function(i) {
+          return i[1].includes(searchInput);
+        });
+        $('.song__wrapper').hide();
+        result.forEach(function(arr) {
+          $('#song_' + arr[0]).show();
+        });
+      } else { 
+        $('.song__wrapper').show();
+      }
+    });;
+  });
 
