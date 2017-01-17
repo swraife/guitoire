@@ -21,6 +21,8 @@ class Song < ApplicationRecord
   has_many :song_resources
   has_many :resources, through: :song_resources
 
+  acts_as_taggable_on :versions, :genres, :generics 
+
   accepts_nested_attributes_for :composer
 
   MUSICKEYS = %w(A A# B B# C D D# E F F# G G#)

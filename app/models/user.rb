@@ -29,4 +29,10 @@ class User < ApplicationRecord
 
   has_many :set_list_users
   has_many :set_lists, through: :set_list_users
+
+  acts_as_tagger
+
+  def song_tags(context=nil)
+    ActsAsTaggableOn::Tag.includes(:taggings).where(taggings: { taggable: songs, context: context })
+  end
 end

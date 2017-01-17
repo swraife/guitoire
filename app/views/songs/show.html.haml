@@ -17,6 +17,18 @@
 .song__tempo
   %h2
     = "Tempo: #{@song.tempo || 'none'}"
+.song__versions
+  %h2.inl-block
+    Composers / Performers:
+  = @song.version_list
+.song__genres
+  %h2.inl-block
+    Genres:
+  = @song.genre_list
+.song__generics
+  %h2.inl-block
+    Miscellaneous Tags:
+  = @song.generic_list
 .song__resources-wrapper
   %h2
     Attachments:
