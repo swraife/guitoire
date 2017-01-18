@@ -12,8 +12,9 @@ class SongsController < ApplicationController
   end
 
   def create
-    @song = Song.create(song_params.merge(user: current_user))
-    redirect_to user_song_path(current_user, @song)
+    if @song = Song.create(song_params.merge(user: current_user))
+      redirect_to user_song_path(current_user, @song)
+    end
   end
 
   def destroy
@@ -25,8 +26,9 @@ class SongsController < ApplicationController
 
   def update
     @song = current_user.songs.find(params[:id])
-    @song.update(song_params)
-    redirect_to user_song_path(current_user, @song)
+    if @song.update(song_params)
+      redirect_to user_song_path(current_user, @song)
+    end
   end
 
   private

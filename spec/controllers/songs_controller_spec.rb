@@ -3,7 +3,11 @@ require 'rails_helper'
 RSpec.describe SongsController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:song) { FactoryGirl.create(:song, user: user) }
-  let(:valid_attributes) { FactoryGirl.attributes_for(:song) }
+  let(:valid_attributes) { FactoryGirl.attributes_for(:song)
+                                      .merge(composer_list: [],
+                                             version_list: [],
+                                             generic_list: [],
+                                             genre_list: []) }
 
   before(:each) do
     sign_in user
@@ -31,9 +35,9 @@ RSpec.describe SongsController, type: :controller do
   end
 
   describe 'POST #create' do
-    it 'returns http success' do
+    it 'redirects to song#show' do
       post :create, user_id: user.id, song: valid_attributes
-      expect(response).to have_http_status(:success)
+      expect(response).to redirect_to(user_song_path(user, Song.first))
     end
   end
 
@@ -52,9 +56,9 @@ RSpec.describe SongsController, type: :controller do
   end
 
   describe 'PUT #update' do
-    it 'returns http success' do
+    it 'redirects to song#show' do
       put :update, user_id: user.id, id: song.id, song: valid_attributes
-      expect(response).to have_http_status(:success)
+      expect(response).to redirect_to(user_song_path(user, song))
     end
   end
 end
