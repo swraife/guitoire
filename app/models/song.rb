@@ -20,6 +20,7 @@ class Song < ApplicationRecord
   belongs_to :composer
   has_many :song_resources
   has_many :resources, through: :song_resources
+  has_many :tags, through: :taggings
 
   acts_as_taggable_on :composers, :versions, :genres, :generics
 

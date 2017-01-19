@@ -1,16 +1,17 @@
 = text_field_tag 'song_search', nil, placeholder: 'Search by song name'
+= select_tag 'tag_search', options_for_select(current_user.song_tags), class: 'tag_search-input', include_blank: true, multiple: true
 - @songs.each do |song|
   .song__wrapper{id: "song_#{song.id}"}
     = link_to song.name, user_song_path(current_user, song)
 
 :javascript
-  var songNames = #{@songs.map { |song| [song.id, song.name.downcase] }};
+  var songs = #{@songs.map { |song| [song.id, song.name.downcase, song.tags.map(&:name)] } };
 
   $(document).ready(function() { 
     $('#song_search').keyup(function() {
       var searchInput = $(this).val().toLowerCase();
       if (searchInput != '') {
-        result = songNames.filter(function(i) {
+        result = songs.filter(function(i) {
           return i[1].includes(searchInput);
         });
         $('.song__wrapper').hide();
@@ -20,6 +21,29 @@
       } else { 
         $('.song__wrapper').show();
       }
-    });;
+    });
+
+    $('#tag_search').change(function() {
+      var tagSearch = $(this).val();
+
+
+      if (tagSearch != null) {
+        if (tagSearch[0] == '') {
+          tagSearch = tagSearch.splice(1);
+        };
+
+        result = songs.filter(function(i) {
+          return tagSearch.every(function(tag) {
+            return i[2].includes(tag);
+          });
+        });
+          $('.song__wrapper').hide();
+        result.forEach(function(arr) {
+          $('#song_' + arr[0]).show();
+        });
+      } else {
+        $('.song__wrapper').show();
+      };
+    });
   });
 

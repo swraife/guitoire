@@ -19,25 +19,17 @@
     = f.select :tempo, options_for_select((55..155).step(5).to_a, @song.tempo), include_blank: true
 
     = f.label 'Composers'
-    = f.select :composer_list, options_for_select(current_user.song_tags('composers'), @song.composer_list), {include_blank: true}, {multiple: true, class: 'select2'}
+    = f.select :composer_list, options_for_select(current_user.song_tags('composers'), @song.composer_list), {include_blank: true}, {multiple: true, class: 'add-select2'}
 
     = f.label 'Performers / Versions'
-    = f.select :version_list, options_for_select(current_user.song_tags('versions'), @song.version_list), {include_blank: true}, {multiple: true, class: 'select2'}
+    = f.select :version_list, options_for_select(current_user.song_tags('versions'), @song.version_list), {include_blank: true}, {multiple: true, class: 'add-select2'}
 
     = f.label 'Genres'
-    = f.select :genre_list, options_for_select(current_user.song_tags('genres'), @song.genre_list), {include_blank: true}, {multiple: true, class: 'select2'}
+    = f.select :genre_list, options_for_select(current_user.song_tags('genres'), @song.genre_list), {include_blank: true}, {multiple: true, class: 'add-select2'}
 
     = f.label 'Miscellaneous Tags'
-    = f.select :generic_list, options_for_select(current_user.song_tags('generics'), @song.generic_list), {include_blank: true}, {multiple: true, class: 'select2'}
+    = f.select :generic_list, options_for_select(current_user.song_tags('generics'), @song.generic_list), {include_blank: true}, {multiple: true, class: 'add-select2'}
 
     %br
 
     = f.submit
-
-:javascript
-    $(document).ready(function() {
-      $('.select2').select2({
-        theme: 'bootstrap',
-        tags: true
-      });
-    });

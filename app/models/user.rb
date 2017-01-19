@@ -33,6 +33,7 @@ class User < ApplicationRecord
   acts_as_tagger
 
   def song_tags(context=nil)
-    ActsAsTaggableOn::Tag.includes(:taggings).where(taggings: { taggable: songs, context: context })
+    context_query = context.nil? ? '' : { taggings: { context: context } }
+    ActsAsTaggableOn::Tag.includes(:taggings).where(taggings: { taggable: songs}).where(context_query)
   end
 end

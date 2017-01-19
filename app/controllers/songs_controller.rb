@@ -4,7 +4,7 @@ class SongsController < ApplicationController
   end
 
   def index
-    @songs = current_user.songs.order(:name)
+    @songs = current_user.songs.includes(:tags).order(:name)
   end
 
   def new
