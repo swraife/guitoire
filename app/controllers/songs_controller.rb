@@ -18,6 +18,10 @@ class SongsController < ApplicationController
   end
 
   def destroy
+    @song = current_user.songs.find(params[:id])
+    if @song.destroy
+      redirect_to user_songs_path(current_user)
+    end
   end
 
   def edit
