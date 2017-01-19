@@ -44,7 +44,7 @@ RSpec.describe SongsController, type: :controller do
   describe 'DELETE #destroy' do
     it 'returns http success' do
       delete :destroy, user_id: user.id, id: song.id
-      expect(response).to have_http_status(:success)
+      expect(response).to redirect_to(user_songs_path(user))
     end
   end
 
