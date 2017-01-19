@@ -1,5 +1,5 @@
 = text_field_tag 'song_search', nil, placeholder: 'Search by song name'
-= select_tag 'tag_search', options_for_select(current_user.song_tags), class: 'tag_search-input', include_blank: true, multiple: true
+= select_tag 'tag_search', options_for_select(current_user.song_tags.order(:name)), class: 'tag_search-input', include_blank: true, multiple: true
 - @songs.each do |song|
   .song__wrapper{id: "song_#{song.id}"}
     = link_to song.name, user_song_path(current_user, song)
