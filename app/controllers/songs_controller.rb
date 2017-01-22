@@ -1,7 +1,7 @@
 class SongsController < ApplicationController
   def show
     @song = Song.includes(:song_roles, resources: [:resourceable]).find(params[:id])
-    @current_user_song_role = @song.song_roles(user: current_user).first_or_initialize
+    @current_user_song_role = @song.song_roles.where(user: current_user).first_or_initialize
   end
 
   def index
