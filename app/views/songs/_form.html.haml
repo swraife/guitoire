@@ -1,5 +1,5 @@
 .song-form__wrapper
-  = form_for [current_user, @song], html: { class: 'disable-on-submit' } do |f|
+  = form_for @song, html: { class: 'disable-on-submit' } do |f|
     = f.label :name
     = f.text_field :name
 
