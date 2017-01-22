@@ -49,24 +49,25 @@
           = link_to song_resource_path(song_resource), method: :delete, data: { confirm: "Are you sure you want to delete this #{resource.resourceable.is_a?(FileResource) ? 'file' : 'link'}?" } do
             = '(delete)'
 
-= button_tag 'Attach File', class: 'add-resource-btn btn'
-= button_tag 'Add Link', class: 'add-link-btn btn'
+- if @current_user_song_role.has_edit_permission?
+  = button_tag 'Attach File', class: 'add-resource-btn btn'
+  = button_tag 'Add Link', class: 'add-link-btn btn'
 
-= form_for FileResource.new, html: { class: 'disable-on-submit' } do |f|
-  = f.label 'Upload File'
-  = f.file_field :main, multiple: true, name: 'file_resource[main]'
-  = hidden_field_tag :song_id, @song.id
-  = button_tag type: 'submit', class: 'file_resource-upload-btn hide' do
-    %i.fa.fa-save
-    Upload
+  = form_for FileResource.new, html: { class: 'disable-on-submit' } do |f|
+    = f.label 'Upload File'
+    = f.file_field :main, multiple: true, name: 'file_resource[main]'
+    = hidden_field_tag :song_id, @song.id
+    = button_tag type: 'submit', class: 'file_resource-upload-btn hide' do
+      %i.fa.fa-save
+      Upload
 
-= form_for UrlResource.new, html: { class: 'disable-on-submit' } do |f|
-  = f.label 'Add Link'
-  = f.text_field :url
-  = hidden_field_tag :song_id, @song.id
-  = button_tag type: 'submit', class: 'url_resource-submit-btn' do |f|
-    %i.fa.fa-save
-    Save
+  = form_for UrlResource.new, html: { class: 'disable-on-submit' } do |f|
+    = f.label 'Add Link'
+    = f.text_field :url
+    = hidden_field_tag :song_id, @song.id
+    = button_tag type: 'submit', class: 'url_resource-submit-btn' do |f|
+      %i.fa.fa-save
+      Save
 
 :javascript
   $(document).ready(function() {
