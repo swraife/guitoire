@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :authenticate_user!
   before_action :store_current_location, :unless => :devise_controller?
 
@@ -15,5 +16,9 @@ class ApplicationController < ActionController::Base
 
   def user_may_edit(song)
     redirect_to :back unless song.user_id == current_user.id
+  end
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name])
   end
 end

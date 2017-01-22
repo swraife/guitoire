@@ -1,0 +1,5 @@
+%h3
+  Users
+- @users.each do |user|
+  .user__wrapper
+    = link_to user.name, user_songs_path(user)

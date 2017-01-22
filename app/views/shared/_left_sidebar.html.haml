@@ -6,6 +6,10 @@
           %i.fa.fa-fw.fa-home
           Home
       .left-sidebar__link
+        = link_to users_path do
+          %i.fa.fa-fw.fa-users
+          Users
+      .left-sidebar__link
         = link_to user_songs_path(current_user) do
           %i.fa.fa-fw.fa-search
           Songs

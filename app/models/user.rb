@@ -47,4 +47,9 @@ class User < ApplicationRecord
     context_query = context.nil? ? '' : { taggings: { context: context } }
     ActsAsTaggableOn::Tag.includes(:taggings).where(taggings: { taggable: songs}).where(context_query)
   end
+
+  def name
+    name = "#{first_name} #{last_name}"
+    name.present? ? name : "User#{id}"
+  end
 end
