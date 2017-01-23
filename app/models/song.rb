@@ -10,9 +10,10 @@
 #  composer_id    :integer
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-#  user_id        :integer
+#  creator_id     :integer
 #  scale          :string
 #  time_signature :string
+#  permission     :integer          default("copiable")
 #
 
 class Song < ApplicationRecord
@@ -32,6 +33,8 @@ class Song < ApplicationRecord
 
   after_create :create_song_role
 
+  enum permission: [:copiable, :followable, :hidden]
+
   MUSICKEYS = %w(A A# B B# C D D# E F F# G G#)
   SCALES = %w(Major Minor Blues)
   TIME_SIGNATURES = ['4/4', '3/4', '2/4', '3/8']
@@ -40,8 +43,13 @@ class Song < ApplicationRecord
     users.includes(:song_roles).where(song_roles: { role: 0 })
   end
 
-  def subscriber_users
+  def follower_users
     users.includes(:song_roles).where(song_roles: { role: 1 })
+  end
+
+  def permissible_roles
+    return [0, 2] unless hidden?
+    []
   end
 
   private

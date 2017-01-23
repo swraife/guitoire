@@ -6,7 +6,7 @@ class SongsController < ApplicationController
 
   def index
     @user = User.find(params[:user_id])
-    @songs = @user.songs.includes(:tags).order(:name)
+    @songs = @user.subscriber_songs.includes(:tags).order(:name)
   end
 
   def new
@@ -14,7 +14,12 @@ class SongsController < ApplicationController
   end
 
   def create
-    if @song = Song.create(song_params.merge(creator: current_user))
+    if params[:song_id]
+      @song = Song.copiable.find(params[:song_id])
+      if @new_song = SongCopier.new(copy_creator: current_user, song: @song).copy!
+        redirect_to user_song_path(current_user, @new_song)
+      end
+    elsif @song = Song.create(song_params.merge(creator: current_user))
       redirect_to user_song_path(current_user, @song)
     end
   end

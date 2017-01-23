@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   end
 
   def user_may_edit(song)
-    redirect_to :back unless song.user_id == current_user.id
+    redirect_to :back unless current_user.admin_songs.include?(song)
   end
 
   def configure_permitted_parameters

@@ -1,5 +1,6 @@
 .song__name {
   display: inline-block;
+  height: 25px;
 }
 .song__edit-button {
   display: inline-block;
@@ -10,4 +11,10 @@
 .song__resource-delete-link {
   display: inline-block;
   padding-left: 20px;
+}
+#song_search {
+  background-color: white;
+  font-size: 14px;
+  padding-left: 12px;
+  line-height: 24px;
 }

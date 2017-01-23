@@ -13,6 +13,7 @@
 #  creator_id     :integer
 #  scale          :string
 #  time_signature :string
+#  permission     :integer          default("copiable")
 #
 
 require 'rails_helper'

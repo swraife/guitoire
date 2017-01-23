@@ -1,9 +1,24 @@
+- if !@current_user_song_role.admin? && @song.copiable?
+  = button_to 'Copy Song', songs_path(song_id: @song.id), method: :post, form_class: 'inl-block right', class: 'btn-small copy-song-btn'
+- if @current_user_song_role.viewer?
+  = form_for @current_user_song_role, html: { class: 'inl-block right' } do |f|
+    = f.hidden_field :song_id
+    = f.hidden_field :role, value: 'follower'
+    = f.submit 'Follow Song', class: 'btn-small follow-song-btn'
+- elsif @current_user_song_role.follower?
+  = form_for @current_user_song_role, html: { class: 'inl-block right' } do |f|
+    = f.hidden_field :role, value: 'viewer'
+    = f.submit 'Unfollow Song', class: 'btn-small unfollow-song-btn'
+
 .song__name
   %h1
     = @song.name
 - if @current_user_song_role.has_edit_permission?
   .song__edit-button
     = link_to '(edit)', edit_song_path(@song)
+.song__creator.small-gray
+  %p
+    = "Created by: #{@song.creator.name}"
 .song__description
   %h2
     Description:
@@ -84,5 +99,50 @@
     });
     $('input:file').change(function (){
       $('.file_resource-upload-btn').show();
+    });
+
+    $('.follow-song-btn').hover(function() {
+      var calloutMgr = hopscotch.getCalloutManager();
+      calloutMgr.createCallout({
+        id: 'follow-song-btn-callout',
+        target: '.follow-song-btn',
+        placement: 'bottom',
+        xOffset: -150,
+        arrowOffset: 200,
+        content: "Add this to your list of songs for easy searching and viewing. You won't be able to edit this song, only the original creator can edit/delete."
+      });
+    }, function() {
+      var calloutMgr = hopscotch.getCalloutManager();
+      calloutMgr.removeCallout('follow-song-btn-callout');
+    });
+
+    $('.unfollow-song-btn').hover(function() {
+      var calloutMgr = hopscotch.getCalloutManager();
+      calloutMgr.createCallout({
+        id: 'unfollow-song-btn-callout',
+        target: '.unfollow-song-btn',
+        placement: 'bottom',
+        xOffset: -150,
+        arrowOffset: 200,
+        content: "Click this to remove this song from your song list. You can always follow it again later."
+      });
+    }, function() {
+      var calloutMgr = hopscotch.getCalloutManager();
+      calloutMgr.removeCallout('unfollow-song-btn-callout');
+    });
+
+    $('.copy-song-btn').hover(function() {
+      var calloutMgr = hopscotch.getCalloutManager();
+      calloutMgr.createCallout({
+        id: 'copy-song-btn-callout',
+        target: '.copy-song-btn',
+        placement: 'bottom',
+        xOffset: -150,
+        arrowOffset: 200,
+        content: "Make your own copy of this song to edit and add attachments too. Your copy won't be affected by any changes the original creator makes to this one."
+      });
+    }, function() {
+      var calloutMgr = hopscotch.getCalloutManager();
+      calloutMgr.removeCallout('copy-song-btn-callout');
     });
   });

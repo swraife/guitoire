@@ -3,8 +3,8 @@
 # Table name: users
 #
 #  id                     :integer          not null, primary key
-#  first_name             :string
-#  last_name              :string
+#  first_name             :string           default("")
+#  last_name              :string           default("")
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  email                  :string           default(""), not null
@@ -33,19 +33,33 @@ class User < ApplicationRecord
   has_many :set_list_users
   has_many :set_lists, through: :set_list_users
 
+  before_create { |user| user.first_name.capitalize! && user.last_name.capitalize! }
+
   acts_as_tagger
 
   def admin_songs
-    @admin_songs ||= songs.includes(:song_roles).where(song_roles: { role: SongRole.roles[:admin] })
+    @admin_songs ||= songs.includes(:song_roles).where(
+      song_roles: { role: SongRole.roles[:admin] }
+    )
+  end
+
+  def follower_songs
+    @follower_songs ||= songs.includes(:song_roles).where(
+      song_roles: { role: SongRole.roles[:follower] }
+    )
   end
 
   def subscriber_songs
-    @subscriber_songs ||= songs.includes(:song_roles).where(song_roles: { role: SongRole.roles[:subscriber] }) 
+    @subscriber_songs ||= songs.includes(:song_roles).where(
+      song_roles: { role: [1,2] }
+    )
   end
 
-  def song_tags(context=nil)
+  def song_tags(context = nil)
     context_query = context.nil? ? '' : { taggings: { context: context } }
-    ActsAsTaggableOn::Tag.includes(:taggings).where(taggings: { taggable: songs}).where(context_query)
+    ActsAsTaggableOn::Tag.includes(:taggings)
+                         .where(taggings: { taggable: songs })
+                         .where(context_query)
   end
 
   def name
