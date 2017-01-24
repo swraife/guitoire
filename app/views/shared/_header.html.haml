@@ -9,9 +9,9 @@
         G
   .header__menu
     - if current_user
-      = link_to '' do
+      = link_to '/' do
         %i.fa.fa-home
-      = link_to '#' do
+      = link_to new_user_song_path(current_user) do
         %i.fa.fa-fw.fa-plus
       = link_to user_songs_path(current_user) do
         %i.fa.fa-fw.fa-search
