@@ -24,7 +24,7 @@ class FileResource < ApplicationRecord
                     }
 
   validates_attachment_content_type :main, content_type: [/\Aimage\/.*\Z/, /\Aaudio\/.*\Z/, /\Atext\/.*\Z/, 'application/pdf',
-    /application\/.*word\Z/, /application\/.*excel\Z/, /application\/vnd.*\Z/],
+    /application\/.*word\Z/, /application\/.*excel\Z/, /application\/vnd.*\Z/, /\Avideo\/.*\Z/],
     message: 'Bad File Type'
   validates_attachment_size :main, {in: 0..100.megabytes, message: 'File is too big!'}
   validates_attachment_presence :main,

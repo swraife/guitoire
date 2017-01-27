@@ -70,7 +70,7 @@
 
   = form_for FileResource.new, html: { class: 'disable-on-submit' } do |f|
     = f.label 'Upload File'
-    = f.file_field :main, multiple: true, name: 'file_resource[main]'
+    = f.file_field :main, name: 'file_resource[main]', accept: '.jpg, .jpeg, .png, .pdf, .gif, .docx, .doc, .xls, .xlsx, .mp3, .wav, .mp4, .txt, .mov'
     = hidden_field_tag :song_id, @song.id
     = button_tag type: 'submit', class: 'file_resource-upload-btn hide' do
       %i.fa.fa-save
