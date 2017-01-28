@@ -11,6 +11,7 @@ class SongsController < ApplicationController
 
   def new
     @song = Song.new
+    @songs = current_user.songs.order(:name)
   end
 
   def create
