@@ -52,7 +52,7 @@ class FileResource < ApplicationRecord
     when 'image/jpeg', 'image/gif', 'image/png'
       return 'fa-file-image-o'
     else
-      return "fa-file-o"
+      return 'fa-file-o'
     end
   end
 end

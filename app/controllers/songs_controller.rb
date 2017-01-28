@@ -34,6 +34,7 @@ class SongsController < ApplicationController
 
   def edit
     @song = current_user.admin_songs.find(params[:id])
+    @songs = current_user.songs.order(:name)
   end
 
   def update
