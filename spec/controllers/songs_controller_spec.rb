@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SongsController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
-  let(:song) { FactoryGirl.create(:song, user: user) }
+  let(:song) { FactoryGirl.create(:song, creator: user) }
   let(:valid_attributes) { FactoryGirl.attributes_for(:song)
                                       .merge(composer_list: [],
                                              version_list: [],
