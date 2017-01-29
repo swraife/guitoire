@@ -8,6 +8,8 @@
 #  resourceable_id   :integer
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
+#  owner_id          :integer
+#  owner_type        :string
 #
 
 require 'rails_helper'

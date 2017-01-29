@@ -18,14 +18,14 @@
 
 class Song < ApplicationRecord
   has_many :users, through: :song_roles
-  has_many :song_roles
+  has_many :song_roles, dependent: :destroy
 
   has_many :admin_song_roles, -> { admin }, class_name: 'SongRole'
   has_many :admin_users, through: :admin_song_roles, source: :user
 
   belongs_to :composer
 
-  has_many :resources, as: :owner
+  has_many :resources, as: :owner, dependent: :destroy
   has_many :file_resources, through: :resources, source: :resourceable, source_type: 'FileResource'
   has_many :url_resources, through: :resources, source: :resourceable, source_type: 'UrlResource'
 

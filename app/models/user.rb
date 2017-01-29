@@ -33,15 +33,12 @@ class User < ApplicationRecord
   has_many :set_list_users
   has_many :set_lists, through: :set_list_users
 
+  has_many :admin_song_roles, -> { admin }, class_name: 'SongRole'
+  has_many :admin_songs, through: :admin_song_roles, source: :song
+
   before_create { |user| user.first_name.capitalize! && user.last_name.capitalize! }
 
   acts_as_tagger
-
-  def admin_songs
-    @admin_songs ||= songs.includes(:song_roles).where(
-      song_roles: { role: SongRole.roles[:admin] }
-    )
-  end
 
   def follower_songs
     @follower_songs ||= songs.includes(:song_roles).where(
