@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170122215243) do
+ActiveRecord::Schema.define(version: 20170129060620) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,9 @@ ActiveRecord::Schema.define(version: 20170122215243) do
     t.integer  "resourceable_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.index ["owner_id", "owner_type"], name: "index_resources_on_owner_id_and_owner_type", using: :btree
     t.index ["resourceable_type", "resourceable_id"], name: "index_resources_on_resourceable_type_and_resourceable_id", using: :btree
   end
 

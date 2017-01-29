@@ -14,8 +14,9 @@ class SongCopier
                                               version_list: song.version_list,
                                               generic_list: song.generic_list,
                                               composer_list: song.composer_list))
-    song.song_resources.each do |song_resource|
-      SongResource.create!(song_id: song_copy.id, resource_id: song_resource.id)
+
+    song.resources.each do |resource|
+      Resource.create!(owner: song_copy, resourceable: resource.resourceable)
     end
     song_copy
   end

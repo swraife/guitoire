@@ -31,11 +31,6 @@ FactoryGirl.define do
     set_list_id 1
   end
 
-  factory :song_resource do
-    song_id 1
-    resource_id 1
-  end
-
   factory :resource do
     name 'MyString'
   end

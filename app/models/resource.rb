@@ -14,12 +14,5 @@ class Resource < ApplicationRecord
   has_many :song_resources
   has_many :songs, through: :song_resources
   belongs_to :resourceable, polymorphic: true
-
-  after_destroy :destroy_resourceable
-
-  private
-
-  def destroy_resourceable
-    resourceable.destroy if resourceable.resources.blank?
-  end
+  belongs_to :owner, polymorphic: true
 end

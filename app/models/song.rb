@@ -20,10 +20,14 @@ class Song < ApplicationRecord
   has_many :users, through: :song_roles
   has_many :song_roles
 
+  has_many :admin_song_roles, -> { admin }, class_name: 'SongRole'
+  has_many :admin_users, through: :admin_song_roles, source: :user
+
   belongs_to :composer
 
-  has_many :song_resources
-  has_many :resources, through: :song_resources
+  has_many :resources, as: :owner
+  has_many :file_resources, through: :resources, source: :resourceable, source_type: 'FileResource'
+  has_many :url_resources, through: :resources, source: :resourceable, source_type: 'UrlResource'
 
   has_many :tags, through: :taggings
 
@@ -38,10 +42,6 @@ class Song < ApplicationRecord
   MUSICKEYS = %w(A A# B B# C D D# E F F# G G#)
   SCALES = %w(Major Minor Blues)
   TIME_SIGNATURES = ['4/4', '3/4', '2/4', '3/8']
-
-  def admin_users
-    users.includes(:song_roles).where(song_roles: { role: 0 })
-  end
 
   def follower_users
     users.includes(:song_roles).where(song_roles: { role: 1 })

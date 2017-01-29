@@ -10,9 +10,9 @@ Rails.application.routes.draw do
 
   resources :song_roles
 
+  resources :resources
   resources :file_resources
   resources :url_resources
 
   resources :set_lists
-  resources :song_resources
 end

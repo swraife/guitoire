@@ -1,15 +1,14 @@
 class UrlResourcesController < ApplicationController
   def create
-    url_resource = UrlResource.new(url_resource_params)
-    @creator = SongResourceCreator.new(song_id: params[:song_id],
-                               resourceable: url_resource)
-    @creator.create
-    if !@creator.errors
-      redirect_to user_song_path(current_user, params[:song_id])
-    else
-      redirect_to user_song_path(current_user, params[:song_id]),
-        flash: { error: "Uh oh, something broke - #{@creator.errors}" }
+    ActiveRecord::Base.transaction do
+      url_resource = UrlResource.create!(url_resource_params)
+      @song = current_user.admin_songs.find(params[:song_id])
+      @song.url_resources << url_resource
     end
+    redirect_to user_song_path(current_user, params[:song_id])
+  rescue ActiveRecord::ActiveRecordError => exception
+    redirect_to user_song_path(current_user, params[:song_id]),
+      flash: { error: "Uh oh, something broke - #{exception}" }
   end
 
   private
