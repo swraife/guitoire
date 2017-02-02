@@ -17,11 +17,14 @@
 #
 
 class Song < ApplicationRecord
+  include SongRoleable
+
   has_many :users, through: :song_roles
   has_many :song_roles, dependent: :destroy
 
-  has_many :admin_song_roles, -> { admin }, class_name: 'SongRole'
   has_many :admin_users, through: :admin_song_roles, source: :user
+  has_many :viewer_users, through: :viewer_song_roles, source: :user
+  has_many :follower_users, through: :follower_song_roles, source: :user
 
   belongs_to :composer
 
@@ -42,10 +45,6 @@ class Song < ApplicationRecord
   MUSICKEYS = %w(A A# B B# C D D# E F F# G G#)
   SCALES = %w(Major Minor Blues)
   TIME_SIGNATURES = ['4/4', '3/4', '2/4', '3/8']
-
-  def follower_users
-    users.includes(:song_roles).where(song_roles: { role: 1 })
-  end
 
   def permissible_roles
     return [0, 2] unless hidden?

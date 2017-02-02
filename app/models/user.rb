@@ -20,6 +20,7 @@
 #
 
 class User < ApplicationRecord
+  include SongRoleable
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -30,33 +31,28 @@ class User < ApplicationRecord
   has_many :song_roles
   has_many :songs, through: :song_roles
 
+  has_many :admin_songs, through: :admin_song_roles, source: :song
+  has_many :viewer_songs, through: :viewer_song_roles, source: :song
+  has_many :follower_songs, through: :follower_song_roles, source: :song
+
   has_many :set_list_users
   has_many :set_lists, through: :set_list_users
-
-  has_many :admin_song_roles, -> { admin }, class_name: 'SongRole'
-  has_many :admin_songs, through: :admin_song_roles, source: :song
 
   before_create { |user| user.first_name.capitalize! && user.last_name.capitalize! }
 
   acts_as_tagger
-
-  def follower_songs
-    @follower_songs ||= songs.includes(:song_roles).where(
-      song_roles: { role: SongRole.roles[:follower] }
-    )
-  end
-
-  def subscriber_songs
-    @subscriber_songs ||= songs.includes(:song_roles).where(
-      song_roles: { role: [1,2] }
-    )
-  end
 
   def song_tags(context = nil)
     context_query = context.nil? ? '' : { taggings: { context: context } }
     ActsAsTaggableOn::Tag.includes(:taggings)
                          .where(taggings: { taggable: songs })
                          .where(context_query)
+  end
+
+  def subscriber_songs
+    @subscriber_songs ||= songs.includes(:song_roles).where(
+      song_roles: { role: [1,2] }
+    )
   end
 
   def name
