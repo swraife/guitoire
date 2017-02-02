@@ -55,9 +55,9 @@
   - @song.resources.each do |resource|
     .song__resource
       - download_target = resource.resourceable.displayable_in_browser? ? '_blank' : '_top'
-      = link_to resource.resourceable.main_link, target: download_target do
+      = link_to resource.resourceable.url, target: download_target do
         %i{class: "fa #{resource.resourceable.icon}"}
-        = resource.resourceable.main_link_name
+        = resource.resourceable.url_name
       - if @current_user_song_role.has_edit_permission?
         .song__resource-delete-link
           = link_to resource_path(resource), method: :delete, data: { confirm: "Are you sure you want to delete this #{resource.resourceable.is_a?(FileResource) ? 'file' : 'link'}?" } do

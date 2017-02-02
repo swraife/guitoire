@@ -16,11 +16,7 @@ class UrlResource < ApplicationRecord
     true
   end
 
-  def main_link
-    url
-  end
-
-  def main_link_name
+  def url_name
     url
   end
 

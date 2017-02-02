@@ -22,5 +22,14 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:user) { FactoryGirl.create(:user) }
+
+  describe '#song_tags' do
+    it 'returns all tags when no context is given' do
+      song = FactoryGirl.create(:song, genre_list: [:jazz])
+      user.songs << song
+
+      expect(user.song_tags).to include(ActsAsTaggableOn::Tag.first)
+    end
+  end
 end
