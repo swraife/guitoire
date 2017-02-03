@@ -36,6 +36,9 @@
     = f.label 'Miscellaneous Tags'
     = f.select :generic_list, options_for_select(current_user.song_tags('generics'), @song.generic_list), {include_blank: true}, {multiple: true, class: 'add-select2'}
 
+    = f.label 'Song Admins'
+    = f.select :admin_user_ids, options_from_collection_for_select(User.where.not(id: current_user.id), :id, :name, @song.admin_users.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
+
     %br
 
     = f.submit

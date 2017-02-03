@@ -44,7 +44,6 @@ FactoryGirl.define do
     description 'MyText'
     music_key 'MyString'
     tempo 1
-    composer_id 1
   end
 
   factory :user do

@@ -7,7 +7,8 @@ RSpec.describe SongsController, type: :controller do
                                       .merge(composer_list: [],
                                              version_list: [],
                                              generic_list: [],
-                                             genre_list: []) }
+                                             genre_list: [],
+                                             admin_user_ids: []) }
 
   before(:each) do
     sign_in user

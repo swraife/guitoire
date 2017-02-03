@@ -24,6 +24,17 @@ RSpec.configure do |config|
 
   config.example_status_persistence_file_path = 'tmp/rspec_examples.txt'
   config.order = :random
+
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :truncation, { except: %w(spatial_ref_sys) }
+    DatabaseCleaner.clean_with :truncation, { except: %w(spatial_ref_sys) }
+  end
+
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      example.run
+    end
+  end
 end
 
 WebMock.disable_net_connect!(allow_localhost: true)

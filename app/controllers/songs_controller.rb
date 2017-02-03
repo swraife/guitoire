@@ -39,7 +39,8 @@ class SongsController < ApplicationController
 
   def update
     @song = current_user.admin_songs.find(params[:id])
-    if @song.update(song_params)
+    if @song.update(song_params.tap { |h| h.delete(:admin_users) })
+      SongRoleUpdater.new(@song, song_params[:admin_user_ids]).update!
       redirect_to user_song_path(current_user, @song)
     end
   end
@@ -47,6 +48,6 @@ class SongsController < ApplicationController
   private
 
   def song_params
-    params.require(:song).permit(:name, :description, :tempo, :music_key, :composer_id, :scale, :time_signature, version_list: [], genre_list: [], generic_list: [], composer_list: [])
+    params.require(:song).permit(:name, :description, :tempo, :music_key, :composer_id, :scale, :time_signature, version_list: [], genre_list: [], generic_list: [], composer_list: [], admin_user_ids: [])
   end
 end

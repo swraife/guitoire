@@ -28,9 +28,7 @@ class User < ApplicationRecord
 
   has_many :created_songs, class_name: 'Song', foreign_key: :creator_id
 
-  has_many :song_roles
   has_many :songs, through: :song_roles
-
   has_many :admin_songs, through: :admin_song_roles, source: :song
   has_many :viewer_songs, through: :viewer_song_roles, source: :song
   has_many :follower_songs, through: :follower_song_roles, source: :song

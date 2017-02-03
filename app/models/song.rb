@@ -20,8 +20,6 @@ class Song < ApplicationRecord
   include SongRoleable
 
   has_many :users, through: :song_roles
-  has_many :song_roles, dependent: :destroy
-
   has_many :admin_users, through: :admin_song_roles, source: :user
   has_many :viewer_users, through: :viewer_song_roles, source: :user
   has_many :follower_users, through: :follower_song_roles, source: :user
