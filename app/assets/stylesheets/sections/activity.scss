@@ -1,0 +1,15 @@
+.activity__wrapper {
+  min-height: 100px;
+  background-color: $cloud;
+  margin-top: 10px;
+  border: $base-border;
+  padding: 10px;
+  border-radius: 5px;
+}
+.activity__timestamp {
+  font-size: 11px;
+  color: $dark-gray;
+}
+.activity__content {
+  margin: 20px;
+}

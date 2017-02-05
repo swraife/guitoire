@@ -24,6 +24,10 @@ class UrlResource < ApplicationRecord
     'fa-link'
   end
 
+  def display_type_name
+    'link'
+  end
+
   private
 
   def format_url

@@ -1,0 +1,10 @@
+.activity__subject
+  = link_to activity.owner.name, user_songs_path(activity.owner)
+  = 'began following'
+  = link_to activity.recipient.creator.name, user_songs_path(activity.recipient.creator)
+  = "'s song:"
+  = link_to activity.recipient.name, activity.recipient
+.activity__timestamp
+  %i.fa.fa-clock-o
+  = time_ago_in_words(activity.created_at)
+  = 'ago'

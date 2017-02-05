@@ -11,12 +11,26 @@
 #
 
 class SongRole < ApplicationRecord
+  include PublicActivity::Model
+
   belongs_to :song
   belongs_to :user
 
   enum role: [:viewer, :admin, :follower]
 
+  after_create :create_follower_activity
+
   def has_edit_permission?
     admin?
+  end
+
+  private
+
+  def create_follower_activity
+    return unless follower?
+    create_activity(recipient: :song,
+                    owner: user,
+                    trackable: self,
+                    key: 'song_role.create_follower')
   end
 end

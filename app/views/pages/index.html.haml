@@ -1,4 +1,4 @@
-%h3
+%h1
   Welcome to Guitoire
 
 %p
@@ -6,3 +6,10 @@
 
 %p
   New Feature! You can now add multiple admins to songs, so multiple people can edit and add resources. Collaborate away!
+
+.med-horizontal-border
+
+%h3
+  Recent Activity
+
+= render_activities(@activities, layout: :activity)

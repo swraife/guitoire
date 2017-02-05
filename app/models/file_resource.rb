@@ -54,4 +54,19 @@ class FileResource < ApplicationRecord
       'fa-file-o'
     end
   end
+
+  def display_type_name
+    case main_content_type
+    when 'application/pdf'
+      'pdf'
+    when 'image/jpeg', 'image/gif', 'image/png'
+      'image'
+    when 'audio/wav', 'audio/mp3'
+      'audio file'
+    when 'video/mp4', 'video/quicktime'
+      'video'
+    else
+      'file'
+    end
+  end
 end
