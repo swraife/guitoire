@@ -4,11 +4,11 @@ RSpec.describe SongsController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:song) { FactoryGirl.create(:song, creator: user) }
   let(:valid_attributes) { FactoryGirl.attributes_for(:song)
-                                      .merge(composer_list: [],
-                                             version_list: [],
-                                             generic_list: [],
-                                             genre_list: [],
-                                             admin_user_ids: []) }
+                                      .merge(composer_list: [''],
+                                             version_list: [''],
+                                             generic_list: [''],
+                                             genre_list: [''],
+                                             admin_user_ids: ['']) }
 
   before(:each) do
     sign_in user

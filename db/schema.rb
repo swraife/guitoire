@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170205203549) do
+ActiveRecord::Schema.define(version: 20170205212355) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,10 +81,13 @@ ActiveRecord::Schema.define(version: 20170205203549) do
     t.integer  "resourceable_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
-    t.integer  "owner_id"
-    t.string   "owner_type"
-    t.index ["owner_id", "owner_type"], name: "index_resources_on_owner_id_and_owner_type", using: :btree
+    t.integer  "target_id"
+    t.string   "target_type"
+    t.string   "creator_type"
+    t.integer  "creator_id"
+    t.index ["creator_type", "creator_id"], name: "index_resources_on_creator_type_and_creator_id", using: :btree
     t.index ["resourceable_type", "resourceable_id"], name: "index_resources_on_resourceable_type_and_resourceable_id", using: :btree
+    t.index ["target_id", "target_type"], name: "index_resources_on_target_id_and_target_type", using: :btree
   end
 
   create_table "set_list_songs", force: :cascade do |t|

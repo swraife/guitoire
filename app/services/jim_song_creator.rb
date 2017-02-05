@@ -16,7 +16,7 @@ class JimSongCreator
         file_resource = FileResource.new(main: File.new(path, 'r'))
 
         Resource.create!(
-          owner: song, resourceable: file_resource
+          target: song, resourceable: file_resource
         )
       end
     end

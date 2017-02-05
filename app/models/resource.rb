@@ -8,13 +8,21 @@
 #  resourceable_id   :integer
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
-#  owner_id          :integer
-#  owner_type        :string
+#  target_id         :integer
+#  target_type       :string
+#  creator_type      :string
+#  creator_id        :integer
 #
 
 class Resource < ApplicationRecord
+  include PublicActivity::Model
+  include TrackableAssociations
+
+  tracked only: [:create], owner: :creator, recipient: :target
+
   belongs_to :resourceable, polymorphic: true
-  belongs_to :owner, polymorphic: true
+  belongs_to :creator, polymorphic: true
+  belongs_to :target, polymorphic: true
 
   after_destroy :destroy_resourceable
 

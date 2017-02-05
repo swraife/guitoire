@@ -21,6 +21,7 @@
 
 class User < ApplicationRecord
   include SongRoleable
+  include TrackableAssociations
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -35,6 +36,8 @@ class User < ApplicationRecord
 
   has_many :set_list_users
   has_many :set_lists, through: :set_list_users
+
+  has_many :resources, as: :creator
 
   before_create { |user| user.first_name.capitalize! && user.last_name.capitalize! }
 

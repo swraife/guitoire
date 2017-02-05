@@ -17,7 +17,11 @@
 #
 
 class Song < ApplicationRecord
+  include PublicActivity::Model
+  include TrackableAssociations
   include SongRoleable
+
+  tracked only: [:create], owner: :creator
 
   has_many :users, through: :song_roles
   has_many :admin_users, through: :admin_song_roles, source: :user
@@ -26,7 +30,7 @@ class Song < ApplicationRecord
 
   belongs_to :composer
 
-  has_many :resources, as: :owner, dependent: :destroy
+  has_many :resources, as: :target, dependent: :destroy
   has_many :file_resources, through: :resources, source: :resourceable, source_type: 'FileResource'
   has_many :url_resources, through: :resources, source: :resourceable, source_type: 'UrlResource'
 
