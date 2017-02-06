@@ -39,6 +39,9 @@ class User < ApplicationRecord
 
   has_many :resources, as: :creator
 
+  has_many :plays
+  has_many :played_songs, through: :plays, source: :song
+
   before_create { |user| user.first_name.capitalize! && user.last_name.capitalize! }
 
   acts_as_tagger

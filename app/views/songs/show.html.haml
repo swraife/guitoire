@@ -13,6 +13,11 @@
 .song__name
   %h1
     = @song.name
+    = form_for [@song, @song.plays.build], remote: true, html: { class: 'inl-block' } do |f|
+      = f.hidden_field :song_id, value: @song.id
+      = button_tag type: 'submit', class: 'play-btn' do
+        %i.fa.fa-plus
+        = ' play'
 - if @current_user_song_role.has_edit_permission?
   .song__edit-button
     = link_to '(edit)', edit_song_path(@song)

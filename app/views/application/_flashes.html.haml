@@ -1,0 +1,14 @@
+- if flash.any?
+  .flashes
+    - user_facing_flashes.each do |key, value|
+      .div{class: "flash-#{key}"}
+        = value
+        = button_tag '#', class: 'flash-close-btn btn-minimal right' do
+          %i.fa.fa-times
+
+:javascript
+  $(document).ready(function() {
+    $('.flash-close-btn').click(function() {
+      $('.flashes').hide();
+    });
+  });

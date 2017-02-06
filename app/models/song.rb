@@ -29,14 +29,15 @@ class Song < ApplicationRecord
   has_many :follower_users, through: :follower_song_roles, source: :user
 
   belongs_to :composer
+  belongs_to :creator, class_name: 'User', foreign_key: :creator_id
 
   has_many :resources, as: :target, dependent: :destroy
   has_many :file_resources, through: :resources, source: :resourceable, source_type: 'FileResource'
   has_many :url_resources, through: :resources, source: :resourceable, source_type: 'UrlResource'
 
   has_many :tags, through: :taggings
-
-  belongs_to :creator, class_name: 'User', foreign_key: :creator_id
+  has_many :plays
+  has_many :players, through: :plays, source: :user
 
   acts_as_taggable_on :composers, :versions, :genres, :generics
 

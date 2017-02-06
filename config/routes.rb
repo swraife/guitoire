@@ -6,8 +6,9 @@ Rails.application.routes.draw do
   resources :users do
     resources :songs
   end
-  resources :songs
-
+  resources :songs do
+    resources :plays, only: [:create]
+  end
   resources :song_roles
 
   resources :resources

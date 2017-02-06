@@ -16,7 +16,9 @@
 </head>
 <body class="<%= body_class %>">
   <%= render 'shared/header' %>
-  <%= render "flashes" -%>
+  <div id="flash">
+    <%= render "flashes" -%>
+  </div>
   <%= render 'shared/left_sidebar' %>
   <div class='jumbotron'>
     <%= yield %>
