@@ -27,6 +27,16 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  has_many :messages
+  has_many :message_copies
+  has_many :user_message_threads
+  has_many :message_threads, through: :user_message_threads
+
+  has_many :plays
+  has_many :played_songs, through: :plays, source: :song
+
+  has_many :resources, as: :creator
+
   has_many :created_songs, class_name: 'Song', foreign_key: :creator_id
 
   has_many :songs, through: :song_roles
@@ -36,11 +46,6 @@ class User < ApplicationRecord
 
   has_many :set_list_users
   has_many :set_lists, through: :set_list_users
-
-  has_many :resources, as: :creator
-
-  has_many :plays
-  has_many :played_songs, through: :plays, source: :song
 
   before_create { |user| user.first_name.capitalize! && user.last_name.capitalize! }
 

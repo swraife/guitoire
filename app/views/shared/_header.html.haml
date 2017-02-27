@@ -10,11 +10,13 @@
   .header__menu
     - if current_user
       = link_to '/' do
-        %i.fa.fa-home
+        %i.fa.fa-fw.fa-home
       = link_to new_user_song_path(current_user) do
         %i.fa.fa-fw.fa-plus
       = link_to user_songs_path(current_user) do
         %i.fa.fa-fw.fa-search
+      = link_to messages_path do
+        %i.fa.fa-envelope
       = link_to '#', id: 'user-dropdown-link' do
         %i.fa.fa-fw.fa-user.user-dropdown-link
   .header__user-dropdown.hide

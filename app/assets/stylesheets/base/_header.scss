@@ -12,13 +12,13 @@
 }
 .header__title--full {
   display: none;
-  @media ($screen-xs) {
+  @media ($screen-sm) {
     display: inline-block;
   }
 }
 .header__title--min {
   display: inline-block;
-  @media ($screen-xs) {
+  @media ($screen-sm) {
     display: none;
   }
 }
