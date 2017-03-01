@@ -21,6 +21,6 @@ puts 'users created'
 puts 'creating songs'
 song_names = ['Cherokee Shuffle', 'Summertime', 'Golden Slippers']
 song_names.each do |name|
-  Song.where(name: name).first_or_create(name: name, user: User.first)
+  Song.where(name: name).first_or_create(name: name, creator: User.first)
 end
 puts 'songs created'

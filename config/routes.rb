@@ -3,7 +3,9 @@ Rails.application.routes.draw do
 
   root 'pages#index'
 
-  resources :messages
+  resources :messages, only: [:create]
+  resources :message_threads, only: [:create, :index]
+
   resources :songs do
     resources :plays, only: [:create]
   end

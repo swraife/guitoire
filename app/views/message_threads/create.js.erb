@@ -1,0 +1,13 @@
+$('.message_threads-list').append("<%= j(render partial: 'preview', locals: { message_thread: @message_thread }) %>");
+$('.message_threads-show').append("<%= j(render partial: 'show', locals: { message_thread: @message_thread }) %>");
+
+$(document).ready(function() {
+  $('.preview-btn').click(function() {
+    $('.message_thread-show').hide();
+    $('.message_threads-new').hide();
+    $('#message_thread_' + $(this).attr('id').slice(23)).show();
+  });
+
+  $("#message_thread_preview_<%= @message_thread.id %>").click();
+  $('.message-input').val('');
+});

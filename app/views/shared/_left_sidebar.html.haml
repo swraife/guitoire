@@ -10,6 +10,10 @@
           %i.fa.fa-fw.fa-users
           Users
       .left-sidebar__link
+        = link_to message_threads_path do
+          %i.fa.fa-fw.fa-envelope
+          Messages
+      .left-sidebar__link
         = link_to user_songs_path(current_user) do
           %i.fa.fa-fw.fa-search
           Songs

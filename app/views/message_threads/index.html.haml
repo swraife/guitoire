@@ -1,0 +1,30 @@
+.message_threads-list
+  %h3
+    Messages
+  .message_thread-preview.message_threads-new-btn
+    = link_to '#' do
+      %i.fa.fa-plus
+      New Message
+  - @message_threads.each do |message_thread|
+    = render partial: 'preview', locals: { message_thread: message_thread }
+.message_threads-show
+  - @message_threads.each do |message_thread|
+    = render partial: 'show', locals: { message_thread: message_thread }
+
+  .message_threads-new.hide
+    = render 'form'
+
+:javascript
+  $(document).ready(function() {
+    $('.preview-btn').click(function() {
+      $('.message_thread-show').hide();
+      $('.message_threads-new').hide();
+      $('#message_thread_' + $(this).attr('id').slice(23)).show();
+    });
+
+    $('.message_threads-new-btn').click(function(e) {
+      e.preventDefault();
+      $('.message_thread-show').hide();
+      $('.message_threads-new').show();
+    });
+  });

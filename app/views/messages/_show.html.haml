@@ -1,0 +1,6 @@
+.message_thread-message{ class: "#{'right-text' if message.user == current_user}" }
+  .message_thread-message-user
+    - last_message_user = !index.zero? ? message_thread.messages[index - 1].user : nil
+    = message.user.name unless message.user == last_message_user
+  .message_thread-message-content
+    = message.content

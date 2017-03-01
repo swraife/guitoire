@@ -1,0 +1,32 @@
+.message_threads-list {
+  display: inline-block;
+  width: 33%;
+  vertical-align: top;
+}
+.message_thread-preview {
+  border: $base-border;
+  background-color: $cloud;
+  padding: 3px 7px;
+}
+.message_thread-users {
+  font-weight: 500;
+}
+.message_threads-show {
+  display: inline-block;
+  width: 66%;
+  padding: 3px 7px;
+}
+.message_thread-message-content {
+  background-color: $cloud;
+  border-radius: 7px;
+  display: inline-block;
+  padding: 1px 5px;
+  margin: 1px;
+}
+.message_thread-show-users {
+  text-align: center;
+}
+.message_thread-message-user {
+  font-size: 12px
+}
+

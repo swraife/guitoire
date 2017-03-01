@@ -1,0 +1,5 @@
+.message_thread-preview.preview-btn{ id: "message_thread_preview_#{message_thread.id}" }
+  .message_thread-users
+    = truncate(message_thread.users.where.not(id: current_user.id).map(&:name).join(', '), length: 23)
+  .message_thread-last-message
+    = truncate(message_thread.messages.last.content, length: 23)

@@ -1,0 +1,4 @@
+var messageThread = "#message_thread_<%= @message.message_thread_id %> .message_thread-messages";
+$(messageThread).append("<%= j(render partial: 'show', locals: { message_thread: @message.message_thread, message: @message, index: -1}) %>");
+
+$('.message-input').val('');

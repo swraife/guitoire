@@ -1,0 +1,10 @@
+.message_thread-show.hide{ id: "message_thread_#{message_thread.id}" }
+  .message_thread-show-users
+    %h3
+      = message_thread.users.where.not(id: current_user.id).map(&:name).join(', ')
+  .message_thread-messages
+    - message_thread.messages.each_with_index do |message, index|
+      = render partial: 'messages/show', locals: { message_thread: message_thread, message: message, index: index }
+  .message_thread-new-message
+    .med-horizontal-border
+    = render partial: 'messages/form', locals: { message: message_thread.messages.build }
