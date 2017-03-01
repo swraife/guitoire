@@ -2,7 +2,7 @@ class MessageThreadsController < ApplicationController
   before_action :add_current_user_to_user_ids, only: [:create]
 
   def index
-    @message_threads = current_user.message_threads
+    @message_threads = current_user.message_threads.order(updated_at: :desc)
   end
 
   def create

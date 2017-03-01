@@ -11,7 +11,7 @@
 #
 
 class Message < ApplicationRecord
-  belongs_to :message_thread
+  belongs_to :message_thread, touch: true
   belongs_to :user
 
   has_many :message_copies, dependent: :destroy
