@@ -1,0 +1,7 @@
+= "New message from #{@message.user.name}:"
+
+%blockquote
+  = @message.content
+
+%p
+  = link_to 'Reply on Guitoire', message_threads_url

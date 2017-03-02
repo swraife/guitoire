@@ -20,10 +20,14 @@
       = link_to '#', id: 'user-dropdown-link' do
         %i.fa.fa-fw.fa-user.user-dropdown-link
   .header__user-dropdown.hide
-    .header__dropdown-item.log-in-link
-      - if current_user
+    - if current_user
+      .header__dropdown-item
+        = link_to 'Edit Profile', edit_user_path(current_user)
+        .med-horizontal-border
+      .header__dropdown-item.log-in-link
         = link_to 'Log Out', destroy_user_session_path, method: :delete
-      - else
+    - else
+      .header__dropdown-item.log-in-link
         = link_to 'Log In', new_user_session_path
 
 :javascript

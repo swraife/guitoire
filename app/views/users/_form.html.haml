@@ -1,0 +1,11 @@
+= form_for @user do |f|
+  = f.label 'Profile Picture'
+  = link_to image_tag(@user.avatar.url(:medium)), @user.avatar.url
+  = f.file_field :avatar
+  = f.label :first_name
+  = f.text_field :first_name
+  = f.label :last_name
+  = f.text_field :last_name
+  = f.label :email
+  = f.email_field :email
+  = f.submit

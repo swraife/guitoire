@@ -17,6 +17,10 @@
 #  last_sign_in_at        :datetime
 #  current_sign_in_ip     :inet
 #  last_sign_in_ip        :inet
+#  avatar_file_name       :string
+#  avatar_content_type    :string
+#  avatar_file_size       :integer
+#  avatar_updated_at      :datetime
 #
 
 class User < ApplicationRecord
@@ -50,6 +54,10 @@ class User < ApplicationRecord
   before_create { |user| user.first_name.capitalize! && user.last_name.capitalize! }
 
   acts_as_tagger
+
+  has_attached_file :avatar, styles: { medium: '300x300#', thumb: '100x100#' }, default_url: 'https://s3-us-west-2.amazonaws.com/guitoire/assorted/default_avatar.png'
+
+  validates_attachment_content_type :avatar, :content_type => ['image/jpg', 'image/jpeg', 'image/png']
 
   def song_tags(context = nil)
     context_query = context.nil? ? '' : { taggings: { context: context } }
