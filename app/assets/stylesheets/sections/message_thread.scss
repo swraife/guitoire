@@ -8,6 +8,11 @@
   background-color: $cloud;
   padding: 3px 7px;
 }
+.message_thread-unseen {
+  display: inline-block;
+  float: right;
+  font-weight: bold;
+}
 .message_thread-users {
   font-weight: 500;
 }
@@ -29,4 +34,10 @@
 .message_thread-message-user {
   font-size: 12px
 }
-
+.message_copies-unseen-count {
+  display: inline-block;
+  background-color: $salmon;
+  border-radius: 5px;
+  padding: 2px 4px;
+  font-size: 12px;
+}

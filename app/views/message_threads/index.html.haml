@@ -20,6 +20,7 @@
       $('.message_thread-show').hide();
       $('.message_threads-new').hide();
       $('#message_thread_' + $(this).attr('id').slice(23)).show();
+      $(this).find('.message_thread-unseen').hide();
     });
 
     $('.message_threads-new-btn').click(function(e) {

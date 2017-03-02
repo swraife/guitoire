@@ -14,5 +14,5 @@ class MessageCopy < ApplicationRecord
   belongs_to :user
   belongs_to :message
 
-  enum status: [:unseen, :notified, :viewed]
+  enum status: [:unseen, :viewed]
 end

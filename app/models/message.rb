@@ -15,4 +15,15 @@ class Message < ApplicationRecord
   belongs_to :user
 
   has_many :message_copies, dependent: :destroy
+
+  after_create :create_message_copies
+
+  private
+
+  def create_message_copies
+    message_thread.users.each do |thread_user|
+      status = user == thread_user ? 1 : 0
+      MessageCopy.create(user: thread_user, message: self, status: status)
+    end
+  end
 end

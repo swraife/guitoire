@@ -1,8 +1,9 @@
 class MessageThreadsController < ApplicationController
   before_action :add_current_user_to_user_ids, only: [:create]
+  after_action :view_message_copies
 
   def index
-    @message_threads = current_user.message_threads.order(updated_at: :desc)
+    @message_threads = current_user.message_threads.includes(:messages, :users, :message_copies).order(updated_at: :desc)
   end
 
   def create
@@ -23,5 +24,11 @@ class MessageThreadsController < ApplicationController
 
   def add_current_user_to_user_ids
     params[:message_thread][:user_ids].push(current_user.id)
+  end
+
+  def view_message_copies
+    current_user.message_copies.each do |message_copy|
+      message_copy.viewed!
+    end
   end
 end
