@@ -15,4 +15,6 @@ class MessageCopy < ApplicationRecord
   belongs_to :message
 
   enum status: [:unseen, :viewed]
+
+  private
 end

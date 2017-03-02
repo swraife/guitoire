@@ -21,9 +21,13 @@ class Message < ApplicationRecord
   private
 
   def create_message_copies
+    send_emails = message_thread.messages.last(2).first.created_at < 30.minutes.ago
     message_thread.users.each do |thread_user|
       status = user == thread_user ? 1 : 0
       MessageCopy.create(user: thread_user, message: self, status: status)
+
+      next if user == thread_user || !send_emails
+      UserMailer.new_message_alert(thread_user, self).deliver_now
     end
   end
 end
