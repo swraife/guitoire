@@ -54,3 +54,12 @@
     background: none;
   }
 }
+.btn-times {
+  padding: 3px;
+  background: none;
+  color: $medium-gray;
+  &:hover {
+    color: $slate-blue;
+    background: none;
+  }
+}

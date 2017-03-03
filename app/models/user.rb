@@ -53,6 +53,8 @@ class User < ApplicationRecord
   has_many :routines, through: :routine_roles
   has_many :routines_as_owner, class_name: 'Routine', as: :owner
 
+  has_many :set_list_songs, through: :routines
+
   before_create { |user| user.first_name.capitalize! && user.last_name.capitalize! }
 
   acts_as_tagger

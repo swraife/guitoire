@@ -16,7 +16,7 @@ FactoryGirl.define do
 
   factory :set_list_song do
     song_id 1
-    set_list_id 1
+    routine_id 1
     music_key 'MyString'
   end
 
