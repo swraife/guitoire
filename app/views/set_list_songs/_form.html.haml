@@ -1,0 +1,4 @@
+= form_for SetListSong.new, remote: true do |f|
+  = f.hidden_field :routine_id, value: routine.id
+  = f.select :song_id, options_from_collection_for_select(songs, :id, :name), include_blank: 'Select Song'
+  = f.submit 'Add Song'

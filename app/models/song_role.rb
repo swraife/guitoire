@@ -20,6 +20,10 @@ class SongRole < ApplicationRecord
 
   after_create :create_follower_activity
 
+  def self.subscriber
+    where(role: [1,2])
+  end
+
   def has_edit_permission?
     admin?
   end

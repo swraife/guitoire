@@ -19,8 +19,10 @@ class SetListSong < ApplicationRecord
 
   before_create :default_sort_value
 
+  default_scope { order(:sort_value) }
+
   def default_sort_value
     return if sort_value
-    self.sort_value = routine.set_list_songs.pluck(:sort_value).max + 1000
+    self.sort_value = (routine.set_list_songs.pluck(:sort_value).max || 1) + 1000
   end
 end

@@ -10,6 +10,7 @@
 
 @import "jquery.fileupload";
 @import "jquery.fileupload-ui";
+@import "jquery-ui/sortable";
 
 @import "font-awesome";
 
@@ -19,5 +20,6 @@
 @import "sections/activity";
 @import "sections/message_thread";
 @import "sections/song";
+@import "sections/set_list_song";
 
 @import "hopscotch";

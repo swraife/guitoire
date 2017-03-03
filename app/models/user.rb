@@ -47,9 +47,11 @@ class User < ApplicationRecord
   has_many :admin_songs, through: :admin_song_roles, source: :song
   has_many :viewer_songs, through: :viewer_song_roles, source: :song
   has_many :follower_songs, through: :follower_song_roles, source: :song
+  has_many :subscriber_songs, through: :subscriber_song_roles, source: :song
 
-  has_many :routine_roles
+  has_many :routine_roles, as: :owner
   has_many :routines, through: :routine_roles
+  has_many :routines_as_owner, class_name: 'Routine', as: :owner
 
   before_create { |user| user.first_name.capitalize! && user.last_name.capitalize! }
 
@@ -64,12 +66,6 @@ class User < ApplicationRecord
     ActsAsTaggableOn::Tag.includes(:taggings)
                          .where(taggings: { taggable: songs })
                          .where(context_query)
-  end
-
-  def subscriber_songs
-    @subscriber_songs ||= songs.includes(:song_roles).where(
-      song_roles: { role: [1,2] }
-    )
   end
 
   def name

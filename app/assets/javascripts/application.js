@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-fileupload
+//= require jquery-ui/sortable
 //= require hopscotch
 
 //= require_tree .

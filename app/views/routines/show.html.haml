@@ -1,0 +1,38 @@
+%h1
+  = @routine.name
+
+%p
+  = @routine.description
+
+%h3
+  Add Song
+
+= render partial: 'set_list_songs/form', locals: { routine: @routine, songs: @songs }
+
+%h3
+  Songs
+
+%ul.set_list_songs
+  - @routine.set_list_songs.each do |set_list_song|
+    = render partial: 'set_list_songs/show', locals: { set_list_song: set_list_song }
+
+:javascript
+  $(document).ready(function() {
+    $('.set_list_songs').sortable({
+      update: function(e, ui) {
+        var movedId = ui.item.attr('id').slice(14);
+        var prevId = ui.item.prev().attr('id') && ui.item.prev().attr('id').slice(14);
+        var nextId = ui.item.next().attr('id') && ui.item.next().attr('id').slice(14);
+        var url = "/routines/#{@routine.id}";
+        $.ajax({
+          method: 'PUT',
+          url: url,
+          data: {
+            moved: movedId,
+            prev: prevId,
+            next: nextId
+          }
+        });
+      }
+    });
+  });

@@ -19,6 +19,7 @@ class Routine < ApplicationRecord
   has_many :users, through: :routine_roles
 
   has_many :set_list_songs
+  has_many :songs, through: :set_list_songs
 
   after_create :create_routine_role
 

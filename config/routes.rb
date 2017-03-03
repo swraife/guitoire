@@ -20,4 +20,5 @@ Rails.application.routes.draw do
   resources :url_resources
 
   resources :routines
+  resources :set_list_songs
 end

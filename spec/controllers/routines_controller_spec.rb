@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe RoutinesController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
+  let(:routine) { FactoryGirl.create(:routine, owner: user) }
   let(:valid_attributes) { FactoryGirl.attributes_for(:routine) }
 
   before(:each) do
@@ -18,6 +19,20 @@ RSpec.describe RoutinesController, type: :controller do
   describe 'POST #create' do
     it 'returns HTTP success' do
       post :create, params: { user_id: user.id, routine: valid_attributes }
+      expect(Routine.count).to eq(1)
+    end
+  end
+
+  describe 'GET #show' do
+    it 'returns HTTP success' do
+      get :show, params: { id: routine.id }
+      expect(response).to have_http_status(:success)
+    end
+  end
+
+  describe 'GET #index' do
+    it 'returns HTTP success' do
+      get :index
       expect(response).to have_http_status(:success)
     end
   end
