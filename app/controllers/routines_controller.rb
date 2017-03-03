@@ -5,7 +5,7 @@ class RoutinesController < ApplicationController
 
   def show
     @routine = current_user.routines.includes(:set_list_songs, :songs).find(params[:id])
-    @songs = current_user.songs
+    @songs = current_user.songs.order(:name)
   end
 
   def new
