@@ -7,8 +7,8 @@
     = link_to '' do
       %h1
         G
-  .header__menu
-    - if current_user
+  - if current_user
+    .header__menu
       = link_to '/' do
         %i.fa.fa-fw.fa-home
       = link_to '#', id: 'add-dropdown-link' do
@@ -19,28 +19,28 @@
         %i.fa.fa-envelope
       = link_to '#', id: 'user-dropdown-link' do
         %i.fa.fa-fw.fa-user.user-dropdown-link
-  .header-dropdown.header__add-dropdown.hide
-    .header__dropdown-item
-      = link_to 'Add Song', new_user_song_path(current_user)
-      .med-horizontal-border
-    .header__dropdown-item
-      = link_to 'Add Set List', new_routine_path
-  .header-dropdown.header__search-dropdown.hide
-    .header-dropdown-item
-      = link_to 'Songs', user_songs_path(current_user)
-      .med-horizontal-border
-    .header__dropdown-item
-      = link_to 'Set Lists', routines_path(current_user)
-  .header-dropdown.header__user-dropdown.hide
-    - if current_user
+    .header-dropdown.header__add-dropdown.hide
       .header__dropdown-item
-        = link_to 'Edit Profile', edit_user_path(current_user)
+        = link_to 'Add Song', new_user_song_path(current_user)
         .med-horizontal-border
-      .header__dropdown-item.log-in-link
-        = link_to 'Log Out', destroy_user_session_path, method: :delete
-    - else
-      .header__dropdown-item.log-in-link
-        = link_to 'Log In', new_user_session_path
+      .header__dropdown-item
+        = link_to 'Add Set List', new_routine_path
+    .header-dropdown.header__search-dropdown.hide
+      .header-dropdown-item
+        = link_to 'Songs', user_songs_path(current_user)
+        .med-horizontal-border
+      .header__dropdown-item
+        = link_to 'Set Lists', routines_path(current_user)
+    .header-dropdown.header__user-dropdown.hide
+      - if current_user
+        .header__dropdown-item
+          = link_to 'Edit Profile', edit_user_path(current_user)
+          .med-horizontal-border
+        .header__dropdown-item.log-in-link
+          = link_to 'Log Out', destroy_user_session_path, method: :delete
+      // - else
+      //   .header__dropdown-item.log-in-link
+      //     = link_to 'Log In', new_user_session_path
 
 :javascript
   $(document).ready(function() {
