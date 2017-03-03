@@ -1,19 +1,18 @@
 # == Schema Information
 #
-# Table name: set_list_songs
+# Table name: routine_roles
 #
 #  id         :integer          not null, primary key
-#  song_id    :integer
+#  owner_id   :integer
 #  routine_id :integer
-#  music_key  :string
-#  tempo      :integer
+#  role       :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  sort_value :integer
+#  owner_type :string
 #
 
 require 'rails_helper'
 
-RSpec.describe SetListSong, type: :model do
+RSpec.describe RoutineRole, type: :model do
   pending "add some examples to (or delete) #{__FILE__}"
 end

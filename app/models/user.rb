@@ -48,8 +48,8 @@ class User < ApplicationRecord
   has_many :viewer_songs, through: :viewer_song_roles, source: :song
   has_many :follower_songs, through: :follower_song_roles, source: :song
 
-  has_many :set_list_users
-  has_many :set_lists, through: :set_list_users
+  has_many :routine_roles
+  has_many :routines, through: :routine_roles
 
   before_create { |user| user.first_name.capitalize! && user.last_name.capitalize! }
 

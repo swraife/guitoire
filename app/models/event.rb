@@ -11,5 +11,5 @@
 #
 
 class Event < ApplicationRecord
-  belongs_to :set_list
+  # belongs_to :routine
 end

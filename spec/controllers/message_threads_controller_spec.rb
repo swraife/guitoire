@@ -9,7 +9,7 @@ RSpec.describe MessageThreadsController, type: :controller do
 
   describe 'POST #create' do
     it 'creates a new message and message_copies' do
-      xhr :post, :create, params: { message_thread: { user_ids: [user.id] }, message: { content: 'test' } }
+      post :create, params: { message_thread: { user_ids: [user.id] }, message: { content: 'test' } }, xhr: true
 
       expect(MessageThread.count).to eq(1)
       expect(Message.count).to eq(1)

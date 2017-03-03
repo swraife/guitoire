@@ -19,5 +19,5 @@ Rails.application.routes.draw do
   resources :file_resources
   resources :url_resources
 
-  resources :set_lists
+  resources :routines
 end

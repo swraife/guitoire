@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170302061811) do
+ActiveRecord::Schema.define(version: 20170303012342) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -119,29 +119,32 @@ ActiveRecord::Schema.define(version: 20170302061811) do
     t.index ["target_id", "target_type"], name: "index_resources_on_target_id_and_target_type", using: :btree
   end
 
-  create_table "set_list_songs", force: :cascade do |t|
-    t.integer  "song_id"
-    t.integer  "set_list_id"
-    t.string   "music_key"
-    t.integer  "tempo"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.integer  "sort_value"
-  end
-
-  create_table "set_list_users", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "set_list_id"
+  create_table "routine_roles", force: :cascade do |t|
+    t.integer  "owner_id"
+    t.integer  "routine_id"
     t.integer  "role"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "owner_type"
   end
 
-  create_table "set_lists", force: :cascade do |t|
+  create_table "routines", force: :cascade do |t|
     t.string   "name"
     t.string   "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.integer  "owner_id"
+    t.string   "owner_type"
+  end
+
+  create_table "set_list_songs", force: :cascade do |t|
+    t.integer  "song_id"
+    t.integer  "routine_id"
+    t.string   "music_key"
+    t.integer  "tempo"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "sort_value"
   end
 
   create_table "song_roles", force: :cascade do |t|

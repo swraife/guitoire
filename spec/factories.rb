@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :set_list_user do
+  factory :routine_role do
     user_id 1
     set_list_id 1
     role 1
@@ -20,7 +20,7 @@ FactoryGirl.define do
     music_key 'MyString'
   end
 
-  factory :set_list do
+  factory :routine do
     name 'MyString'
     description 'MyString'
   end
@@ -52,5 +52,8 @@ FactoryGirl.define do
     sequence(:email) { |n| "email#{n}@test.org" }
     password 'password'
     password_confirmation 'password'
+  end
+
+  factory :message_thread do
   end
 end

@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe MessagesController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
+  let(:message_thread) { FactoryGirl.create(:message_thread) }
 
   before(:each) do
     sign_in user
@@ -9,7 +10,7 @@ RSpec.describe MessagesController, type: :controller do
 
   describe '#POST create' do
     it 'creates a new message and message_copies' do
-      xhr :post, :create, params: { message: { content: 'test' } }
+      post :create, params: { message: { content: 'test', message_thread_id: message_thread.id } }, xhr: true
 
       expect(Message.count).to eq(1)
     end
