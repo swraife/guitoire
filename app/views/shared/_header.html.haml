@@ -11,15 +11,27 @@
     - if current_user
       = link_to '/' do
         %i.fa.fa-fw.fa-home
-      = link_to new_user_song_path(current_user) do
-        %i.fa.fa-fw.fa-plus
-      = link_to user_songs_path(current_user) do
-        %i.fa.fa-fw.fa-search
+      = link_to '#', id: 'add-dropdown-link' do
+        %i.fa.fa-fw.fa-plus.add-dropdown-link
+      = link_to '#', id: 'search-dropdown-link' do
+        %i.fa.fa-fw.fa-search.search-dropdown-link
       = link_to message_threads_path do
         %i.fa.fa-envelope
       = link_to '#', id: 'user-dropdown-link' do
         %i.fa.fa-fw.fa-user.user-dropdown-link
-  .header__user-dropdown.hide
+  .header-dropdown.header__add-dropdown.hide
+    .header__dropdown-item
+      = link_to 'Add Song', new_user_song_path(current_user)
+      .med-horizontal-border
+    .header__dropdown-item
+      = link_to 'Add Set List', new_routine_path
+  .header-dropdown.header__search-dropdown.hide
+    .header-dropdown-item
+      = link_to 'Songs', user_songs_path(current_user)
+      .med-horizontal-border
+    .header__dropdown-item
+      = link_to 'Set Lists', routines_path(current_user)
+  .header-dropdown.header__user-dropdown.hide
     - if current_user
       .header__dropdown-item
         = link_to 'Edit Profile', edit_user_path(current_user)
@@ -36,9 +48,24 @@
       $('.header__user-dropdown').toggle();
     });
 
+    $('#add-dropdown-link').click(function() {
+      $('.header__add-dropdown').toggle();
+    });
+
+    $('#search-dropdown-link').click(function() {
+      $('.header__search-dropdown').toggle();
+    });
+
     $(window).click(function(e) {
-      if (e.target.classList[3] != 'user-dropdown-link') {
+      var className = e.target.classList[3];
+      if (className != 'user-dropdown-link') {
         $('.header__user-dropdown').hide();
+      };
+      if (className != 'search-dropdown-link') {
+        $('.header__search-dropdown').hide();
+      };
+      if (className != 'add-dropdown-link') {
+        $('.header__add-dropdown').hide();
       };
     });
 
