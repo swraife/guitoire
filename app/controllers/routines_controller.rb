@@ -23,10 +23,6 @@ class RoutinesController < ApplicationController
   end
 
   def update
-    @moved = SetListSong.find(params[:moved]) if params[:moved]
-    @prev_value = params[:prev] ? SetListSong.find(params[:prev]).sort_value : 0
-    @next_value = params[:next] ? SetListSong.find(params[:next]).sort_value : @prev_value + 1000
-    @moved.update(sort_value: (@prev_value + @next_value) / 2)
   end
 
   private

@@ -25,4 +25,10 @@ class SetListSong < ApplicationRecord
     return if sort_value
     self.sort_value = (routine.set_list_songs.pluck(:sort_value).max || 1) + 1000
   end
+
+  def refresh_sort_values!
+    routine.set_list_songs.each_with_index do |set_list_song, index|
+      set_list_song.update(sort_value: (index + 1) * 1000)
+    end
+  end
 end

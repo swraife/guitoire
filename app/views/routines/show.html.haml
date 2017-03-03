@@ -23,7 +23,7 @@
         var movedId = ui.item.attr('id').slice(14);
         var prevId = ui.item.prev().attr('id') && ui.item.prev().attr('id').slice(14);
         var nextId = ui.item.next().attr('id') && ui.item.next().attr('id').slice(14);
-        var url = "/routines/#{@routine.id}";
+        var url = "/set_list_songs/#{@routine.id}";
         $.ajax({
           method: 'PUT',
           url: url,
