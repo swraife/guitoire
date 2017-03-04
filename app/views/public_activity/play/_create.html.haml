@@ -1,7 +1,9 @@
 .activity__subject
   = link_to activity.owner.name, user_songs_path(activity.owner)
   = 'played'
-  = link_to activity.recipient.name, activity.recipient
+  - truncated_sentence_array(activities.map(&:recipient).uniq).each do |item|
+    = item.is_a?(String) ? item : link_to(item.name, item)
+  = '.'
 .activity__timestamp
   %i.fa.fa-clock-o
   = time_ago_in_words(activity.created_at)

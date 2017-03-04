@@ -18,4 +18,5 @@
 %h3
   Recent Activity
 
-= render_activities(@activities, layout: :activity)
+- @activity_grouper.each do |activities|
+  = render_activity(activities[0], locals: { activities: activities }, layout: :activity)

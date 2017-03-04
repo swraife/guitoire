@@ -2,8 +2,10 @@
   = link_to activity.owner.name, user_songs_path(activity.owner)
   = 'began following'
   = link_to activity.recipient.creator.name, user_songs_path(activity.recipient.creator)
-  = "'s song:"
-  = link_to activity.recipient.name, activity.recipient
+  = "'s #{'song'.pluralize(activities.count)}:"
+  - truncated_sentence_array(activities.map(&:recipient).uniq).each do |item|
+    = item.is_a?(String) ? item : link_to(item.name, item)
+  = '.'
 .activity__timestamp
   %i.fa.fa-clock-o
   = time_ago_in_words(activity.created_at)
