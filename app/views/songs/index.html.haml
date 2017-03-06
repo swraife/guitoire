@@ -9,9 +9,10 @@
 = select_tag 'tag_search', options_for_select(current_user.song_tags.order(:name)), class: 'tag_search-input', include_blank: true, multiple: true
 .advanced-filters.hide
   // = select_tag 'song_sort', options_for_select()
-- @song_roles.each do |song_role|
-  .song__wrapper{id: "song_#{song_role.song.id}"}
-    = link_to song_role.song.name, song_path(song_role.song)
+.songs
+  - @song_roles.each do |song_role|
+    .song__wrapper{id: "song_#{song_role.song.id}"}
+      = link_to song_role.song.name, song_path(song_role.song)
 
 :javascript
   var songs = #{@song_roles.map { |song_role| [song_role.song.id, song_role.song.name.downcase, song_role.song.tags.map(&:name)] } };
