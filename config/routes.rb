@@ -6,10 +6,9 @@ Rails.application.routes.draw do
   resources :messages, only: [:create]
   resources :message_threads, only: [:create, :index]
 
-  resources :songs do
-    resources :plays, only: [:create]
-  end
+  resources :songs
   resources :song_roles
+  resources :plays, only: [:create]
 
   resources :users do
     resources :songs

@@ -6,7 +6,7 @@ class SongsController < ApplicationController
 
   def index
     @user = User.find(params[:user_id])
-    @songs = @user.subscriber_songs.includes(:tags).order(:name)
+    @song_roles = @user.subscriber_song_roles.includes(:plays, song: :tags).order('songs.name')
   end
 
   def new

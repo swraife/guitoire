@@ -1,6 +1,7 @@
 class PlaysController < ApplicationController
   def create
-    @play = current_user.plays.create(play_params)
+    @play = SongRole.where(song_id: play_params[:song_id], user: current_user)
+                    .first_or_create.plays.create(user: current_user)
     respond_to do |format|
       format.js { flash.now[:notice] = @play.create_flash_notice }
     end

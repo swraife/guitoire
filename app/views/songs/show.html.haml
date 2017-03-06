@@ -17,8 +17,8 @@
   .song__edit-button
     = link_to '(edit)', edit_song_path(@song)
 .song__play-form
-  = form_for [@song, @song.plays.build], remote: true, html: { class: 'inl-block' } do |f|
-    = f.hidden_field :song_id, value: @song.id
+  = form_for @current_user_song_role.plays.build, remote: true, html: { class: 'inl-block' } do |f|
+    = f.hidden_field :song_id, value: @current_user_song_role.song_id
     = button_tag type: 'submit', class: 'play-btn' do
       %i.fa.fa-plus
       = ' play'

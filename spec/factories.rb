@@ -40,10 +40,13 @@ FactoryGirl.define do
   end
 
   factory :song do
-    name 'MyString'
+    name 'Name'
     description 'MyText'
     music_key 'MyString'
     tempo 1
+  end
+
+  factory :song_role do
   end
 
   factory :user do
