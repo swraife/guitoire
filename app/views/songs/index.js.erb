@@ -1,0 +1,2 @@
+<% sort_by = { params[:sort_by] => true } %>
+$('.songs__list').html("<%= escape_javascript(render partial: 'list', locals: { song_roles: @song_roles, sort_by: sort_by }) %>");

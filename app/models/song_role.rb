@@ -19,6 +19,15 @@ class SongRole < ApplicationRecord
 
   has_many :plays
 
+  scope :order_by_last_played, -> {
+    joins('LEFT JOIN plays on song_roles.id = plays.song_role_id')
+    .group('song_roles.id')
+    .order("CASE WHEN song_roles.plays_count = 0 THEN '2' ELSE '1' END")
+    .order('max(plays.created_at) DESC')
+  }
+  scope :order_by_plays_count, -> { includes(:plays).order('plays_count DESC') }
+  scope :order_by_song_name, -> { order('songs.name') }
+
   enum role: [:viewer, :admin, :follower]
 
   after_create :create_follower_activity
@@ -29,17 +38,6 @@ class SongRole < ApplicationRecord
 
   def has_edit_permission?
     admin?
-  end
-
-  def self.sort(sort_by)
-    case sort_by
-    when :last_played
-      # Doesn't work!!!
-      order = 'plays.created_at'
-    when :plays_count
-      order = 'plays_count DESC'
-    end
-    includes(:plays).order(order)
   end
 
   private

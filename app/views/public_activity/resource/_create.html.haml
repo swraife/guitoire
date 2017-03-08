@@ -9,7 +9,7 @@
     = 'to'
     = link_to activity.recipient.name, activity.recipient
   = ':'
-.activity__timestamp
+.activity_timestamp.subtext
   %i.fa.fa-clock-o
   = time_ago_in_words(activity.created_at)
   = 'ago'

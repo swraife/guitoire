@@ -6,7 +6,13 @@ class SongsController < ApplicationController
 
   def index
     @user = User.find(params[:user_id])
-    @song_roles = @user.subscriber_song_roles.includes(:plays, song: :tags).order('songs.name')
+    order = ['order_by_last_played', 'order_by_plays_count', 'order_by_song_name'].include?(params[:sort_by]) ? params[:sort_by] : 'order_by_song_name'
+    @song_roles = @user.subscriber_song_roles.includes(:plays, song: :tags).send(order)
+
+    respond_to do |format|
+      format.js {}
+      format.html {}
+    end
   end
 
   def new
@@ -48,6 +54,10 @@ class SongsController < ApplicationController
   private
 
   def song_params
-    params.require(:song).permit(:name, :description, :tempo, :music_key, :composer_id, :scale, :time_signature, version_list: [], genre_list: [], generic_list: [], composer_list: [], admin_user_ids: [])
+    params.require(:song).permit(
+      :name, :description, :tempo, :music_key, :composer_id, :scale,
+      :time_signature, version_list: [], genre_list: [],
+      generic_list: [], composer_list: [], admin_user_ids: []
+    )
   end
 end
