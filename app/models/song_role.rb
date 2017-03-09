@@ -20,7 +20,7 @@ class SongRole < ApplicationRecord
   has_many :plays
 
   scope :order_by_last_played, -> {
-    joins('LEFT JOIN plays on song_roles.id = plays.song_role_id')
+    left_joins(:plays)
     .group('song_roles.id')
     .order('max(plays.created_at) DESC NULLS LAST')
   }
