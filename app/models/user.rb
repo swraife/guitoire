@@ -31,6 +31,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  has_many :group_roles
+  has_many :groups, through: :group_roles
+
   has_many :messages
   has_many :message_copies
   has_many :user_message_threads
@@ -60,7 +63,6 @@ class User < ApplicationRecord
   acts_as_tagger
 
   has_attached_file :avatar, styles: { medium: '300x300#', thumb: '100x100#' }, default_url: 'https://s3-us-west-2.amazonaws.com/guitoire/assorted/default_avatar.png'
-
   validates_attachment_content_type :avatar, :content_type => ['image/jpg', 'image/jpeg', 'image/png']
 
   def song_tags(context = nil)
