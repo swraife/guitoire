@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: song_roles
+#
+#  id          :integer          not null, primary key
+#  song_id     :integer
+#  user_id     :integer
+#  role        :integer          default("viewer")
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  plays_count :integer          default(0)
+#
+
 require 'rails_helper'
 
 RSpec.describe SongRole, type: :model do

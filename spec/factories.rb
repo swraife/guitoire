@@ -1,4 +1,9 @@
 FactoryGirl.define do
+  factory :group do
+    name 'Name'
+    description 'Description'
+  end
+
   factory :routine_role do
     user_id 1
     set_list_id 1

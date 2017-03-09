@@ -25,14 +25,16 @@
 
 class User < ApplicationRecord
   include SongRoleable
+  include GroupRoleable
+  include RoutineRoleOwner
   include TrackableAssociations
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :group_roles
   has_many :groups, through: :group_roles
+  has_many :admin_groups, through: :group_roles
 
   has_many :messages
   has_many :message_copies
@@ -51,10 +53,6 @@ class User < ApplicationRecord
   has_many :viewer_songs, through: :viewer_song_roles, source: :song
   has_many :follower_songs, through: :follower_song_roles, source: :song
   has_many :subscriber_songs, through: :subscriber_song_roles, source: :song
-
-  has_many :routine_roles, as: :owner
-  has_many :routines, through: :routine_roles
-  has_many :routines_as_owner, class_name: 'Routine', as: :owner
 
   has_many :set_list_songs, through: :routines
 

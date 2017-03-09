@@ -15,5 +15,5 @@ class RoutineRole < ApplicationRecord
   belongs_to :owner, polymorphic: true
   belongs_to :routine
 
-  enum role: [:read, :write]
+  enum role: [:viewer, :admin]
 end

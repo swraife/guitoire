@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   root 'pages#index'
 
+  resources :groups
+
   resources :messages, only: [:create]
   resources :message_threads, only: [:create, :index]
 

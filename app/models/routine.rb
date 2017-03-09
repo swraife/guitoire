@@ -12,6 +12,8 @@
 #
 
 class Routine < ApplicationRecord
+  include TrackableAssociations
+
   belongs_to :owner, polymorphic: true
   has_many :events
 
