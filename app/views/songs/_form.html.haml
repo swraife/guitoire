@@ -41,10 +41,10 @@
 
     %br
 
-    = f.submit
+    = f.submit 'Save', class: 'save-song-btn'
 
 :javascript
-  var songs = #{@songs.map { |song| [song.id, song.name.downcase, song.tags.map(&:name), song_path(song)] } };
+  var songs = #{@songs.reject { |song| song == @song }.map { |song| [song.id, song.name.downcase, song.tags.map(&:name), song_path(song)] } };
 
   $(document).ready(function() { 
     $('.song__duplicate-link').hide();
@@ -63,6 +63,14 @@
         });
       } else {
         $('.song__duplicates-wrapper').hide();
+      }
+    });
+
+    $('.save-song-btn').click(function(e) {
+      if ($('.song__duplicates-wrapper').is(':visible')) {
+        if (!confirm("Are you sure this isn't a duplicate?")) {
+          e.preventDefault();
+        }
       }
     });
   });
