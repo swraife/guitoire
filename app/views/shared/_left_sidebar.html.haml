@@ -21,14 +21,18 @@
           %i.fa.fa-fw.fa-search
           Songs
       .left-sidebar__link
-        = link_to new_user_song_path(current_user) do
-          %i.fa.fa-fw.fa-plus
-          Add Song
-      .left-sidebar__link
         = link_to routines_path do
           %i.fa.fa-fw.fa-search
           Set Lists
       .left-sidebar__link
+        = link_to new_user_song_path(current_user) do
+          %i.fa.fa-fw.fa-plus
+          Add Song
+      .left-sidebar__link
         = link_to new_routine_path do
           %i.fa.fa-fw.fa-plus
           Add Set List
+      .left-sidebar__link
+        = link_to new_group_path do
+          %i.fa.fa-fw.fa-plus
+          Add Band

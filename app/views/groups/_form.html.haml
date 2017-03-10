@@ -1,0 +1,18 @@
+.group-form__wrapper
+  = form_for @group, html: { class: 'disable-on-submit' } do |f|
+    = f.label 'Band Picture'
+    = link_to image_tag(@group.avatar.url(:medium)), @group.avatar.url
+    = f.file_field :avatar
+
+    = f.label :name
+    = f.text_field :name
+
+    = f.label :description
+    = f.text_area :description
+
+    = f.label 'Band Members'
+    = f.select :admin_user_ids, options_from_collection_for_select(User.where.not(id: current_user.id), :id, :name, @group.admin_users.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
+
+    %br
+
+    = f.submit 'Save', class: 'save-group-btn'

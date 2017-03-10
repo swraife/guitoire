@@ -1,0 +1,14 @@
+.group__name
+  %h1
+    = @group.name
+- if @current_user_group_role.has_edit_permission?
+  .group__edit-button
+    = link_to '(edit)', edit_group_path(@group)
+.group__created_at.small-gray
+  %p
+    = "Created on #{@group.created_at.strftime('%-m/%-d/%y')}"
+.group__description
+  %h2
+    Description:
+  %p
+    = @group.description || 'None'

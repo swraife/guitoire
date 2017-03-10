@@ -15,4 +15,8 @@ class GroupRole < ApplicationRecord
   belongs_to :group
 
   enum role: [:viewer, :admin]
+
+  def has_edit_permission?
+    admin?
+  end
 end
