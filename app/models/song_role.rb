@@ -19,17 +19,21 @@ class SongRole < ApplicationRecord
 
   has_many :plays
 
-  scope :order_by_last_played, -> {
-    left_joins(:plays)
-    .group('song_roles.id')
-    .order('max(plays.created_at) DESC NULLS LAST')
-  }
+  scope :order_by_last_played, -> { left_joins(:plays)
+                                    .group('song_roles.id')
+                                    .order('max(plays.created_at) DESC NULLS LAST')}
   scope :order_by_plays_count, -> { includes(:plays).order('plays_count DESC') }
   scope :order_by_song_name, -> { order('songs.name') }
+  scope :order_by_created_at, -> { order(created_at: :desc) }
 
   enum role: [:viewer, :admin, :follower]
 
   after_create :create_follower_activity
+
+  def self.scopes
+    # order_by_song_name should be first. The order is the order of display in the select_tag
+    [:order_by_song_name, :order_by_created_at, :order_by_plays_count, :order_by_last_played]
+  end
 
   def self.subscriber
     where(role: [1,2])

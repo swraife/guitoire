@@ -6,7 +6,7 @@ class SongsController < ApplicationController
 
   def index
     @user = User.find(params[:user_id])
-    order = ['order_by_last_played', 'order_by_plays_count', 'order_by_song_name'].include?(params[:sort_by]) ? params[:sort_by] : 'order_by_song_name'
+    order = SongRole.scopes.include?(params[:sort_by]&.to_sym) ? params[:sort_by] : 'order_by_song_name'
     @song_roles = @user.subscriber_song_roles.includes(:plays, song: :tags).send(order)
 
     respond_to do |format|

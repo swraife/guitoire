@@ -24,7 +24,7 @@
       = ' play'
 .song__creator.small-gray
   %p
-    = "Created by: #{@song.creator.name}"
+    = "Created by #{@song.creator.name} on #{@song.created_at.strftime('%-m/%-d/%y')}"
 .song__description
   %h2
     Description:

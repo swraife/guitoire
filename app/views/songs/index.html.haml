@@ -9,7 +9,7 @@
 .advanced-filters.hide
   = form_tag( { controller: :songs, action: :index }, { method: 'get', remote: true, id: 'songs-sort' } ) do
     .sort_by-select
-      = select_tag 'sort_by', options_for_select({ 'Sort by Song Name' => 'order_by_song_name', 'Sort by Last Played' => 'order_by_last_played', 'Sort by Play Count' => 'order_by_plays_count' })
+      = select_tag 'sort_by', options_for_select(SongRole.scopes.each_with_object({}) { |scope, hsh| hsh[t("song_roles.scopes.#{scope.to_s}")] = scope.to_s })
     = submit_tag 'submit', id: 'sort-submit-btn', :style => "display: none;"
 
 .songs__list

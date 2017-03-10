@@ -13,3 +13,7 @@
           = '  -  '
           = song_role.plays_count
           = 'time'.pluralize(song_role.plays_count)
+      - elsif sort_by['order_by_created_at']
+        = '  -  '
+        = song_role.created_at.strftime("%-m/%-d/%y")
+
