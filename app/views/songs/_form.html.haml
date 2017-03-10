@@ -67,7 +67,13 @@
     });
 
     $('.save-song-btn').click(function(e) {
-      if ($('.song__duplicates-wrapper').is(':visible')) {
+      var songName = $('#song_name').val().toLowerCase();
+
+      var matches = songs.filter(function(i) {
+        return i[1] == songName
+      });
+
+      if (matches.length > 0) {
         if (!confirm("Are you sure this isn't a duplicate?")) {
           e.preventDefault();
         }
