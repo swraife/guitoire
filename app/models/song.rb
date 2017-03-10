@@ -37,7 +37,7 @@ class Song < ApplicationRecord
 
   has_many :tags, through: :taggings
   has_many :plays, through: :song_roles
-  has_many :players, -> { uniq }, through: :plays, source: :user
+  has_many :players, -> { distinct }, through: :plays, source: :user
 
   acts_as_taggable_on :composers, :versions, :genres, :generics
 

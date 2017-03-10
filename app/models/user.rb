@@ -42,7 +42,7 @@ class User < ApplicationRecord
   has_many :message_threads, through: :user_message_threads
 
   has_many :plays
-  has_many :played_songs, -> { uniq }, through: :plays, source: :song
+  has_many :played_songs, -> { distinct }, through: :plays, source: :song
 
   has_many :resources, as: :creator
 
