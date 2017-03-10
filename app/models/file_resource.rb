@@ -50,6 +50,10 @@ class FileResource < ApplicationRecord
       'fa-file-pdf-o'
     when 'image/jpeg', 'image/gif', 'image/png'
       'fa-file-image-o'
+    when 'audio/wav', 'audio/mp3', 'audio/x-wav', 'audio/mpeg'
+      'fa-file-audio-o'
+    when 'video/mp4', 'video/quicktime'
+      'fa-file-video-o'
     else
       'fa-file-o'
     end
@@ -61,7 +65,7 @@ class FileResource < ApplicationRecord
       'pdf'
     when 'image/jpeg', 'image/gif', 'image/png'
       'image'
-    when 'audio/wav', 'audio/mp3'
+    when 'audio/wav', 'audio/mp3', 'audio/x-wav', 'audio/mpeg'
       'audio file'
     when 'video/mp4', 'video/quicktime'
       'video'

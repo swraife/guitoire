@@ -2,7 +2,7 @@
   = "#{@user.name}'s Songs"
 .advanced-filters-btn.inl-block.right
   = link_to '#' do
-    %i.fa.fa-caret-down
+    %i.fa.fa-filter
     Filters
 = text_field_tag 'song_search', nil, placeholder: 'Search by song name', autofocus: true
 = select_tag 'tag_search', options_for_select(current_user.song_tags.order(:name)), class: 'tag_search-input', include_blank: true, multiple: true
