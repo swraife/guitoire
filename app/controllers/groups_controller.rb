@@ -35,6 +35,16 @@ class GroupsController < ApplicationController
     end
   end
 
+  def destroy
+    @group = current_user.admin_groups.find(params[:id])
+
+    if @group.destroy
+      redirect_to user_groups_path(current_user)
+    else
+      redirect_to :back
+    end
+  end
+
   private
 
   def group_params

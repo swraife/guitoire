@@ -55,4 +55,12 @@ RSpec.describe GroupsController, type: :controller do
       expect(Group.first.name).to eq('New Name')
     end
   end
+
+  describe 'DELETE #destroy' do
+    it 'destroys the group' do
+      delete :destroy, params: { id: group.id }
+
+      expect(Group.count).to eq(0)
+    end
+  end
 end
