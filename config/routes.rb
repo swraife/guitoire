@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
   resources :users do
     resources :songs
+    resources :groups
   end
 
   resources :resources

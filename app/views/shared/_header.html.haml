@@ -25,12 +25,18 @@
         .med-horizontal-border
       .header__dropdown-item
         = link_to 'Add Set List', new_routine_path
+        .med-horizontal-border
+      .header__dropdown-item
+        = link_to 'Add Band', new_group_path
     .header-dropdown.header__search-dropdown.hide
       .header-dropdown-item
         = link_to 'Songs', user_songs_path(current_user)
         .med-horizontal-border
       .header__dropdown-item
         = link_to 'Set Lists', routines_path(current_user)
+        .med-horizontal-border
+      .header__dropdown-item
+        = link_to 'Bands', user_groups_path(current_user)
     .header-dropdown.header__user-dropdown.hide
       - if current_user
         .header__dropdown-item

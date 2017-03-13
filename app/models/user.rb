@@ -34,7 +34,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :groups, through: :group_roles
-  has_many :admin_groups, through: :group_roles
+  has_many :admin_groups, through: :admin_group_roles, source: :group
 
   has_many :messages
   has_many :message_copies

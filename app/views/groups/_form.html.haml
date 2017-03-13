@@ -1,7 +1,8 @@
 .group-form__wrapper
   = form_for @group, html: { class: 'disable-on-submit' } do |f|
     = f.label 'Band Picture'
-    = link_to image_tag(@group.avatar.url(:medium)), @group.avatar.url
+    - unless @group.avatar_file_size.nil?
+      = link_to image_tag(@group.avatar.url(:medium)), @group.avatar.url
     = f.file_field :avatar
 
     = f.label :name

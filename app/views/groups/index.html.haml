@@ -1,0 +1,7 @@
+%h1.inl-block
+  = "#{@user.name}'s Bands"
+
+.groups__list
+  - @groups.each do |group|
+    .group__wrapper
+      = link_to group.name, group_path(group)
