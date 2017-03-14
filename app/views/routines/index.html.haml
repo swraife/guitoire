@@ -1,5 +1,11 @@
 %h3
   Set Lists
+.routine__create-new-link
+  = link_to new_routine_path do
+    %i.fa.fa-fw.fa-plus
+    Add New Set List
+.med-horizontal-border
+.routines__list
 - @routines.each do |routine|
   .routine
     = link_to routine.name, routine

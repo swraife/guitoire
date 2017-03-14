@@ -19,6 +19,7 @@
 :javascript
   $(document).ready(function() {
     $('.set_list_songs').sortable({
+      cursor: 'move',
       update: function(e, ui) {
         var movedId = ui.item.attr('id').slice(14);
         var prevId = ui.item.prev().attr('id') && ui.item.prev().attr('id').slice(14);

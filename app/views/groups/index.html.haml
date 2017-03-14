@@ -1,6 +1,11 @@
 %h1.inl-block
   = "#{@user.name}'s Bands"
 
+.group__create-new-link
+  = link_to new_group_path do
+    %i.fa.fa-fw.fa-plus
+    Add New Band
+.med-horizontal-border
 .groups__list
   - @groups.each do |group|
     .group__wrapper
