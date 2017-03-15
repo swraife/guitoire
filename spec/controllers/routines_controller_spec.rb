@@ -3,9 +3,10 @@ require 'rails_helper'
 RSpec.describe RoutinesController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:routine) { FactoryGirl.create(:routine, owner: user) }
-  let(:valid_attributes) { FactoryGirl.attributes_for(:routine) }
+  let(:valid_attributes) { FactoryGirl.attributes_for(:routine).merge(global_owner: user.global_id) }
 
   before(:each) do
+    @request.env['HTTP_REFERER'] = '/home'
     sign_in user
   end
 

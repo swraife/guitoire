@@ -4,7 +4,10 @@ class RoutinesController < ApplicationController
   end
 
   def show
-    @routine = current_user.routines.includes(:set_list_songs, :songs).find(params[:id])
+    # Watch out: including :routine_roles breaks set_list_songs ordering
+    @routine = Routine.includes(:set_list_songs, :songs).joins(:routine_roles)
+                      .where(routine_roles: { owner: current_user.actors })
+                      .find(params[:id])
     @songs = current_user.songs.order(:name)
   end
 
@@ -13,7 +16,9 @@ class RoutinesController < ApplicationController
   end
 
   def create
-    @routine = current_user.routines_as_owner.new(routine_params)
+    @routine = Routine.new(routine_params)
+
+    redirect_to '/' and return unless current_user.actors.include?(@routine.owner)
 
     if @routine.save
       redirect_to @routine
@@ -22,12 +27,26 @@ class RoutinesController < ApplicationController
     end
   end
 
+  def edit
+    @routine = Routine.find(params[:id])
+
+    redirect_to :back unless current_user.may_edit? @routine
+  end
+
   def update
+    @routine = Routine.find(params[:id])
+
+    redirect_to :back unless current_user.may_edit? @routine
+    if @routine.update(routine_params)
+      redirect_to @routine
+    else
+      redirect_to :back, flash: { error: 'Uh oh, something broke!' }
+    end      
   end
 
   private
 
   def routine_params
-    params.require(:routine).permit(:name, :description)
+    params.require(:routine).permit(:name, :description, :global_owner)
   end
 end

@@ -12,6 +12,7 @@ class SongCopier
     )
     self.song_copy = Song.create!(
       attributes.merge(creator: copy_creator,
+                       owner: copy_creator,
                        version_list: song.version_list,
                        generic_list: song.generic_list,
                        composer_list: song.composer_list)

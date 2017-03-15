@@ -14,6 +14,8 @@
 #  scale          :string
 #  time_signature :string
 #  permission     :integer          default("copiable")
+#  owner_id       :integer
+#  owner_type     :string
 #
 
 require 'rails_helper'

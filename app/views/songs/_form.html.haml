@@ -1,5 +1,9 @@
 .song-form__wrapper
   = form_for @song, html: { class: 'disable-on-submit' } do |f|
+    .song-owner{class: "#{'hide' unless user_has_groups(current_user)}"}
+      = f.label :owner
+      = f.select :global_owner, options_from_collection_for_select(current_user.actors, :global_id, :name, @song.owner)
+
     = f.label :name
     = f.text_field :name
     .song__duplicates-wrapper.hide
@@ -36,9 +40,11 @@
     = f.label 'Miscellaneous Tags'
     = f.select :generic_list, options_for_select(current_user.song_tags('generics'), @song.generic_list), {include_blank: true}, {multiple: true, class: 'add-select2'}
 
-    = f.label 'Song Admins'
+    = f.label 'Admin Users'
     = f.select :admin_user_ids, options_from_collection_for_select(User.where.not(id: current_user.id), :id, :name, @song.admin_users.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
 
+    = f.label 'Admin Bands'
+    = f.select :admin_group_ids, options_from_collection_for_select(current_user.actors, :id, :name, @song.admin_groups.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
     %br
 
     = f.submit 'Save', class: 'save-song-btn'

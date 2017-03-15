@@ -4,20 +4,23 @@
 #
 #  id          :integer          not null, primary key
 #  song_id     :integer
-#  user_id     :integer
+#  owner_id    :integer
 #  role        :integer          default("viewer")
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  plays_count :integer          default(0)
+#  owner_type  :string
 #
 
 class SongRole < ApplicationRecord
   include PublicActivity::Model
 
+  belongs_to :owner, polymorphic: true
+  belongs_to :user, class_name: 'User', foreign_key: 'owner_id'
+  belongs_to :group, class_name: 'Group', foreign_key: 'owner_id'
   belongs_to :song
-  belongs_to :user
 
-  has_many :plays
+  has_many :plays, dependent: :destroy
 
   scope :order_by_last_played, -> { left_joins(:plays)
                                     .group('song_roles.id')
@@ -41,6 +44,14 @@ class SongRole < ApplicationRecord
 
   def has_edit_permission?
     admin?
+  end
+
+  def global_owner
+    owner&.to_global_id
+  end
+
+  def global_owner=(owner)
+    self.owner = GlobalID::Locator.locate owner
   end
 
   private

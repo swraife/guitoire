@@ -10,15 +10,15 @@ RSpec.describe PlaysController, type: :controller do
 
   describe 'POST #create' do
     it 'creates a new song role and play' do
-      current_user_song_role = SongRole.new(song: song, user: user)
+      current_user_song_role = SongRole.new(song: song, owner: user)
       post :create, params: { play: { song_id: song.id } }, xhr: true
 
-      expect(SongRole.where(user: user, song: song).count).to eq(1)
+      expect(SongRole.where(owner: user, song: song).count).to eq(1)
       expect(Play.count).to eq(1)
     end
 
     it 'finds existing song_role and creates new play' do
-      current_user_song_role = SongRole.create(song: song, user: user)
+      current_user_song_role = SongRole.create(song: song, owner: user)
 
       post :create, params: { play: { song_id: song.id } }, xhr: true
       expect(Play.first.song_role_id).to eq(current_user_song_role.id)

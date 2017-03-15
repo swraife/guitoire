@@ -35,3 +35,10 @@ h3 {
   font-size: 12px;
   color: $dark-gray;
 }
+.item__show-name {
+  height: 25px;
+  display: inline-block;
+}
+.item__edit-link {
+  display: inline-block;
+}

@@ -24,9 +24,10 @@
 #
 
 class User < ApplicationRecord
-  include SongRoleable
+  include Actor
   include GroupRoleable
   include RoutineRoleOwner
+  include SongRoleOwner
   include TrackableAssociations
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -48,12 +49,6 @@ class User < ApplicationRecord
 
   has_many :created_songs, class_name: 'Song', foreign_key: :creator_id
 
-  has_many :songs, through: :song_roles
-  has_many :admin_songs, through: :admin_song_roles, source: :song
-  has_many :viewer_songs, through: :viewer_song_roles, source: :song
-  has_many :follower_songs, through: :follower_song_roles, source: :song
-  has_many :subscriber_songs, through: :subscriber_song_roles, source: :song
-
   has_many :set_list_songs, through: :routines
 
   before_create { |user| user.first_name.capitalize! && user.last_name.capitalize! }
@@ -73,5 +68,13 @@ class User < ApplicationRecord
   def name
     name = "#{first_name} #{last_name}"
     name.present? ? name : "User#{id}"
+  end
+
+  def actors
+    [self, groups].flatten
+  end
+
+  def may_edit?(target)
+    target.editor_roles_for(actors).present?
   end
 end

@@ -37,4 +37,8 @@ module ApplicationHelper
       end
     end
   end
+
+  def user_has_groups(user)
+    user.actors.length > 1
+  end
 end

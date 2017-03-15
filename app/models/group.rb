@@ -16,8 +16,10 @@
 #
 
 class Group < ApplicationRecord
+  include Actor
   include GroupRoleable
   include RoutineRoleOwner
+  include SongRoleOwner
 
   has_many :users, through: :group_roles
   has_many :admin_users, through: :admin_group_roles, source: :user
@@ -32,6 +34,6 @@ class Group < ApplicationRecord
   private
 
   def creator_group_role
-    admin_users << creator
+    admin_group_roles.where(user_id: creator_id).first_or_create!
   end
 end

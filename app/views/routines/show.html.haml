@@ -1,8 +1,17 @@
-%h1
-  = @routine.name
+.routine__name.item__show-name
+  %h1
+    = @routine.name
+- if current_user.may_edit? @routine
+  .routine__edit-button.item__edit-link
+    = link_to '(edit)', edit_routine_path(@routine)
 
-%p
-  = @routine.description
+.routine__owner.small-gray
+  %p
+    = "Created by #{@routine.owner.name} on #{@routine.created_at.strftime('%-m/%-d/%y')}"
+
+.routine__description
+  %p
+    = @routine.description
 
 %h3
   Add Song

@@ -10,11 +10,11 @@
     = f.hidden_field :role, value: 'viewer'
     = f.submit 'Unfollow Song', class: 'btn-small unfollow-song-btn'
 
-.song__name
+.song__name.item__show-name
   %h1
     = @song.name
-- if @current_user_song_role.has_edit_permission?
-  .song__edit-button
+- if current_user.may_edit? @song
+  .song__edit-button.item__edit-link
     = link_to '(edit)', edit_song_path(@song)
 .song__play-form
   = form_for @current_user_song_role.plays.build, remote: true, html: { class: 'inl-block' } do |f|
@@ -24,7 +24,7 @@
       = ' play'
 .song__creator.small-gray
   %p
-    = "Created by #{@song.creator.name} on #{@song.created_at.strftime('%-m/%-d/%y')}"
+    = "Created by #{@song.owner.name} on #{@song.created_at.strftime('%-m/%-d/%y')}"
 .song__description
   %h2
     Description:

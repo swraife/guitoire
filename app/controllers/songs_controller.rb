@@ -1,7 +1,7 @@
 class SongsController < ApplicationController
   def show
     @song = Song.includes(resources: [:resourceable]).find(params[:id])
-    @current_user_song_role = @song.song_roles.where(user: current_user).first_or_initialize
+    @current_user_song_role = @song.song_roles.where(owner: current_user).first_or_initialize
   end
 
   def index
@@ -32,21 +32,31 @@ class SongsController < ApplicationController
   end
 
   def destroy
-    @song = current_user.created_songs.find(params[:id])
+    @song = Song.find(params[:id])
+    redirect_to :back unless current_user.actors.include?(@song.owner)
+
     if @song.destroy
       redirect_to user_songs_path(current_user)
     end
   end
 
   def edit
-    @song = current_user.admin_songs.find(params[:id])
-    @songs = current_user.songs.order(:name)
+    @song = Song.find(params[:id])
+    redirect_to :back unless current_user.may_edit? @song
+    @songs = Song.includes(:subscriber_song_roles)
+                 .where(song_roles: { owner: current_user.actors })
+                 .order(:name)
   end
 
   def update
-    @song = current_user.admin_songs.find(params[:id])
-    if @song.update(song_params.tap { |h| h.delete(:admin_users) })
-      SongRoleUpdater.new(@song, song_params[:admin_user_ids]).update!
+    @song = Song.find(params[:id])
+    redirect_to :back unless current_user.may_edit? @song
+
+    # Have to use song_updater instead of ActiveRecord methods, because user
+    # may have an existing non-admin song_role for the song
+    if @song.update(song_params.except(:admin_user_ids, :admin_group_ids))
+      SongRoleUpdater.new(@song, song_params[:admin_user_ids],
+                          song_params[:admin_group_ids]).update!
       redirect_to user_song_path(current_user, @song)
     end
   end
@@ -56,8 +66,9 @@ class SongsController < ApplicationController
   def song_params
     params.require(:song).permit(
       :name, :description, :tempo, :music_key, :composer_id, :scale,
-      :time_signature, version_list: [], genre_list: [],
-      generic_list: [], composer_list: [], admin_user_ids: []
+      :time_signature, :global_owner, version_list: [], genre_list: [],
+      generic_list: [], composer_list: [], admin_user_ids: [],
+      admin_group_ids: []
     )
   end
 end

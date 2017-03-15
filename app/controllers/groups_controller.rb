@@ -5,8 +5,12 @@ class GroupsController < ApplicationController
   end
 
   def show
-    @group = current_user.groups.find(params[:id])
-    @current_user_group_role = current_user.group_roles.where(user: current_user).first_or_initialize
+    @group = Group.find(params[:id])
+    @current_user_group_role = current_user.group_roles.find_by(group: @group)
+    redirect_to '/' unless @current_user_group_role
+
+    @song_roles = @group.subscriber_song_roles.includes(:plays, song: :tags)
+    @routines = @group.routines.order(:name)
   end
 
   def new

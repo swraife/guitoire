@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170309061910) do
+ActiveRecord::Schema.define(version: 20170314212755) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -170,12 +170,13 @@ ActiveRecord::Schema.define(version: 20170309061910) do
 
   create_table "song_roles", force: :cascade do |t|
     t.integer  "song_id"
-    t.integer  "user_id"
+    t.integer  "owner_id"
     t.integer  "role",        default: 0
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
     t.integer  "plays_count", default: 0
-    t.index ["user_id", "song_id"], name: "index_song_roles_on_user_id_and_song_id", unique: true, using: :btree
+    t.string   "owner_type"
+    t.index ["song_id", "owner_id", "owner_type"], name: "index_song_roles_on_song_id_and_owner_id_and_owner_type", unique: true, using: :btree
   end
 
   create_table "songs", force: :cascade do |t|
@@ -190,6 +191,8 @@ ActiveRecord::Schema.define(version: 20170309061910) do
     t.string   "scale"
     t.string   "time_signature"
     t.integer  "permission",     default: 0
+    t.integer  "owner_id"
+    t.string   "owner_type"
   end
 
   create_table "taggings", force: :cascade do |t|

@@ -1,4 +1,4 @@
-.group__name
+.group__name.item__show-name
   %h1
     = @group.name
 - if @current_user_group_role.has_edit_permission?
@@ -8,7 +8,23 @@
   %p
     = "Created on #{@group.created_at.strftime('%-m/%-d/%y')}"
 .group__description
-  %h2
-    Description:
   %p
-    = @group.description || 'None'
+    = @group.description
+
+- if @song_roles.present?
+  .group__songs
+    %h3
+      Songs
+
+  .songs__list
+    = render partial: 'songs/list', locals: { song_roles: @song_roles, sort_by: {} }
+
+- if @routines.present?
+  .group__routines
+    %h3
+      Set Lists
+
+  .routines__list
+    - @routines.each do |routine|
+      .routine
+        = link_to routine.name, routine

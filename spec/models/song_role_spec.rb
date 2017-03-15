@@ -4,11 +4,12 @@
 #
 #  id          :integer          not null, primary key
 #  song_id     :integer
-#  user_id     :integer
+#  owner_id    :integer
 #  role        :integer          default("viewer")
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  plays_count :integer          default(0)
+#  owner_type  :string
 #
 
 require 'rails_helper'
