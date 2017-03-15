@@ -2,7 +2,7 @@
   .routine-owner{class: "#{'hide' unless user_has_groups(current_user)}"}
     = f.label :owner
     = f.select :global_owner,
-               options_from_collection_for_select(current_user.actors, :global_id, :name, @routine.owner.global_id)
+               options_from_collection_for_select(current_user.actors, :global_id, :name, @routine.owner&.global_id)
 
   = f.label :name
   = f.text_field :name
