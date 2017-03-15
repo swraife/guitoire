@@ -8,7 +8,7 @@ class RoutinesController < ApplicationController
     @routine = Routine.includes(:set_list_songs, :songs).joins(:routine_roles)
                       .where(routine_roles: { owner: current_user.actors })
                       .find(params[:id])
-    @songs = current_user.songs.order(:name)
+    @songs = @routine.owner.songs.order(:name)
   end
 
   def new
