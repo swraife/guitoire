@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170314212755) do
+ActiveRecord::Schema.define(version: 20170315212107) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -143,9 +143,9 @@ ActiveRecord::Schema.define(version: 20170314212755) do
   create_table "routine_roles", force: :cascade do |t|
     t.integer  "owner_id"
     t.integer  "routine_id"
-    t.integer  "role"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "role",       default: 0
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
     t.string   "owner_type"
   end
 

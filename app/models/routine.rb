@@ -25,7 +25,7 @@ class Routine < ApplicationRecord
   has_many :set_list_songs
   has_many :songs, through: :set_list_songs
 
-  after_create :create_routine_role
+  after_save :owner_routine_role
 
   def editor_roles_for(actors)
     routine_roles.admin.where(owner: actors)
@@ -33,7 +33,7 @@ class Routine < ApplicationRecord
 
   private
 
-  def create_routine_role
-    routine_roles.create(owner: owner, role: 1)
+  def owner_routine_role
+    routine_roles.where(owner: owner).first_or_create
   end
 end
