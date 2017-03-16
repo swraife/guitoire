@@ -21,6 +21,7 @@
 #  avatar_content_type    :string
 #  avatar_file_size       :integer
 #  avatar_updated_at      :datetime
+#  role                   :integer          default("subscriber")
 #
 
 class User < ApplicationRecord
@@ -78,5 +79,10 @@ class User < ApplicationRecord
 
   def may_edit?(target)
     target.editor_roles_for(actors).present?
+  end
+
+  # makes owners(group || user) both respond to #users for authorization.
+  def users
+    [self]
   end
 end

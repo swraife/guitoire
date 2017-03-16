@@ -16,6 +16,7 @@
 #  permission     :integer          default("copiable")
 #  owner_id       :integer
 #  owner_type     :string
+#  visibility     :integer          default("everyone")
 #
 
 require 'rails_helper'

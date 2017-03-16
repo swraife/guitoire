@@ -27,6 +27,10 @@ class Routine < ApplicationRecord
 
   after_save :owner_routine_role
 
+  # make sure to change this if more routine_role.roles are ever added
+  alias_attribute :admin_users, :users
+  alias_attribute :admin_groups, :groups
+
   def editor_roles_for(actors)
     routine_roles.admin.where(owner: actors)
   end

@@ -5,7 +5,7 @@
 #  id         :integer          not null, primary key
 #  owner_id   :integer
 #  routine_id :integer
-#  role       :integer
+#  role       :integer          default("admin")
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  owner_type :string

@@ -22,6 +22,11 @@ class Play < ApplicationRecord
 
   has_one :song, through: :song_role
 
+  # To be deleted once owner is made polymorphic
+  def owner
+    user
+  end
+
   def create_flash_notice
     player_count = song.players.count
     other_players = player_count > 1 ? "and #{player_count - 1} others" : ''

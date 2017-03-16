@@ -16,6 +16,7 @@
 #  permission     :integer          default("copiable")
 #  owner_id       :integer
 #  owner_type     :string
+#  visibility     :integer          default("everyone")
 #
 
 class Song < ApplicationRecord
@@ -59,6 +60,7 @@ class Song < ApplicationRecord
   after_create :owner_song_role
 
   enum permission: [:copiable, :followable, :hidden]
+  enum visibility: [:everyone, :friends, :only_admins]
 
   MUSICKEYS = %w(A A# B B# C D D# E F F# G G#)
   SCALES = %w(Major Minor Blues)
