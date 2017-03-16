@@ -3,8 +3,8 @@ class SongRoleUpdater
 
   def initialize(song, admin_user_ids, admin_group_ids)
     @song = song
-    @admin_user_ids = admin_user_ids.each(&:to_i)
-    @admin_group_ids = admin_group_ids.each(&:to_i)
+    @admin_user_ids = format_ids(admin_user_ids)
+    @admin_group_ids = format_ids(admin_group_ids)
     add_song_owner
   end
 
@@ -28,5 +28,9 @@ class SongRoleUpdater
   def add_song_owner
     admin_user_ids.push(song.owner_id) if song.owner_type == 'User'
     admin_group_ids.push(song.owner_id) if song.owner_type == 'Group'
+  end
+
+  def format_ids(ids)
+    ids.reject(&:blank?).map(&:to_i)
   end
 end

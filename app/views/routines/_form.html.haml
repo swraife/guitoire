@@ -15,4 +15,7 @@
 
   = f.label 'Admin Bands'
   = f.select :group_ids, options_from_collection_for_select(current_user.actors, :id, :name, @routine.groups.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
+  
+  %br
+
   = f.submit 'Save Set List'
