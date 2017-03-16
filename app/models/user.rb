@@ -51,6 +51,8 @@ class User < ApplicationRecord
 
   has_many :set_list_songs, through: :routines
 
+  enum role: [:subscriber, :admin]
+
   before_create { |user| user.first_name.capitalize! && user.last_name.capitalize! }
 
   acts_as_tagger
