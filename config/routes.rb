@@ -8,13 +8,18 @@ Rails.application.routes.draw do
   resources :messages, only: [:create]
   resources :message_threads, only: [:create, :index]
 
-  resources :songs
+  resources :songs do
+    member do
+      post 'copy'
+    end
+  end
   resources :song_roles
   resources :plays, only: [:create]
 
   resources :users do
     resources :songs
     resources :groups
+    resources :routines
   end
 
   resources :resources

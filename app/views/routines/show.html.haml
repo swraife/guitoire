@@ -1,7 +1,7 @@
 .routine__name.item__show-name
   %h1
     = @routine.name
-- if current_user.may_edit? @routine
+- if can? :edit, @routine
   .routine__edit-button.item__edit-link
     = link_to '(edit)', edit_routine_path(@routine)
 
@@ -27,22 +27,24 @@
 
 :javascript
   $(document).ready(function() {
-    $('.set_list_songs').sortable({
-      cursor: 'move',
-      update: function(e, ui) {
-        var movedId = ui.item.attr('id').slice(14);
-        var prevId = ui.item.prev().attr('id') && ui.item.prev().attr('id').slice(14);
-        var nextId = ui.item.next().attr('id') && ui.item.next().attr('id').slice(14);
-        var url = "/set_list_songs/#{@routine.id}";
-        $.ajax({
-          method: 'PUT',
-          url: url,
-          data: {
-            moved: movedId,
-            prev: prevId,
-            next: nextId
-          }
-        });
-      }
-    });
+    if (#{ can? :edit, @routine}) {
+      $('.set_list_songs').sortable({
+        cursor: 'move',
+        update: function(e, ui) {
+          var movedId = ui.item.attr('id').slice(14);
+          var prevId = ui.item.prev().attr('id') && ui.item.prev().attr('id').slice(14);
+          var nextId = ui.item.next().attr('id') && ui.item.next().attr('id').slice(14);
+          var url = "/set_list_songs/" + movedId;
+          $.ajax({
+            method: 'PUT',
+            url: url,
+            data: {
+              moved: movedId,
+              prev: prevId,
+              next: nextId
+            }
+          });
+        }
+      });
+    }
   });

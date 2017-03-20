@@ -1,12 +1,15 @@
 class RoutinesController < ApplicationController
+  load_and_authorize_resource except: :new
+  skip_load_resource :index  # don't think this is working
+
   def index
-    @routines = current_user.routines
+    @user = User.find(params[:user_id])
+    @routines = @user.routines.visible_to current_user
   end
 
   def show
     # Watch out: including :routine_roles breaks set_list_songs ordering
-    @routine = Routine.includes(:set_list_songs, :songs).joins(:routine_roles)
-                      .where(routine_roles: { owner: current_user.actors })
+    @routine = Routine.includes(:set_list_songs, :songs).visible_to(current_user)
                       .find(params[:id])
     @songs = @routine.owner.songs.order(:name)
   end
@@ -16,10 +19,6 @@ class RoutinesController < ApplicationController
   end
 
   def create
-    @routine = Routine.new(routine_params)
-
-    redirect_to '/' and return unless current_user.actors.include?(@routine.owner)
-
     if @routine.save
       redirect_to @routine
     else
@@ -28,15 +27,9 @@ class RoutinesController < ApplicationController
   end
 
   def edit
-    @routine = Routine.find(params[:id])
-
-    redirect_to :back unless current_user.may_edit? @routine
   end
 
   def update
-    @routine = Routine.find(params[:id])
-
-    redirect_to :back unless current_user.may_edit? @routine
     if @routine.update(routine_params)
       redirect_to @routine
     else

@@ -44,7 +44,7 @@
     = f.select :admin_user_ids, options_from_collection_for_select(User.where.not(id: current_user.id), :id, :name, @song.admin_users.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
 
     = f.label 'Admin Bands'
-    = f.select :admin_group_ids, options_from_collection_for_select(current_user.actors, :id, :name, @song.admin_groups.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
+    = f.select :admin_group_ids, options_from_collection_for_select(current_user.admin_groups, :id, :name, @song.admin_groups.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
     %br
 
     = f.submit 'Save', class: 'save-song-btn'

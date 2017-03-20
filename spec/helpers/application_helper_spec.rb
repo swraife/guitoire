@@ -22,4 +22,8 @@ RSpec.describe ApplicationHelper, type: :helper do
       expect(truncated_sentence_array([1,2,3,4], truncate_length: 2)).to eq([1, ', ', 2, ', and 2 more'])
     end
   end
+
+  describe '#user_has_groups' do
+    it { expect(user_has_groups(FactoryGirl.create(:user))).to be false }
+  end
 end

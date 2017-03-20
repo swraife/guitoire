@@ -40,8 +40,9 @@ RSpec.describe SongsController, type: :controller do
 
   describe 'POST #create' do
     it 'redirects to song#show' do
-      post :create, params: { user_id: user.id, global_admin_ids: [''], song: valid_attributes }
-      expect(response).to redirect_to(user_song_path(user, Song.first))
+      post :create, params: { global_admin_ids: [''],
+                              song: valid_attributes.merge(global_owner: user.global_id) }
+      expect(response).to redirect_to(song_path(Song.first))
     end
   end
 

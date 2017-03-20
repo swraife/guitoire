@@ -14,11 +14,11 @@ class ApplicationController < ActionController::Base
     store_location_for(:user, request.url)
   end
 
-  def user_may_edit(song)
-    redirect_to :back unless current_user.admin_songs.include?(song)
-  end
-
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name])
+  end
+
+  def current_ability
+    @current_ability ||= Ability.new(current_user, params)
   end
 end

@@ -67,7 +67,7 @@ class Song < ApplicationRecord
   TIME_SIGNATURES = ['4/4', '3/4', '2/4', '3/8']
 
   def permissible_roles
-    return [0, 2] unless hidden?
+    return %w(viewer follower) unless hidden?
     []
   end
 

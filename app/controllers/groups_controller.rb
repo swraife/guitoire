@@ -1,13 +1,15 @@
 class GroupsController < ApplicationController
+  load_and_authorize_resource except: :new
+  skip_load_resource :index
+
   def index
     @user = User.find(params[:user_id])
-    @groups = @user.groups.includes(:users).order('lower(name)')
+    @groups = @user.groups.includes(:users).visible_to(current_user)
+                .order('lower(name)')
   end
 
   def show
-    @group = Group.find(params[:id])
     @current_user_group_role = current_user.group_roles.find_by(group: @group)
-    redirect_to '/' unless @current_user_group_role
 
     @song_roles = @group.subscriber_song_roles.includes(:plays, song: :tags)
     @routines = @group.routines.order(:name)
@@ -26,12 +28,9 @@ class GroupsController < ApplicationController
   end
 
   def edit
-    @group = current_user.admin_groups.find(params[:id])
   end
 
   def update
-    @group = current_user.admin_groups.find(params[:id])
-
     if @group.update(group_params)
       redirect_to @group
     else
@@ -40,8 +39,6 @@ class GroupsController < ApplicationController
   end
 
   def destroy
-    @group = current_user.admin_groups.find(params[:id])
-
     if @group.destroy
       redirect_to user_groups_path(current_user)
     else
@@ -52,6 +49,7 @@ class GroupsController < ApplicationController
   private
 
   def group_params
-    params.require(:group).permit(:name, :description, :avatar, :creator_id, settings: [], admin_user_ids: [])
+    params.require(:group).permit(:name, :description, :avatar, :creator_id,
+      settings: [], admin_user_ids: [])
   end
 end

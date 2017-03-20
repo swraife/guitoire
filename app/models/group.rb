@@ -13,6 +13,7 @@
 #  updated_at          :datetime         not null
 #  creator_id          :integer
 #  description         :text
+#  visibility          :integer          default("everyone")
 #
 
 class Group < ApplicationRecord
@@ -23,6 +24,7 @@ class Group < ApplicationRecord
 
   has_many :users, through: :group_roles
   has_many :admin_users, through: :admin_group_roles, source: :user
+  has_many :member_users, through: :member_group_roles, source: :user
 
   belongs_to :creator, class_name: 'User'
 
@@ -30,6 +32,14 @@ class Group < ApplicationRecord
   validates_attachment_content_type :avatar, :content_type => ['image/jpg', 'image/jpeg', 'image/png']
 
   after_create :creator_group_role
+
+  enum visibility: [:everyone, :friends, :only_admins]
+
+  def self.visible_to(user)
+    # Can't currently do in one OR query w/ AR, because of bug w/ joining.
+    has_role_ids = joins(:group_roles).where(group_roles: { user: user }).ids
+    where(visibility: 0).or(where(id: has_role_ids))
+  end
 
   private
 

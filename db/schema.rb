@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170316193544) do
+ActiveRecord::Schema.define(version: 20170318201823) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,10 +84,11 @@ ActiveRecord::Schema.define(version: 20170316193544) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.integer  "creator_id"
     t.text     "description"
+    t.integer  "visibility",          default: 0
   end
 
   create_table "message_copies", force: :cascade do |t|
@@ -152,10 +153,11 @@ ActiveRecord::Schema.define(version: 20170316193544) do
   create_table "routines", force: :cascade do |t|
     t.string   "name"
     t.string   "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
     t.integer  "owner_id"
     t.string   "owner_type"
+    t.integer  "visibility",  default: 0
   end
 
   create_table "set_list_songs", force: :cascade do |t|
@@ -254,6 +256,7 @@ ActiveRecord::Schema.define(version: 20170316193544) do
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.integer  "role",                   default: 0
+    t.integer  "visibility",             default: 0
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end

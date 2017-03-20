@@ -1,20 +1,23 @@
 class SongRolesController < ApplicationController
+  load_and_authorize_resource
+
   def create
     @song = Song.find(song_role_params[:song_id])
-    redirect_to :back unless @song.permissible_roles.include?(song_role_params[:role])
-    SongRole.create(song_role_params.merge(user: current_user))
+    if SongRole.create(song_role_params)
+      redirect_to :back
+    end
   end
 
   def update
-    @song_role = current_user.song_roles.find(params[:id])
     @song = @song_role.song
-    redirect_to :back unless @song.permissible_roles.include?(song_role_params[:role])
-    @song_role.update(song_role_params)
+    if @song_role.update(song_role_params)
+      redirect_to :back
+    end
   end
 
   private
 
   def song_role_params
-    params.require(:song_role).permit(:song_id, :role)
+    params.require(:song_role).permit(:song_id, :role, :global_owner)
   end
 end

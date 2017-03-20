@@ -22,6 +22,7 @@
 #  avatar_file_size       :integer
 #  avatar_updated_at      :datetime
 #  role                   :integer          default("subscriber")
+#  visibility             :integer          default("everyone")
 #
 
 class User < ApplicationRecord
@@ -37,6 +38,7 @@ class User < ApplicationRecord
 
   has_many :groups, through: :group_roles
   has_many :admin_groups, through: :admin_group_roles, source: :group
+  has_many :member_groups, through: :member_group_roles, source: :group
 
   has_many :messages
   has_many :message_copies
@@ -53,6 +55,7 @@ class User < ApplicationRecord
   has_many :set_list_songs, through: :routines
 
   enum role: [:subscriber, :admin]
+  enum visibility: [:everyone, :friends]
 
   before_create { |user| user.first_name.capitalize! && user.last_name.capitalize! }
 
@@ -79,6 +82,15 @@ class User < ApplicationRecord
 
   def may_edit?(target)
     target.editor_roles_for(actors).present?
+  end
+
+  # TODO: Delete this when actually implementing friendships
+  def friends
+    []
+  end
+
+  def visible_to?(user)
+    user == self || everyone? || friends.include?(user)
   end
 
   # makes owners(group || user) both respond to #users for authorization.

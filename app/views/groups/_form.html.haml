@@ -11,8 +11,11 @@
     = f.label :description
     = f.text_area :description
 
-    = f.label 'Band Members'
+    = f.label 'Band Admins'
     = f.select :admin_user_ids, options_from_collection_for_select(User.all, :id, :name, @group.admin_users.pluck(:id).push(current_user.id)), {include_blank: true}, {multiple: true, required: true, class: 'add-select2'}
+
+    = f.label 'Band Members'
+    = f.select :admin_user_ids, options_from_collection_for_select(User.all, :id, :name, @group.member_users.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
 
     %br
 
@@ -24,7 +27,7 @@
 
     $('.save-group-btn').click(function(e) {
       if (!$('#group_admin_user_ids').val().includes(currentUserId)) {
-        if (!confirm("Are you sure you want to remove yourself from the band? You won't have permission to re-add yourself.")) {
+        if (!confirm("Are you sure you want to remove yourself as an admin of the band? You won't have permission to re-add yourself.")) {
           e.preventDefault();
         }
       }
