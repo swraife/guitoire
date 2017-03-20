@@ -41,7 +41,8 @@ class RoutinesController < ApplicationController
 
   def routine_params
     params.require(:routine).permit(
-      :name, :description, :global_owner, user_ids: [], group_ids: []
+      :name, :description, :global_owner, :visibility,
+      user_ids: [], group_ids: []
     )
   end
 end

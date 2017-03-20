@@ -13,7 +13,7 @@
     = submit_tag 'submit', id: 'sort-submit-btn', :style => "display: none;"
 
 .songs__list
-  = render partial: 'list', locals: { song_roles: @song_roles, sort_by: {} }
+  = render partial: 'song_roles/list', locals: { song_roles: @song_roles, sort_by: {} }
 
 :javascript
   var songs = #{@song_roles.map { |song_role| [song_role.song.id, song_role.song.name.downcase, song_role.song.tags.map(&:name)] } };

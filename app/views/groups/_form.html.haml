@@ -14,8 +14,9 @@
     = f.label 'Band Admins'
     = f.select :admin_user_ids, options_from_collection_for_select(User.all, :id, :name, @group.admin_users.pluck(:id).push(current_user.id)), {include_blank: true}, {multiple: true, required: true, class: 'add-select2'}
 
-    = f.label 'Band Members'
-    = f.select :admin_user_ids, options_from_collection_for_select(User.all, :id, :name, @group.member_users.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
+    = f.label 'Visible To:'
+    - default_visibility = @group.persisted? ? @group.visibility : current_user.visibility
+    = f.select :visibility, options_for_select(enum_select_options(Group, 'visibilities'), default_visibility)
 
     %br
 

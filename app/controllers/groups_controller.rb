@@ -9,10 +9,12 @@ class GroupsController < ApplicationController
   end
 
   def show
-    @current_user_group_role = current_user.group_roles.find_by(group: @group)
+    @current_user_group_role = current_user.group_roles.where(group: @group)
+                                                       .first_or_initialize
 
-    @song_roles = @group.subscriber_song_roles.includes(:plays, song: :tags)
-    @routines = @group.routines.order(:name)
+    @songs = @group.subscriber_songs.includes(:tags)
+                                    .visible_to(current_user)
+    @routines = @group.routines.visible_to(current_user).order(:name)
   end
 
   def new
@@ -32,7 +34,7 @@ class GroupsController < ApplicationController
 
   def update
     if @group.update(group_params)
-      redirect_to @group
+      can?(:show, @group.reload) ? redirect_to(@group) : redirect_to('/')
     else
       redirect_to :back
     end
@@ -50,6 +52,6 @@ class GroupsController < ApplicationController
 
   def group_params
     params.require(:group).permit(:name, :description, :avatar, :creator_id,
-      settings: [], admin_user_ids: [])
+      :visibility, settings: [], admin_user_ids: [])
   end
 end

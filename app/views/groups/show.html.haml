@@ -11,13 +11,13 @@
   %p
     = @group.description
 
-- if @song_roles.present?
+- if @songs.present?
   .group__songs
     %h3
       Songs
 
   .songs__list
-    = render partial: 'songs/list', locals: { song_roles: @song_roles, sort_by: {} }
+    = render partial: 'songs/list', locals: { songs: @songs }
 
 - if @routines.present?
   .group__routines

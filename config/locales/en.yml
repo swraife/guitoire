@@ -6,6 +6,16 @@ en:
       with_weekday:
         "%a %m/%d/%y"
   enum:
+    group:
+      visibilities:
+        everyone: Everyone
+        friends: Friends
+        only_admins: Only Band Admins
+    routine:
+      visibilities:
+        everyone: Everyone
+        friends: Friends
+        only_admins: Only Set List Admins
     song:
       visibilities:
         everyone: Everyone

@@ -16,6 +16,10 @@
   = f.label 'Admin Bands'
   = f.select :group_ids, options_from_collection_for_select(current_user.actors, :id, :name, @routine.groups.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
   
+  = f.label 'Visible To:'
+  - default_visibility = @routine.persisted? ? @routine.visibility : current_user.visibility
+  = f.select :visibility, options_for_select(enum_select_options(Routine, 'visibilities'), default_visibility)
+
   %br
 
   = f.submit 'Save Set List'
