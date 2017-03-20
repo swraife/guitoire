@@ -19,11 +19,11 @@ class Routine < ApplicationRecord
   belongs_to :owner, polymorphic: true
   has_many :events
 
-  has_many :routine_roles
+  has_many :routine_roles, dependent: :destroy
   has_many :users, through: :routine_roles, source: :owner, source_type: 'User'
   has_many :groups, through: :routine_roles, source: :owner, source_type: 'Group'
 
-  has_many :set_list_songs
+  has_many :set_list_songs, dependent: :destroy
   has_many :songs, through: :set_list_songs
 
   after_save :owner_routine_role

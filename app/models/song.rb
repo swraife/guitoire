@@ -54,6 +54,7 @@ class Song < ApplicationRecord
   has_many :tags, through: :taggings
   has_many :plays, through: :song_roles
   has_many :players, -> { distinct }, through: :plays, source: :user
+  has_many :set_list_songs, dependent: :destroy
 
   acts_as_taggable_on :composers, :versions, :genres, :generics
 
@@ -65,6 +66,13 @@ class Song < ApplicationRecord
   MUSICKEYS = %w(A A# B B# C D D# E F F# G G#)
   SCALES = %w(Major Minor Blues)
   TIME_SIGNATURES = ['4/4', '3/4', '2/4', '3/8']
+
+  # TODO: Add friends to query
+  def self.visible_to(user)
+    # Can't currently do in one OR query w/ AR, because of bug w/ joining.
+    has_role_ids = joins(:song_roles).where(song_roles: { owner: user.actors }).ids
+    where(visibility: 0).or(where(id: has_role_ids))
+  end
 
   def permissible_roles
     return %w(viewer follower) unless hidden?
