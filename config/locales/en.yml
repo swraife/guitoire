@@ -5,6 +5,12 @@ en:
         "%m/%d/%Y"
       with_weekday:
         "%a %m/%d/%y"
+  enum:
+    song:
+      visibilities:
+        everyone: Everyone
+        friends: Friends
+        only_admins: Only Song Admins
   song_roles:
     scopes:
       order_by_created_at: Order by Date Created

@@ -64,8 +64,8 @@ class SongsController < ApplicationController
   def song_params
     params.require(:song).permit(
       :name, :description, :tempo, :music_key, :composer_id, :scale,
-      :time_signature, :global_owner, version_list: [], genre_list: [],
-      generic_list: [], composer_list: [], admin_user_ids: [],
+      :time_signature, :global_owner, :visibility, version_list: [], 
+      genre_list: [], generic_list: [], composer_list: [], admin_user_ids: [],
       admin_group_ids: []
     )
   end

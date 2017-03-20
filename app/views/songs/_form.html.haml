@@ -45,6 +45,11 @@
 
     = f.label 'Admin Bands'
     = f.select :admin_group_ids, options_from_collection_for_select(current_user.admin_groups, :id, :name, @song.admin_groups.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
+
+    = f.label 'Visible To:'
+    - default_visibility = @song.persisted? ? @song.visibility : current_user.visibility
+    = f.select :visibility, options_for_select(enum_select_options(Song, 'visibilities'), default_visibility)
+
     %br
 
     = f.submit 'Save', class: 'save-song-btn'

@@ -41,4 +41,10 @@ module ApplicationHelper
   def user_has_groups(user)
     user.actors.length > 1
   end
+
+  def enum_select_options(klass, enum)
+    klass.send(enum).map do |k,v|
+      [t("enum.#{klass.to_s.underscore}.#{enum}.#{k}"), k]
+    end
+  end
 end
