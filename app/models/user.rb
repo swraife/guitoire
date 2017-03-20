@@ -64,6 +64,13 @@ class User < ApplicationRecord
   has_attached_file :avatar, styles: { medium: '300x300#', thumb: '100x100#' }, default_url: 'https://s3-us-west-2.amazonaws.com/guitoire/assorted/default_avatar.png'
   validates_attachment_content_type :avatar, :content_type => ['image/jpg', 'image/jpeg', 'image/png']
 
+  # TODO: Add friends to query
+  def self.visible_to(user)
+    # Can't currently do in one OR query w/ AR, because of bug w/ joining.
+    friend_ids = [user.id]
+    where(visibility: 0).or(where(id: friend_ids))
+  end
+
   def song_tags(context = nil)
     context_query = context.nil? ? '' : { taggings: { context: context } }
     ActsAsTaggableOn::Tag.includes(:taggings)

@@ -21,6 +21,10 @@ en:
         everyone: Everyone
         friends: Friends
         only_admins: Only Song Admins
+    user:
+      visibilities:
+        everyone: Everyone
+        friends: Friends
   song_roles:
     scopes:
       order_by_created_at: Order by Date Created

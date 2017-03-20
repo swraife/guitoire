@@ -12,4 +12,7 @@
   = f.label :email
   = f.email_field :email
 
+  = f.label 'Visible To:'
+  = f.select :visibility, options_for_select(enum_select_options(User, 'visibilities'), @user.visibility) 
+
   = f.submit

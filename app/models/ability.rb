@@ -62,6 +62,12 @@ class Ability
       can :destroy, Resource do |resource|
         user_or_actors_are_admin? resource.target
       end
+
+      can :index, User
+
+      can :update, User do |user|
+        user == @user
+      end
     end
   end
 
