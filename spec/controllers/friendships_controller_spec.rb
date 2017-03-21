@@ -27,9 +27,9 @@ RSpec.describe FriendshipsController, type: :controller do
     end
   end
 
-  describe 'PUT #decline' do
+  describe 'PUT #destroy' do
     it 'declines a friendship request' do
-      put :decline, params: { id: friendship.id }, xhr: true
+      put :destroy, params: { id: friendship.id }, xhr: true
 
       expect(friendship.reload.declined?).to be true
     end
