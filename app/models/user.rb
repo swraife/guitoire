@@ -27,6 +27,7 @@
 
 class User < ApplicationRecord
   include Actor
+  include Friendships
   include GroupRoleable
   include RoutineRoleOwner
   include SongRoleOwner
@@ -35,6 +36,9 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
+
+  # This only exists to allow eager loading of activities.recipient.creator
+  belongs_to :creator, foreign_key: :id, class_name: 'User'
 
   has_many :groups, through: :group_roles
   has_many :admin_groups, through: :admin_group_roles, source: :group
@@ -61,8 +65,11 @@ class User < ApplicationRecord
 
   acts_as_tagger
 
-  has_attached_file :avatar, styles: { medium: '300x300#', thumb: '100x100#' }, default_url: 'https://s3-us-west-2.amazonaws.com/guitoire/assorted/default_avatar.png'
-  validates_attachment_content_type :avatar, :content_type => ['image/jpg', 'image/jpeg', 'image/png']
+  has_attached_file :avatar,
+                    styles: { medium: '300x300#', thumb: '100x100#' },
+                    default_url: 'https://s3-us-west-2.amazonaws.com/guitoire/assorted/default_avatar.png'
+  validates_attachment_content_type :avatar,
+                                    :content_type => ['image/jpg', 'image/jpeg', 'image/png']
 
   # TODO: Add friends to query
   def self.visible_to(user)
@@ -89,11 +96,6 @@ class User < ApplicationRecord
 
   def may_edit?(target)
     target.editor_roles_for(actors).present?
-  end
-
-  # TODO: Delete this when actually implementing friendships
-  def friends
-    []
   end
 
   def visible_to?(user)

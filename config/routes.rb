@@ -28,4 +28,6 @@ Rails.application.routes.draw do
 
   resources :routines
   resources :set_list_songs
+
+  resources :friendships
 end

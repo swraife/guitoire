@@ -65,6 +65,10 @@ class Ability
 
       can :index, User
 
+      can :show, User do |user|
+        user.everyone? || user.friendships_user_ids(:accepted).include?(@user.id)
+      end
+
       can :update, User do |user|
         user == @user
       end
