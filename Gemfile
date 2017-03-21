@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.3.1'
 
+gem 'aasm'
 gem 'acts-as-taggable-on', '~> 4.0'
 gem 'annotate'
 gem 'autoprefixer-rails'
