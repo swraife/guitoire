@@ -1,4 +1,16 @@
 FactoryGirl.define do
+  factory :friendship do
+    association :connector, factory: :user
+    association :connected, factory: :user
+
+    factory :accepted_friendship do
+      status 2
+      after(:create) do |friendship, evaluator|
+        friendship.send(:create_accepted_activity)
+      end
+    end
+  end
+
   factory :group do
     name 'Name'
     description 'Description'

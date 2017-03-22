@@ -1,16 +1,16 @@
 .header
   .header__title.header__title--full
-    = link_to '' do
+    = link_to '/' do
       %h1
         GUITOIRE
   .header__title.header__title--min
-    = link_to '' do
+    = link_to '/' do
       %h1
         G
   - if current_user
     .header__menu
-      = link_to '/' do
-        %i.fa.fa-fw.fa-home
+      // = link_to '#', id: 'notifications-dropdown-link' do
+      //   %i.fa.fa-fw.fa-bell
       = link_to '#', id: 'add-dropdown-link' do
         %i.fa.fa-fw.fa-plus.add-dropdown-link
       = link_to '#', id: 'search-dropdown-link' do
@@ -19,6 +19,7 @@
         %i.fa.fa-envelope
       = link_to '#', id: 'user-dropdown-link' do
         %i.fa.fa-fw.fa-user.user-dropdown-link
+    .header-dropdown.header__notifications-dropdown.hide
     .header-dropdown.header__add-dropdown.hide
       .header__dropdown-item
         = link_to 'Add Song', new_user_song_path(current_user)
