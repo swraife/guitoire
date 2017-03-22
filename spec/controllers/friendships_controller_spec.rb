@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe FriendshipsController, type: :controller do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:other_user) { FactoryGirl.create(:user) }
-  let(:friendship) { Friendship.create(connector: other_user,
-                                       connected: user,
+  let(:performer) { FactoryGirl.create(:performer) }
+  let(:other_performer) { FactoryGirl.create(:performer) }
+  let(:friendship) { Friendship.create(connector: other_performer,
+                                       connected: performer,
                                        status: Friendship.statuses[:requested]) }
 
   before(:each) do
-    sign_in user
+    sign_in performer.user
   end
 
   describe 'PUT #update' do
@@ -21,7 +21,7 @@ RSpec.describe FriendshipsController, type: :controller do
 
   describe 'POST #create' do
     it 'creates a new friendship' do
-      post :create, params: { friendship: { connected_id: other_user.id } }, xhr: true
+      post :create, params: { friendship: { connected_id: other_performer.id } }, xhr: true
 
       expect(Friendship.count).to eq(1)
     end

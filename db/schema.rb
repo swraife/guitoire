@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170320234512) do
+ActiveRecord::Schema.define(version: 20170322193854) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,11 +79,11 @@ ActiveRecord::Schema.define(version: 20170320234512) do
   end
 
   create_table "group_roles", force: :cascade do |t|
-    t.integer  "user_id"
+    t.integer  "performer_id"
     t.integer  "group_id"
     t.integer  "role"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "groups", force: :cascade do |t|
@@ -128,8 +128,24 @@ ActiveRecord::Schema.define(version: 20170320234512) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "plays", force: :cascade do |t|
+  create_table "performers", force: :cascade do |t|
     t.integer  "user_id"
+    t.string   "name"
+    t.string   "public_name"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
+    t.text     "description"
+    t.string   "email"
+    t.integer  "visibility",          default: 0
+    t.jsonb    "settings"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
+  create_table "plays", force: :cascade do |t|
+    t.integer  "performer_id"
     t.integer  "song_role_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
@@ -266,6 +282,7 @@ ActiveRecord::Schema.define(version: 20170320234512) do
     t.datetime "avatar_updated_at"
     t.integer  "role",                   default: 0
     t.integer  "visibility",             default: 0
+    t.integer  "default_performer_id"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end

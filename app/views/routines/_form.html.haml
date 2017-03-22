@@ -1,8 +1,8 @@
 = form_for @routine do |f|
-  .routine-owner{class: "#{'hide' unless user_has_groups(current_user)}"}
+  .routine-owner{class: "#{'hide' unless performer_has_groups(current_performer)}"}
     = f.label :owner
     = f.select :global_owner,
-               options_from_collection_for_select(current_user.actors, :global_id, :name, @routine.owner&.global_id)
+               options_from_collection_for_select(current_performer.actors, :global_id, :name, @routine.owner&.global_id)
 
   = f.label :name
   = f.text_field :name
@@ -11,13 +11,13 @@
   = f.text_area :description
 
   = f.label 'Admin Users'
-  = f.select :user_ids, options_from_collection_for_select(User.all, :id, :name, @routine.users.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
+  = f.select :performer_ids, options_from_collection_for_select(Performer.all, :id, :public_name, @routine.performers.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
 
   = f.label 'Admin Bands'
-  = f.select :group_ids, options_from_collection_for_select(current_user.actors, :id, :name, @routine.groups.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
+  = f.select :group_ids, options_from_collection_for_select(current_performer.actors, :id, :name, @routine.groups.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
   
   = f.label 'Visible To:'
-  - default_visibility = @routine.persisted? ? @routine.visibility : current_user.visibility
+  - default_visibility = @routine.persisted? ? @routine.visibility : current_performer.visibility
   = f.select :visibility, options_for_select(enum_select_options(Routine, 'visibilities'), default_visibility)
 
   %br

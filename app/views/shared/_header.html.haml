@@ -22,7 +22,7 @@
     .header-dropdown.header__notifications-dropdown.hide
     .header-dropdown.header__add-dropdown.hide
       .header__dropdown-item
-        = link_to 'Add Song', new_user_song_path(current_user)
+        = link_to 'Add Song', new_performer_song_path(current_performer)
         .med-horizontal-border
       .header__dropdown-item
         = link_to 'Add Set List', new_routine_path
@@ -31,13 +31,13 @@
         = link_to 'Add Band', new_group_path
     .header-dropdown.header__search-dropdown.hide
       .header-dropdown-item
-        = link_to 'Songs', user_songs_path(current_user)
+        = link_to 'Songs', performer_songs_path(current_performer)
         .med-horizontal-border
       .header__dropdown-item
-        = link_to 'Set Lists', routines_path(current_user)
+        = link_to 'Set Lists', performer_routines_path(current_performer)
         .med-horizontal-border
       .header__dropdown-item
-        = link_to 'Bands', user_groups_path(current_user)
+        = link_to 'Bands', performer_groups_path(current_performer)
     .header-dropdown.header__user-dropdown.hide
       - if current_user
         .header__dropdown-item

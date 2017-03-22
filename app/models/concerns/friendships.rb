@@ -11,20 +11,20 @@ module Friendships
   end
 
   def friends(status = :all)
-    User.where(id: friendships_user_ids(status).tap { |arr| arr.delete(id) })
+    Performer.where(id: friendships_performer_ids(status).tap { |arr| arr.delete(id) })
   end
 
-  # Note: includes the self user's id.
-  def friendships_user_ids(status = :all)
+  # Note: includes the self performer's id.
+  def friendships_performer_ids(status = :all)
     friendships(status).pluck(:connected_id, :connector_id).flatten
   end
 
-  def friendship_with(user)
-    return if user == self
-    friendships.where(connector: user).or(Friendship.where(connected: user))
+  def friendship_with(performer)
+    return if performer == self
+    friendships.where(connector: performer).or(Friendship.where(connected: performer))
       .first_or_initialize do |friendship|
         friendship.connector = self
-        friendship.connected = user
+        friendship.connected = performer
       end
   end
 

@@ -7,7 +7,7 @@
 
 .routine__owner.small-gray
   %p
-    = "Created by #{@routine.owner.name} on #{@routine.created_at.strftime('%-m/%-d/%y')}"
+    = "Created by #{@routine.owner.public_name} on #{@routine.created_at.strftime('%-m/%-d/%y')}"
 
 .routine__description
   %p

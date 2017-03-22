@@ -1,5 +1,5 @@
 .activity__subject
-  = link_to activity.owner.name, user_songs_path(activity.owner)
+  = link_to activity.owner.public_name, performer_songs_path(activity.owner)
   = 'played'
   - truncated_sentence_array(activities.map(&:recipient).uniq).each do |item|
     = item.is_a?(String) ? item : link_to(item.name, item)

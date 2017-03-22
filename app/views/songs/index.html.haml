@@ -1,11 +1,11 @@
 %h1.inl-block
-  = "#{@user.name}'s Songs"
+  = "#{@performer.public_name}'s Songs"
 .advanced-filters-btn.inl-block.right
   = link_to '#' do
     %i.fa.fa-filter
     Filters
 = text_field_tag 'song_search', nil, placeholder: 'Search by song name', autofocus: true
-= select_tag 'tag_search', options_for_select(current_user.song_tags.order(:name)), class: 'tag_search-input', include_blank: true, multiple: true
+= select_tag 'tag_search', options_for_select(current_performer.song_tags.order(:name)), class: 'tag_search-input', include_blank: true, multiple: true
 .advanced-filters.hide
   = form_tag( { controller: :songs, action: :index }, { method: 'get', remote: true, id: 'songs-sort' } ) do
     .sort_by-select

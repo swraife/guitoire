@@ -1,39 +1,39 @@
 require 'rails_helper'
 
 RSpec.describe SongRoleUpdater do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:song) { FactoryGirl.create(:song, owner: user) }
+  let(:performer) { FactoryGirl.create(:performer) }
+  let(:song) { FactoryGirl.create(:song, owner: performer) }
 
   describe '#update!' do
     it 'adds the song owner as an admin' do
       described_class.new(song, [], []).update!
 
-      expect(song.admin_users).to include(user)
+      expect(song.admin_performers).to include(performer)
     end
 
-    it 'deletes admin song_roles not in admin_user_ids' do
-      admin = FactoryGirl.create(:user)
-      song.admin_users << admin
+    it 'deletes admin song_roles not in admin_performer_ids' do
+      admin = FactoryGirl.create(:performer)
+      song.admin_performers << admin
 
       described_class.new(song, [], []).update!
-      expect(song.admin_users.reload).to_not include(admin)
+      expect(song.admin_performers.reload).to_not include(admin)
     end
 
-    context 'user is in admin_user_ids' do
+    context 'performer is in admin_performer_ids' do
       it 'creates an admin song_role' do
-        new_admin = FactoryGirl.create(:user)
+        new_admin = FactoryGirl.create(:performer)
         described_class.new(song, [new_admin.id], []).update!
 
-        expect(song.admin_users.reload).to include(new_admin)
+        expect(song.admin_performers.reload).to include(new_admin)
       end
 
-      it 'makes user with existing song_role an admin' do
-        follower = FactoryGirl.create(:user)
-        song.follower_users << follower
+      it 'makes performer with existing song_role an admin' do
+        follower = FactoryGirl.create(:performer)
+        song.follower_performers << follower
         described_class.new(song, [follower.id], []).update!
         song.reload
 
-        expect(song.admin_users.reload).to include(follower)        
+        expect(song.admin_performers.reload).to include(follower)        
       end
     end
   end

@@ -1,0 +1,5 @@
+%h1
+  Users
+- @performers.each do |performer|
+  .performer__wrapper
+    = link_to performer.public_name, performer_songs_path(performer)

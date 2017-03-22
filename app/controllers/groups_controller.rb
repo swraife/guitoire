@@ -3,18 +3,18 @@ class GroupsController < ApplicationController
   skip_load_resource :index
 
   def index
-    @user = User.find(params[:user_id])
-    @groups = @user.groups.includes(:users).visible_to(current_user)
+    @performer = Performer.find(params[:performer_id])
+    @groups = @performer.groups.includes(:performers).visible_to(current_performer)
                 .order('lower(name)')
   end
 
   def show
-    @current_user_group_role = current_user.group_roles.where(group: @group)
+    @current_performer_group_role = current_performer.group_roles.where(group: @group)
                                                        .first_or_initialize
 
     @songs = @group.subscriber_songs.includes(:tags)
-                                    .visible_to(current_user)
-    @routines = @group.routines.visible_to(current_user).order(:name)
+                                    .visible_to(current_performer)
+    @routines = @group.routines.visible_to(current_performer).order(:name)
   end
 
   def new
@@ -22,7 +22,7 @@ class GroupsController < ApplicationController
   end
 
   def create
-    if @group = Group.create(group_params.merge(creator: current_user))
+    if @group = Group.create(group_params.merge(creator: current_performer))
       redirect_to @group
     else
       redirect_to :back
@@ -42,7 +42,7 @@ class GroupsController < ApplicationController
 
   def destroy
     if @group.destroy
-      redirect_to user_groups_path(current_user)
+      redirect_to performer_groups_path(current_performer)
     else
       redirect_to :back
     end
@@ -52,6 +52,6 @@ class GroupsController < ApplicationController
 
   def group_params
     params.require(:group).permit(:name, :description, :avatar, :creator_id,
-      :visibility, settings: [], admin_user_ids: [])
+      :visibility, settings: [], admin_performer_ids: [])
   end
 end

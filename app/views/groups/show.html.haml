@@ -1,7 +1,7 @@
 .group__name.item__show-name
   %h1
     = @group.name
-- if @current_user_group_role.admin?
+- if @current_performer_group_role.admin?
   .group__edit-button
     = link_to '(edit)', edit_group_path(@group)
 .group__created_at.small-gray

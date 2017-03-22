@@ -1,16 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe GroupsController, type: :controller do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:group) { FactoryGirl.create(:group, creator: user) }
+  let(:performer) { FactoryGirl.create(:performer) }
+  let(:group) { FactoryGirl.create(:group, creator: performer) }
 
   before(:each) do
-    sign_in user
+    sign_in performer.user
   end
 
   describe 'GET #index' do
     it 'is successful' do
-      get :index, params: { user_id: user.id }
+      get :index, params: { performer_id: performer.id }
 
       expect(response).to have_http_status(:success)
     end
@@ -34,7 +34,7 @@ RSpec.describe GroupsController, type: :controller do
 
   describe 'POST #create' do
     it 'creates a new group' do
-      post :create, params: { group: { name: 'Group!', creator_id: user.id } }
+      post :create, params: { group: { name: 'Group!', creator_id: performer.id } }
 
       expect(Group.count).to eq(1)
     end

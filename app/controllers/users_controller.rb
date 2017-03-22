@@ -1,15 +1,6 @@
 class UsersController < ApplicationController
   load_and_authorize_resource
 
-  def index
-    @users = User.visible_to(current_user).order(:first_name)
-  end
-
-  def show
-    @friends = @user.accepted_friends
-    @friendship = current_user.friendship_with(@user)
-  end
-
   def edit
   end
 

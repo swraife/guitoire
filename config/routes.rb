@@ -16,12 +16,13 @@ Rails.application.routes.draw do
   resources :song_roles
   resources :plays, only: [:create]
 
-  resources :users do
+  resources :performers do
     resources :songs
     resources :groups
     resources :routines
   end
 
+  resources :users
   resources :resources
   resources :file_resources
   resources :url_resources

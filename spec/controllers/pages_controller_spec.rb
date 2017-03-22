@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe PagesController, type: :controller do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:performer) { FactoryGirl.create(:performer) }
 
   before(:each) do
-    sign_in user
+    sign_in performer.user
   end
 
   describe 'GET #index' do

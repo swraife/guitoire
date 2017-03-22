@@ -3,13 +3,13 @@ class RoutinesController < ApplicationController
   skip_load_resource :index  # don't think this is working
 
   def index
-    @user = User.find(params[:user_id])
-    @routines = @user.routines.visible_to current_user
+    @performer = Performer.find(params[:performer_id])
+    @routines = @performer.routines.visible_to current_performer
   end
 
   def show
     # Watch out: including :routine_roles breaks set_list_songs ordering
-    @routine = Routine.includes(:set_list_songs, :songs).visible_to(current_user)
+    @routine = Routine.includes(:set_list_songs, :songs).visible_to(current_performer)
                       .find(params[:id])
     @songs = @routine.owner.songs.order(:name)
   end
@@ -42,7 +42,7 @@ class RoutinesController < ApplicationController
   def routine_params
     params.require(:routine).permit(
       :name, :description, :global_owner, :visibility,
-      user_ids: [], group_ids: []
+      performer_ids: [], group_ids: []
     )
   end
 end

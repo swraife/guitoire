@@ -1,5 +1,5 @@
 .activity__subject
-  = link_to activity.owner.name, activity.owner
+  = link_to activity.owner.public_name, activity.owner
   = activities.length > 1 ? 'added new songs:' : 'added a new song:'
   - truncated_sentence_array(activities.map(&:trackable)).each do |item|
     = item.is_a?(String) ? item : link_to(item.name, item)

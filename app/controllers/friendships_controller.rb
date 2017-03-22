@@ -2,9 +2,9 @@
 class FriendshipsController < ApplicationController
 
   def create
-    @friendship = Friendship.new(friendship_params.merge(connector: current_user))
+    @friendship = Friendship.new(friendship_params.merge(connector: current_performer))
 
-    if @friendship.request! current_user
+    if @friendship.request! current_performer
       respond_to do |format|
         format.js { flash.now[:notice] = "Friendship #{@friendship.status}!"}
       end
@@ -12,9 +12,9 @@ class FriendshipsController < ApplicationController
   end
 
   def update
-    @friendship = current_user.friendships.find(params[:id])
+    @friendship = current_performer.friendships.find(params[:id])
 
-    if @friendship.request! current_user
+    if @friendship.request! current_performer
       respond_to do |format|
         format.js { flash.now[:notice] = "Friendship #{@friendship.status}!"}
       end
@@ -22,7 +22,7 @@ class FriendshipsController < ApplicationController
   end
 
   def destroy
-    @friendship = current_user.friendships.find(params[:id])
+    @friendship = current_performer.friendships.find(params[:id])
 
     if @friendship.decline!
       respond_to do |format|
@@ -37,7 +37,7 @@ class FriendshipsController < ApplicationController
     params.require(:friendship).permit(:connected_id)
   end
 
-  def user_ids
-    [current_user.id, friendship_params[:connected_id]]
+  def performer_ids
+    [current_performer.id, friendship_params[:connected_id]]
   end
 end

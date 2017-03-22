@@ -16,7 +16,7 @@ class SongRole < ApplicationRecord
   include PublicActivity::Model
 
   belongs_to :owner, polymorphic: true
-  belongs_to :user, class_name: 'User', foreign_key: 'owner_id'
+  belongs_to :performer, class_name: 'Performer', foreign_key: 'owner_id'
   belongs_to :group, class_name: 'Group', foreign_key: 'owner_id'
   belongs_to :song
 
@@ -59,7 +59,7 @@ class SongRole < ApplicationRecord
   def create_follower_activity
     return unless follower?
     create_activity(recipient: :song,
-                    owner: user,
+                    owner: performer,
                     trackable: self,
                     key: 'song_role.create_follower')
   end

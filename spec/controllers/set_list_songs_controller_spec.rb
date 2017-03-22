@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe SetListSongsController, type: :controller do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:routine) { FactoryGirl.create(:routine, owner: user) }
+  let(:performer) { FactoryGirl.create(:performer) }
+  let(:routine) { FactoryGirl.create(:routine, owner: performer) }
   let(:set_list_song) { FactoryGirl.create(:set_list_song, routine: routine) }
 
   before(:each) do
-    sign_in user
+    sign_in performer.user
   end
 
   describe 'DELETE #destroy' do

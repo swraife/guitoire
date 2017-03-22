@@ -23,40 +23,24 @@
 #  avatar_updated_at      :datetime
 #  role                   :integer          default("subscriber")
 #  visibility             :integer          default("everyone")
+#  default_performer_id   :integer
 #
 
 class User < ApplicationRecord
-  include Actor
-  include Friendships
-  include GroupRoleable
-  include RoutineRoleOwner
-  include SongRoleOwner
   include TrackableAssociations
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  # This only exists to allow eager loading of activities.recipient.creator
-  belongs_to :creator, foreign_key: :id, class_name: 'User'
+  belongs_to :default_performer, class_name: 'Performer'
 
-  has_many :groups, through: :group_roles
-  has_many :admin_groups, through: :admin_group_roles, source: :group
-  has_many :member_groups, through: :member_group_roles, source: :group
+  has_many :performers
 
   has_many :messages
   has_many :message_copies
   has_many :user_message_threads
   has_many :message_threads, through: :user_message_threads
-
-  has_many :plays
-  has_many :played_songs, -> { distinct }, through: :plays, source: :song
-
-  has_many :resources, as: :creator
-
-  has_many :created_songs, class_name: 'Song', foreign_key: :creator_id
-
-  has_many :set_list_songs, through: :routines
 
   enum role: [:subscriber, :admin]
   enum visibility: [:everyone, :friends]
@@ -71,39 +55,8 @@ class User < ApplicationRecord
   validates_attachment_content_type :avatar,
                                     :content_type => ['image/jpg', 'image/jpeg', 'image/png']
 
-  # TODO: Add friends to query
-  def self.visible_to(user)
-    # Can't currently do in one OR query w/ AR, because of bug w/ joining.
-    friend_ids = [user.id]
-    where(visibility: 0).or(where(id: friend_ids))
-  end
-
-  def song_tags(context = nil)
-    context_query = context.nil? ? '' : { taggings: { context: context } }
-    ActsAsTaggableOn::Tag.includes(:taggings)
-                         .where(taggings: { taggable: songs })
-                         .where(context_query)
-  end
-
-  def name
+  def public_name
     name = "#{first_name} #{last_name}"
     name.present? ? name : "User#{id}"
-  end
-
-  def actors
-    [self, groups].flatten
-  end
-
-  def may_edit?(target)
-    target.editor_roles_for(actors).present?
-  end
-
-  def visible_to?(user)
-    user == self || everyone? || friends.include?(user)
-  end
-
-  # makes owners(group || user) both respond to #users for authorization.
-  def users
-    [self]
   end
 end

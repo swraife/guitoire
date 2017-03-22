@@ -38,8 +38,8 @@ module ApplicationHelper
     end
   end
 
-  def user_has_groups(user)
-    user.actors.length > 1
+  def performer_has_groups(performer)
+    performer.actors.length > 1
   end
 
   def enum_select_options(klass, enum)

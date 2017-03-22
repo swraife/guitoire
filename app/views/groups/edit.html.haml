@@ -1,4 +1,7 @@
 %h1
   = "Edit #{@group.name}"
 = render 'form'
-= link_to '(delete group)', user_group_path(current_user, @group), method: :delete, data: { confirm: "Are you sure you want to delete #{@group.name}? All #{@group.name}'s songs and set lists will be permanently deleted."}
+= link_to '(delete group)',
+          performer_group_path(current_performer, @group),
+          method: :delete,
+          data: { confirm: "Are you sure you want to delete #{@group.name}? All #{@group.name}'s songs and set lists will be permanently deleted."}

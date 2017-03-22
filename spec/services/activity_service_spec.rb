@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe ActivityService do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:subject) { described_class.new(user) }
+  let(:performer) { FactoryGirl.create(:performer) }
+  let(:subject) { described_class.new(performer) }
 
   describe '#dashboard_activities' do
     context 'for activities where trackable.everyone is true' do
@@ -14,7 +14,7 @@ RSpec.describe ActivityService do
     end
 
     context 'for activities where trackable.friends is true' do
-      it 'does not return song.create activities when user is not a friend' do
+      it 'does not return song.create activities when performer is not a friend' do
         pending
         song = FactoryGirl.create(:song, visibility: 'friends')
 

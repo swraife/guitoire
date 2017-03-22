@@ -23,7 +23,7 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
   end
 
-  describe '#user_has_groups' do
-    it { expect(user_has_groups(FactoryGirl.create(:user))).to be false }
+  describe '#performer_has_groups' do
+    it { expect(performer_has_groups(FactoryGirl.create(:performer))).to be false }
   end
 end

@@ -1,8 +1,8 @@
 .song-form__wrapper
   = form_for @song, html: { class: 'disable-on-submit' } do |f|
-    .song-owner{class: "#{'hide' unless user_has_groups(current_user)}"}
+    .song-owner{class: "#{'hide' unless performer_has_groups(current_performer)}"}
       = f.label :owner
-      = f.select :global_owner, options_from_collection_for_select(current_user.actors, :global_id, :name, @song.owner&.global_id)
+      = f.select :global_owner, options_from_collection_for_select(current_performer.actors, :global_id, :public_name, @song.owner&.global_id)
 
     = f.label :name
     = f.text_field :name
@@ -29,25 +29,25 @@
     = f.select :tempo, options_for_select((55..155).step(5).to_a, @song.tempo), include_blank: true
 
     = f.label 'Composers'
-    = f.select :composer_list, options_for_select(current_user.song_tags('composers'), @song.composer_list), {include_blank: true}, {multiple: true, class: 'add-select2'}
+    = f.select :composer_list, options_for_select(current_performer.song_tags('composers'), @song.composer_list), {include_blank: true}, {multiple: true, class: 'add-select2'}
 
     = f.label 'Performers / Versions'
-    = f.select :version_list, options_for_select(current_user.song_tags('versions'), @song.version_list), {include_blank: true}, {multiple: true, class: 'add-select2'}
+    = f.select :version_list, options_for_select(current_performer.song_tags('versions'), @song.version_list), {include_blank: true}, {multiple: true, class: 'add-select2'}
 
     = f.label 'Genres'
-    = f.select :genre_list, options_for_select(current_user.song_tags('genres'), @song.genre_list), {include_blank: true}, {multiple: true, class: 'add-select2'}
+    = f.select :genre_list, options_for_select(current_performer.song_tags('genres'), @song.genre_list), {include_blank: true}, {multiple: true, class: 'add-select2'}
 
     = f.label 'Miscellaneous Tags'
-    = f.select :generic_list, options_for_select(current_user.song_tags('generics'), @song.generic_list), {include_blank: true}, {multiple: true, class: 'add-select2'}
+    = f.select :generic_list, options_for_select(current_performer.song_tags('generics'), @song.generic_list), {include_blank: true}, {multiple: true, class: 'add-select2'}
 
     = f.label 'Admin Users'
-    = f.select :admin_user_ids, options_from_collection_for_select(User.where.not(id: current_user.id), :id, :name, @song.admin_users.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
+    = f.select :admin_performer_ids, options_from_collection_for_select(Performer.where.not(id: current_performer.id), :id, :public_name, @song.admin_performers.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
 
     = f.label 'Admin Bands'
-    = f.select :admin_group_ids, options_from_collection_for_select(current_user.admin_groups, :id, :name, @song.admin_groups.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
+    = f.select :admin_group_ids, options_from_collection_for_select(current_performer.admin_groups, :id, :name, @song.admin_groups.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
 
     = f.label 'Visible To:'
-    - default_visibility = @song.persisted? ? @song.visibility : current_user.visibility
+    - default_visibility = @song.persisted? ? @song.visibility : current_performer.visibility
     = f.select :visibility, options_for_select(enum_select_options(Song, 'visibilities'), default_visibility)
 
     %br

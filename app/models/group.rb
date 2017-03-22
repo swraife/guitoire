@@ -22,11 +22,11 @@ class Group < ApplicationRecord
   include RoutineRoleOwner
   include SongRoleOwner
 
-  has_many :users, through: :group_roles
-  has_many :admin_users, through: :admin_group_roles, source: :user
-  has_many :member_users, through: :member_group_roles, source: :user
+  has_many :performers, through: :group_roles
+  has_many :admin_performers, through: :admin_group_roles, source: :performer
+  has_many :member_performers, through: :member_group_roles, source: :performer
 
-  belongs_to :creator, class_name: 'User'
+  belongs_to :creator, class_name: 'Performer'
 
   has_attached_file :avatar, styles: { medium: '300x300#', thumb: '100x100#' }, default_url: 'https://s3-us-west-2.amazonaws.com/guitoire/assorted/default_avatar.png'
   validates_attachment_content_type :avatar, :content_type => ['image/jpg', 'image/jpeg', 'image/png']
@@ -35,15 +35,19 @@ class Group < ApplicationRecord
 
   enum visibility: [:everyone, :only_admins]
 
-  def self.visible_to(user)
+  def self.visible_to(performer)
     # Can't currently do in one OR query w/ AR, because of bug w/ joining.
-    has_role_ids = joins(:group_roles).where(group_roles: { user: user }).ids
+    has_role_ids = joins(:group_roles).where(group_roles: { performer: performer }).ids
     where(visibility: 0).or(where(id: has_role_ids))
+  end
+
+  def public_name
+    name
   end
 
   private
 
   def creator_group_role
-    admin_group_roles.where(user_id: creator_id).first_or_create!
+    admin_group_roles.where(performer_id: creator_id).first_or_create!
   end
 end

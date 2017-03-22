@@ -1,9 +1,0 @@
-- unless current_user == @user
-  .friendship__form-wrapper
-    = render partial: 'friendships/form', locals: { friendship: @friendship }
-.user__name.item__show-name
-  %h1
-    = @user.name
-- if can? :edit, @user
-  .user__edit-button.item__edit-link
-    = link_to '(edit)', edit_user_path(@user)

@@ -3,7 +3,7 @@
 # Table name: plays
 #
 #  id           :integer          not null, primary key
-#  user_id      :integer
+#  performer_id :integer
 #  song_role_id :integer
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
@@ -15,16 +15,16 @@ class Play < ApplicationRecord
 
   default_scope { order("created_at DESC") }
 
-  tracked only: [:create], owner: :user, recipient: :song
+  tracked only: [:create], owner: :performer, recipient: :song
 
-  belongs_to :user
+  belongs_to :performer
   belongs_to :song_role, counter_cache: true
 
   has_one :song, through: :song_role
 
   # To be deleted once owner is made polymorphic
   def owner
-    user
+    performer
   end
 
   def create_flash_notice

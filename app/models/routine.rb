@@ -20,7 +20,7 @@ class Routine < ApplicationRecord
   has_many :events
 
   has_many :routine_roles, dependent: :destroy
-  has_many :users, through: :routine_roles, source: :owner, source_type: 'User'
+  has_many :performers, through: :routine_roles, source: :owner, source_type: 'Performer'
   has_many :groups, through: :routine_roles, source: :owner, source_type: 'Group'
 
   has_many :set_list_songs, dependent: :destroy
@@ -31,18 +31,14 @@ class Routine < ApplicationRecord
   enum visibility: [:everyone, :friends, :only_admins]
 
   # make sure to change this if more routine_role.roles are ever added
-  alias_attribute :admin_users, :users
+  alias_attribute :admin_performers, :performers
   alias_attribute :admin_groups, :groups
 
   # TODO: Add friends to query
-  def self.visible_to(user)
+  def self.visible_to(performer)
     # Can't currently do in one OR query w/ AR, because of bug w/ joining.
-    has_role_ids = joins(:routine_roles).where(routine_roles: { owner: user.actors }).ids
+    has_role_ids = joins(:routine_roles).where(routine_roles: { owner: performer.actors }).ids
     where(visibility: 0).or(where(id: has_role_ids))
-  end
-
-  def editor_roles_for(actors)
-    routine_roles.admin.where(owner: actors)
   end
 
   private

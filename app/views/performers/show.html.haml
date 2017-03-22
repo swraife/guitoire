@@ -1,0 +1,9 @@
+- unless current_performer == @performer
+  .friendship__form-wrapper
+    = render partial: 'friendships/form', locals: { friendship: @friendship }
+.performer__name.item__show-name
+  %h1
+    = @performer.public_name
+- if can? :edit, @performer
+  .performer__edit-button.item__edit-link
+    = link_to '(edit)', edit_performer_path(@performer)

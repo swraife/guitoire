@@ -6,7 +6,7 @@
           %i.fa.fa-fw.fa-home
           Home
       .left-sidebar__link
-        = link_to users_path do
+        = link_to performers_path do
           %i.fa.fa-fw.fa-users
           Users
       .left-sidebar__link
@@ -17,18 +17,18 @@
             .message_copies-unseen-count
               = current_user.message_copies.unseen.count
       .left-sidebar__link
-        = link_to new_user_song_path(current_user) do
+        = link_to new_performer_song_path(current_performer) do
           %i.fa.fa-fw.fa-plus
           Add Song
       .left-sidebar__link
-        = link_to user_songs_path(current_user) do
+        = link_to performer_songs_path(current_performer) do
           %i.fa.fa-fw.fa-search
           Songs
       .left-sidebar__link
-        = link_to user_routines_path(current_user) do
+        = link_to performer_routines_path(current_performer) do
           %i.fa.fa-fw.fa-search
           Set Lists
       .left-sidebar__link
-        = link_to user_groups_path(current_user) do
+        = link_to performer_groups_path(current_performer) do
           %i.fa.fa-fw.fa-search
           Bands

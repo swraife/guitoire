@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :friendship do
-    association :connector, factory: :user
-    association :connected, factory: :user
+    association :connector, factory: :performer
+    association :connected, factory: :performer
 
     factory :accepted_friendship do
       status 2
@@ -72,6 +72,10 @@ FactoryGirl.define do
     sequence(:email) { |n| "email#{n}@test.org" }
     password 'password'
     password_confirmation 'password'
+  end
+
+  factory :performer do
+    user
   end
 
   factory :message_thread do

@@ -12,10 +12,12 @@
     = f.text_area :description
 
     = f.label 'Band Admins'
-    = f.select :admin_user_ids, options_from_collection_for_select(User.all, :id, :name, @group.admin_users.pluck(:id).push(current_user.id)), {include_blank: true}, {multiple: true, required: true, class: 'add-select2'}
+    = f.select :admin_performer_ids,
+               options_from_collection_for_select(Performer.all, :id, :public_name, @group.admin_performers.pluck(:id).push(current_performer.id)),
+               {include_blank: true}, {multiple: true, required: true, class: 'add-select2'}
 
     = f.label 'Visible To:'
-    - default_visibility = @group.persisted? ? @group.visibility : current_user.visibility
+    - default_visibility = @group.persisted? ? @group.visibility : current_performer.visibility
     = f.select :visibility, options_for_select(enum_select_options(Group, 'visibilities'), default_visibility)
 
     %br
@@ -24,10 +26,10 @@
 
 :javascript
   $(document).ready(function() {
-    var currentUserId = "#{current_user.id}";
+    var currentPerformerId = "#{current_performer.id}";
 
     $('.save-group-btn').click(function(e) {
-      if (!$('#group_admin_user_ids').val().includes(currentUserId)) {
+      if (!$('#group_admin_performer_ids').val().includes(currentPerformerId)) {
         if (!confirm("Are you sure you want to remove yourself as an admin of the band? You won't have permission to re-add yourself.")) {
           e.preventDefault();
         }

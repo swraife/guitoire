@@ -1,8 +1,8 @@
 class ActivityService
-  attr_reader :user
+  attr_reader :performer
 
-  def initialize(user)
-    @user = user
+  def initialize(performer)
+    @performer = performer
   end
 
   def dashboard_activities
@@ -24,6 +24,6 @@ class ActivityService
   end
 
   def friends_ids
-    @friends_ids ||= user.friendships_user_ids
+    @friends_ids ||= performer.friendships_user_ids
   end
 end

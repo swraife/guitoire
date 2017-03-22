@@ -16,28 +16,28 @@ require 'rails_helper'
 
 RSpec.describe Routine, type: :model do
   let(:routine) { FactoryGirl.create(:routine) }
-  let(:user) { FactoryGirl.create(:user) }
+  let(:performer) { FactoryGirl.create(:performer) }
 
   describe '.visible_to' do
     it 'returns routines with visibility equal to everyone' do
-      expect(described_class.visible_to User.new).to include(routine)
+      expect(described_class.visible_to Performer.new).to include(routine)
     end
 
     it 'does not include routines with visibility equal to only_admins' do
       routine.only_admins!
-      expect(described_class.visible_to User.new).not_to include(routine)
+      expect(described_class.visible_to Performer.new).not_to include(routine)
     end
 
-    it 'returns only_admins routines if user has admin routine_role' do
-      routine.admin_users << user
-      expect(described_class.visible_to user).to include(routine)
+    it 'returns only_admins routines if performer has admin routine_role' do
+      routine.admin_performers << performer
+      expect(described_class.visible_to performer).to include(routine)
     end
 
-    it 'returns routines.only_admins if user has group w admin routine_role' do
+    it 'returns routines.only_admins if performer has group w admin routine_role' do
       group = FactoryGirl.create(:group)
-      user.groups << group
+      performer.groups << group
       routine.admin_groups << group
-      expect(described_class.visible_to user).to include(routine)
+      expect(described_class.visible_to performer).to include(routine)
     end
   end
 end

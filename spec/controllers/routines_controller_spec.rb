@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe RoutinesController, type: :controller do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:other_user) { FactoryGirl.create(:user) }
-  let(:routine) { FactoryGirl.create(:routine, owner: user) }
-  let(:valid_attributes) { FactoryGirl.attributes_for(:routine).merge(global_owner: user.global_id) }
+  let(:performer) { FactoryGirl.create(:performer) }
+  let(:other_performer) { FactoryGirl.create(:performer) }
+  let(:routine) { FactoryGirl.create(:routine, owner: performer) }
+  let(:valid_attributes) { FactoryGirl.attributes_for(:routine).merge(global_owner: performer.global_id) }
 
   before(:each) do
     @request.env['HTTP_REFERER'] = '/home'
-    sign_in user
+    sign_in performer.user
   end
 
   describe 'GET #show' do
@@ -20,7 +20,7 @@ RSpec.describe RoutinesController, type: :controller do
 
   describe 'GET #index' do
     it 'returns HTTP success' do
-      get :index, params: { user_id: user.id }
+      get :index, params: { performer_id: performer.id }
       expect(response).to have_http_status(:success)
     end
   end
@@ -40,21 +40,21 @@ RSpec.describe RoutinesController, type: :controller do
   end
 
   describe 'GET #edit' do
-    it 'returns HTTP success when user is the routine owner' do
+    it 'returns HTTP success when performer is the routine owner' do
       get :edit, params: { id: routine.id }
       expect(response).to have_http_status(:success)
     end
 
-    it 'returns HTTP success when user is an admin_user' do
-      other_routine = FactoryGirl.create(:routine, owner: other_user )
-      other_routine.admin_users << user
+    it 'returns HTTP success when performer is an admin_performer' do
+      other_routine = FactoryGirl.create(:routine, owner: other_performer )
+      other_routine.admin_performers << performer
 
       get :edit, params: { id: other_routine.id }
       expect(response).to have_http_status(:success)      
     end
 
-    it 'raises exception when user is not a routine admin' do
-      other_routine = FactoryGirl.create(:routine, owner: other_user )
+    it 'raises exception when performer is not a routine admin' do
+      other_routine = FactoryGirl.create(:routine, owner: other_performer )
 
       expect do
         get :edit, params: { id: other_routine.id }
