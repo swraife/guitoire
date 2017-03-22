@@ -33,7 +33,7 @@ class Group < ApplicationRecord
 
   after_create :creator_group_role
 
-  enum visibility: [:everyone, :friends, :only_admins]
+  enum visibility: [:everyone, :only_admins]
 
   def self.visible_to(user)
     # Can't currently do in one OR query w/ AR, because of bug w/ joining.

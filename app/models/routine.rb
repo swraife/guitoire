@@ -34,10 +34,6 @@ class Routine < ApplicationRecord
   alias_attribute :admin_users, :users
   alias_attribute :admin_groups, :groups
 
-  def self.table
-    @table ||= arel_table
-  end
-
   # TODO: Add friends to query
   def self.visible_to(user)
     # Can't currently do in one OR query w/ AR, because of bug w/ joining.
