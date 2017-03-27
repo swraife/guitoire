@@ -24,6 +24,7 @@ gem 'pg'
 gem 'public_activity'
 gem 'puma'
 gem 'rack-canonical-host'
+gem 'rack-mini-profiler' #must be after pg
 gem 'rails', '~> 5.0.0'
 gem 'recipient_interceptor'
 gem 'sass-rails', '~> 5.0'
