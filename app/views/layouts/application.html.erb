@@ -19,10 +19,16 @@
   <div id="flash">
     <%= render "flashes" -%>
   </div>
-  <%= render 'shared/left_sidebar' %>
-  <div class='jumbotron'>
-    <%= yield %>
-  </div>
+  <% if current_performer %>
+    <%= render 'shared/left_sidebar' %>
+    <div class='jumbotron'>
+      <%= yield %>
+    </div>
+  <% else %>
+    <div class='jumbotron-full'>
+      <%= yield %>
+    </div>
+  <% end %>
   <%= render "javascript" %>
   <%= render "css_overrides" %>
 </body>

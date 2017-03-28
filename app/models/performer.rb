@@ -16,6 +16,7 @@
 #  settings            :jsonb
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  area_id             :integer
 #
 
 class Performer < ApplicationRecord
@@ -25,6 +26,7 @@ class Performer < ApplicationRecord
   include RoutineRoleOwner
   include SongRoleOwner
 
+  belongs_to :area
   belongs_to :user
   # This only exists to allow eager loading of activities.recipient.creator
   belongs_to :creator, foreign_key: :id, class_name: 'Performer'
@@ -37,10 +39,16 @@ class Performer < ApplicationRecord
   has_many :played_songs, -> { distinct }, through: :plays, source: :song
 
   has_many :resources, as: :creator
-
   has_many :created_songs, class_name: 'Song', foreign_key: :creator_id
-
   has_many :set_list_songs, through: :routines
+
+  has_many :tags, through: :taggings
+
+  # default_scope { includes(:user) }
+
+  acts_as_taggable_on :skills, :user_input_skills, :followed_skills
+
+  after_create :user_default_performer
 
   enum visibility: [:everyone, :friends]
 
@@ -81,4 +89,9 @@ class Performer < ApplicationRecord
     [self]
   end
 
+  private
+
+  def user_default_performer
+    user.update(default_performer: self) unless user.default_performer
+  end
 end

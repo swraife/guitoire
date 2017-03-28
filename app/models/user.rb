@@ -55,6 +55,13 @@ class User < ApplicationRecord
   validates_attachment_content_type :avatar,
                                     :content_type => ['image/jpg', 'image/jpeg', 'image/png']
 
+  def performer_tags(context = nil)
+    context_query = context.nil? ? '' : { taggings: { context: context } }
+    ActsAsTaggableOn::Tag.includes(:taggings)
+                         .where(taggings: { taggable: performers })
+                         .where(context_query)    
+  end
+
   def public_name
     name = "#{first_name} #{last_name}"
     name.present? ? name : "User#{id}"

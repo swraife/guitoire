@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :authenticate_user!
   before_action :store_current_location, :unless => :devise_controller?
+  before_action :create_first_performer
 
   private
 
@@ -28,7 +29,11 @@ class ApplicationController < ActionController::Base
       if session[:performer_id]
         current_user.performers.find(session[:performer_id])
       else
-        current_user.default_performer || current_user.performers.first
+        current_user.default_performer
       end
+  end
+
+  def create_first_performer
+    redirect_to new_performer_path if signed_in? && current_performer == nil
   end
 end

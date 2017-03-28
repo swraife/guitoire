@@ -7,3 +7,7 @@
 - if can? :edit, @performer
   .performer__edit-button.item__edit-link
     = link_to '(edit)', edit_performer_path(@performer)
+.performer__tags
+  - @performer.tags.each do |tag|
+    .performer__tag
+      = t("skill_names.#{tag.name}", default: tag.name)

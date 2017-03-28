@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170322193854) do
+ActiveRecord::Schema.define(version: 20170324234310) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,12 @@ ActiveRecord::Schema.define(version: 20170322193854) do
     t.index ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type", using: :btree
     t.index ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type", using: :btree
     t.index ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type", using: :btree
+  end
+
+  create_table "areas", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "composers", force: :cascade do |t|
@@ -142,6 +148,7 @@ ActiveRecord::Schema.define(version: 20170322193854) do
     t.jsonb    "settings"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
+    t.integer  "area_id"
   end
 
   create_table "plays", force: :cascade do |t|
@@ -193,6 +200,14 @@ ActiveRecord::Schema.define(version: 20170322193854) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "sort_value"
+  end
+
+  create_table "skills", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "area_id"
+    t.integer  "tag_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "song_roles", force: :cascade do |t|

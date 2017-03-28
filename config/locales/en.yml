@@ -1,4 +1,12 @@
 en:
+  area:
+    name:
+      circus: Circus
+      dance: Dance
+      extreme_sports: Extreme Sports
+      music: Music
+      other: Other
+      sports: Sports
   date:
     formats:
       default:
@@ -25,6 +33,55 @@ en:
       visibilities:
         everyone: Everyone
         friends: Friends
+  performers:
+    form:
+      custom_tags: "Add your own tags such as 'Underwater Basket Weaving' or 'Cactus Throwing'."
+      missing_area_or_tags_help: >
+        "Q: What if my skills or tags aren't listed?  A: No worries, this is
+        just a quick start. Select 'other' and/or add custom tags for what you
+        do. You'll be able to customize more later."
+      multiple_workspaces_help: >
+        "Q: What if I need two workspaces?  A: For related skills that you
+        might practice or perform at the same time, or with the same people,
+        we recommend using only one workspace. However, if you do want a
+        second workspace, you'll be able to create it later."
+  skill_names:
+    acrobalance: Acrobalance
+    aerial_fabrics: Aerial Fabrics
+    ballet: Ballet
+    bluegrass: Bluegrass
+    blues: Blues
+    chains: Chains
+    classical: Classical
+    clowning: Clowning
+    contact_juggling: Contact Juggling
+    country: Country
+    diabolo: Diabolo
+    devil_sticks: Devil Sticks
+    folk: Folk
+    jazz: Jazz
+    juggling: Juggling
+    hip_hop: Hip Hop
+    illusion: Illusion
+    lyra: Lyra
+    magic: Magic
+    metal: Metal
+    mime: Mime
+    modern_dance: Modern Dance
+    poi: Poi
+    punk: Punk
+    pop: Pop
+    rap: Rap
+    reggae: Reggae
+    rock: Rock
+    rope: Rope
+    staff: Staff
+    straps: Straps
+    swing: Swing
+    tap: Tap
+    trapeze: Trapeze
+    unicycling: Unicycling
+    world: World
   song_roles:
     scopes:
       order_by_created_at: Order by Date Created

@@ -6,7 +6,7 @@ class UsersController < ApplicationController
 
   def update
     if current_user.update(user_params)
-      redirect_to user_songs_path(current_user)
+      redirect_to '/', flash: { notice: 'Profile Updated!' }
     end
   end
 

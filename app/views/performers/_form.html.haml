@@ -1,0 +1,81 @@
+.performer__area
+  - Area.all.each_with_index do |area, index|
+    = button_tag id: "area-#{area.id}", class: "area-btn btn btn-large left #{'clear_left' if (index == 2)}" do
+      = t("area.name.#{area.name}")
+      .area__selected-check.hide
+        %i.fa.fa-check-circle
+
+.performer__skills-fields-wrapper.hide
+  = form_for performer do |f|
+    = f.hidden_field :area_id
+    - Area.all.each_with_index do |area|
+      .performer__tags-collection.hide{ id: "area-tags-#{area.id}" }
+        .performer__skills-prompt{ class: "#{'hide' if area.id == 4}" }
+          %h3
+            Select as many tags as you want
+        = f.collection_check_boxes(:skill_ids, area.tags, :id, :name) do |b|
+          = b.label class: 'skill-checkbox' do
+            = b.check_box
+            = t(b.text, scope: [:skill_names], default: b.text)
+    .performer__text-fields
+      .performer__custom-tags
+        %h3
+          = t('.custom_tags')
+        = f.select :user_input_skill_list,
+                   options_for_select(current_user.performer_tags('user_input_skills'), @performer.user_input_skill_list),
+                  {include_blank: true}, {multiple: true, class: 'add-select2'}
+      .performer__optional-settings
+        = link_to '#', class: 'performer__optional-settings-link' do
+          %i.fa.fa-caret-right
+          Optional Settings
+      .performer__info-fields.hide
+        .med-horizontal-border
+
+        = f.label 'What do you want to call this workspace?'
+        = f.text_field :name
+
+        = f.label 'Choose a public name to go by:'
+        = f.text_field :public_name, value: current_user.public_name
+
+        = f.label 'Who can see your stuff by default? (You can also hide/share things individually)'
+        = f.select :visibility, options_for_select(enum_select_options(User, :visibilities), User.visibilities[:everyone])
+
+      .lrg-horizontal-border
+
+      = f.submit 'All Set!'
+      = link_to "I'm not sure...", '#', class: 'performer__help-btn'
+
+.performer__help-featherlight-wrapper
+
+:javascript
+  $(document).ready(function() {
+    $('.area-btn').click(function(e) {
+      e.preventDefault();
+      var areaId = $(this).attr('id').slice(5);
+      $(this).fadeTo('', 1.0).find('.area__selected-check').addClass('inl-block').show();
+      $('.area-btn').not(this).fadeTo('slow', 0.5).find('.area__selected-check').hide();
+      $('#performer_area_id').val(areaId);
+      $('.performer__tags-collection').hide();
+      $('#area-tags-' + areaId).show();
+      $('.performer__skills-fields-wrapper').show();
+    });
+
+    $('.performer__optional-settings-link').click(function() {
+      if ($('.performer__info-fields').is(':visible')) {
+        $(this).find('.fa').removeClass('fa-caret-down').addClass('fa-caret-right');
+        $('.performer__info-fields').hide();
+      } else {
+        $(this).find('.fa').removeClass('fa-caret-right').addClass('fa-caret-down');
+        $('.performer__info-fields').show();        
+      }
+    });
+
+    $('.performer__help-btn').click(function() {
+      var missing_area_or_tags_help = #{t('.missing_area_or_tags_help')};
+      var multiple_workspaces_help = #{t('.multiple_workspaces_help')};
+      var $content = "<div class='performer__help-featherlight-wrapper'><h2>FAQ</h2><p>" + missing_area_or_tags_help + "</p>" +
+        "<p>" + multiple_workspaces_help + "</p></div>";
+      var config = $.featherlight.defaults;
+      $.featherlight($content, config);
+    });
+  });

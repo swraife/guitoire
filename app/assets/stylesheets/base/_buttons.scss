@@ -63,3 +63,14 @@
     background: none;
   }
 }
+.btn-large {
+  width: 40%;
+  height: 100px;
+  margin: 8px;
+  @media ($screen-sm) {
+    height: 120px;
+  }
+  @media ($screen-md) {
+    height: 140px;
+  }
+}

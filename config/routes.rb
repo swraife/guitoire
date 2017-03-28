@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { registrations: 'users/registrations' }
 
   root 'pages#index'
 
@@ -22,7 +22,10 @@ Rails.application.routes.draw do
     resources :routines
   end
 
-  resources :users
+  resources :users do
+    resources :performers
+  end
+
   resources :resources
   resources :file_resources
   resources :url_resources

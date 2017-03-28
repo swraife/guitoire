@@ -21,6 +21,9 @@ h3 {
 .right {
   float: right;
 }
+.left {
+  float: left;
+}
 .right-text {
   text-align: right;
 }
@@ -30,6 +33,10 @@ h3 {
 .med-horizontal-border {
   border-bottom: 1px $dark-gray solid;
   margin: 10px 0px 10px;
+}
+.lrg-horizontal-border {
+  border-bottom: 1px $dark-gray solid;
+  margin: 20px 0px 20px;  
 }
 .subtext {
   font-size: 12px;
@@ -41,4 +48,10 @@ h3 {
 }
 .item__edit-link {
   display: inline-block;
+}
+.clear_left {
+  clear: left;
+}
+.select2-container--bootstrap {
+  width: 100% !important;
 }
