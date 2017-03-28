@@ -1,0 +1,49 @@
+.performer__new-wrapper {
+  width: 90%;
+  @media ($screen-md) {
+    width: 70%;
+  }
+  max-width: 800px;
+  margin: 0 auto;
+  padding-top: 30px;
+}
+.performer__area {
+  width: 100%;
+  min-height: 250px;
+  @media ($screen-sm) {
+    min-height: 280px;
+  }
+  @media ($screen-md) {
+    min-height: 320px;
+  }
+}
+.performer__skills-fields-wrapper {
+  padding-left: 10px;
+}
+.skill-checkbox {
+  display: inline-block;
+  @media ($screen-xs) {
+    min-width: 160px;
+    width: calc(100% / 3.2);
+  }
+}
+.performer__optional-settings {
+  padding-top: 15px;
+}
+.performer__help-btn {
+  margin-left: 20px;
+  vertical-align: sub;
+  font-size: 13px;
+}
+.performer__text-fields {
+  width: 83%;
+}
+.performer__tags {
+  padding-top: 8px;
+}
+.performer__tag {
+  display: inline-block;
+  background-color: $cloud;
+  padding: 0px 5px;
+  border-radius: 5px;
+}

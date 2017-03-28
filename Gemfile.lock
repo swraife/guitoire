@@ -119,6 +119,7 @@ GEM
     factory_girl_rails (4.8.0)
       factory_girl (~> 4.8.0)
       railties (>= 3.0.0)
+    featherlight (1.3.5)
     ffi (1.9.17)
     flutie (2.0.0)
     font-awesome-rails (4.7.0.1)
@@ -389,6 +390,7 @@ DEPENDENCIES
   devise
   dotenv-rails
   factory_girl_rails
+  featherlight
   flutie
   font-awesome-rails
   formulaic

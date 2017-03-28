@@ -15,6 +15,8 @@
 //= require jquery-fileupload
 //= require jquery-ui/sortable
 //= require hopscotch
+//= require featherlight
+//= require featherlight-gallery
 
 //= require_tree .
 //= require select2
