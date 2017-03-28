@@ -32,13 +32,13 @@
         .med-horizontal-border
 
         = f.label 'What do you want to call this workspace?'
-        = f.text_field :name
+        = f.text_field :name, value: performer.name
 
         = f.label 'Choose a public name to go by:'
         = f.text_field :public_name, value: current_user.public_name
 
         = f.label 'Who can see your stuff by default? (You can also hide/share things individually)'
-        = f.select :visibility, options_for_select(enum_select_options(User, :visibilities), User.visibilities[:everyone])
+        = f.select :visibility, options_for_select(enum_select_options(User, :visibilities), @performer.visibility)
 
       .lrg-horizontal-border
 
@@ -51,6 +51,8 @@
   $(document).ready(function() {
     $('.area-btn').click(function(e) {
       e.preventDefault();
+      var name = $.trim($(this).text());
+      $('#performer_name').val(name);
       var areaId = $(this).attr('id').slice(5);
       $(this).fadeTo('', 1.0).find('.area__selected-check').addClass('inl-block').show();
       $('.area-btn').not(this).fadeTo('slow', 0.5).find('.area__selected-check').hide();

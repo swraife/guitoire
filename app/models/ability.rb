@@ -67,7 +67,8 @@ class Ability
       can :index, Performer
 
       can :show, Performer do |performer|
-        performer.everyone? || performer.friendships_performer_ids(:accepted).include?(@performer.id)
+        performer.everyone? || performer.user == @performer.user ||
+          friendships_performer_ids(:accepted).include?(@performer.id)
       end
 
       can :update, Performer do |performer|

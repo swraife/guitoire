@@ -1,5 +1,25 @@
 .left-sidebar
   - if current_performer
+    - if current_user.performers.count > 1
+      %h3
+        = link_to '#', class: 'change-performer-btn' do
+          = current_performer.name
+          %i.fa.fa-caret-down
+      .change-performer-dropdown.hide
+        .header__dropdown-item.subtext
+          Change Workspace
+        .med-horizontal-border
+        - current_user.performers.each do |performer|
+          .header__dropdown-item
+            - if performer == current_performer
+              = button_tag disabled: true, class: 'btn-small' do
+                %i.fa.fa-check
+                = performer.name
+            - else
+              = button_to performer.name,
+                          user_current_performers_path(current_user, performer_id: performer.id),
+                          class: 'btn-small'
+
     .left-sidebar__main-links
       .left-sidebar__link
         = link_to '/' do
@@ -32,3 +52,10 @@
         = link_to performer_groups_path(current_performer) do
           %i.fa.fa-fw.fa-search
           Bands
+
+:javascript
+  $(document).ready(function() {
+    $('.change-performer-btn').click(function() {
+      $('.change-performer-dropdown').toggle();
+    });
+  });

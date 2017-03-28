@@ -7,6 +7,11 @@
 - if can? :edit, @performer
   .performer__edit-button.item__edit-link
     = link_to '(edit)', edit_performer_path(@performer)
+  - if current_user.performers.count > 1
+    = button_to 'Switch to this workspace',
+                user_current_performers_path(current_user, performer_id: @performer.id),
+                class: 'btn-small', form_class: 'inl-block'
+
 .performer__tags
   - @performer.tags.each do |tag|
     .performer__tag

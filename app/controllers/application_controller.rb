@@ -25,12 +25,14 @@ class ApplicationController < ActionController::Base
   end
 
   def current_performer
-    @current_performer ||=
-      if session[:performer_id]
-        current_user.performers.find(session[:performer_id])
-      else
-        current_user.default_performer
-      end
+    if signed_in?
+      @current_performer ||=
+        if session[:performer_id]
+          current_user.performers.find(session[:performer_id])
+        else
+          current_user.default_performer
+        end
+    end
   end
 
   def create_first_performer

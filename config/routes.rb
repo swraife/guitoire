@@ -24,7 +24,9 @@ Rails.application.routes.draw do
 
   resources :users do
     resources :performers
+    resources :current_performers, only: :create
   end
+
 
   resources :resources
   resources :file_resources

@@ -13,6 +13,7 @@ class PerformersController < ApplicationController
 
   def new
     @performer = Performer.new
+    @layout = 'full'
   end
 
   def create
