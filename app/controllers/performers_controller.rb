@@ -1,9 +1,15 @@
 class PerformersController < ApplicationController
-  load_and_authorize_resource except: [:new, :create, :index]
+  load_and_authorize_resource except: [:new, :create]
   skip_before_action :create_first_performer, only: [:new, :create]
 
   def index
-    @performers = Performer.visible_to(current_performer).order(:public_name)
+    if params[:user_id]
+      @user = User.find(params[:user_id])
+      user_filter = { user_id: @user.id }
+    end
+
+    @performers = Performer.visible_to(current_performer).where(user_filter)
+                    .order(:public_name)
   end
 
   def show

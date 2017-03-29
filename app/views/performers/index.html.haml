@@ -1,5 +1,7 @@
 %h1
-  Users
+  = @user ? "#{@user.public_name}'s Workspaces" : 'Users'
+
+- name_method = @user ? :name : :public_name
 - @performers.each do |performer|
   .performer__wrapper
-    = link_to performer.public_name, performer_songs_path(performer)
+    = link_to performer.send(name_method), performer_songs_path(performer)

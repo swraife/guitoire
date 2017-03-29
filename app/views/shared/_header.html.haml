@@ -41,6 +41,9 @@
     .header-dropdown.header__user-dropdown.hide
       - if current_user
         .header__dropdown-item
+          = link_to 'Workspaces', user_performers_path(current_user)
+          .med-horizontal-border
+        .header__dropdown-item
           = link_to 'Edit Profile', edit_user_path(current_user)
           .med-horizontal-border
         .header__dropdown-item.log-in-link
