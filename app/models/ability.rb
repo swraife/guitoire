@@ -72,7 +72,7 @@ class Ability
       end
 
       can :update, Performer do |performer|
-        performer.user = @user
+        performer.user == @user
       end
 
       can :update, User do |user|

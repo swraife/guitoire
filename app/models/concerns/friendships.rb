@@ -2,8 +2,8 @@ module Friendships
   extend ActiveSupport::Concern
 
   included do
-    has_many :friendships_as_connector, class_name: 'Friendship', foreign_key: :connector_id
-    has_many :friendships_as_connected, class_name: 'Friendship', foreign_key: :connected_id
+    has_many :friendships_as_connector, class_name: 'Friendship', foreign_key: :connector_id, dependent: :destroy
+    has_many :friendships_as_connected, class_name: 'Friendship', foreign_key: :connected_id, dependent: :destroy
   end
 
   def friendships(status = :all)
@@ -21,8 +21,11 @@ module Friendships
 
   def friendship_with(performer)
     return if performer == self
-    friendships.where(connector: performer).or(Friendship.where(connected: performer))
-      .first_or_initialize do |friendship|
+    t = Friendship.arel_table
+
+    friendships.where(
+      t[:connector_id].eq(performer.id).or(t[:connected_id].eq(performer.id))
+    ).first_or_initialize do |friendship|
         friendship.connector = self
         friendship.connected = performer
       end

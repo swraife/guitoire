@@ -55,9 +55,9 @@
 }
 .performer__wrapper {
   height: 100px;
-  width: 90%;
+  width: 97%;
   @media ($screen-sm) {
-    width: calc(100% / 2.3);
+    width: calc((100% / 2) - 15px);
   }
   background-color: $cloud;
   border-radius: 5px;
