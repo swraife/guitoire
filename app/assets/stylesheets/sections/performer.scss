@@ -53,3 +53,15 @@
   border-radius: 2px;
   padding: 15px;
 }
+.performer__wrapper {
+  height: 100px;
+  width: 90%;
+  @media ($screen-sm) {
+    width: calc(100% / 2.3);
+  }
+  background-color: $cloud;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 5px;
+  display: inline-block;
+}

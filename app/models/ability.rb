@@ -64,7 +64,7 @@ class Ability
         performer_or_actors_are_admin? resource.target
       end
 
-      can :index, Performer if (params[:user_id].blank? || params[:user_id].to_i == @user.id)
+      can :index, Performer
 
       can :show, Performer do |performer|
         performer.everyone? || performer.user == @performer.user ||
@@ -78,6 +78,8 @@ class Ability
       can :update, User do |user|
         user == @user
       end
+
+      can :index, :user_performer if params[:user_id].to_i == @user.id
     end
   end
 

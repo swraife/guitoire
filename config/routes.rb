@@ -23,8 +23,8 @@ Rails.application.routes.draw do
   end
 
   resources :users do
-    resources :performers
     resources :current_performers, only: :create
+    resources :performers, controller: 'user_performers'
   end
 
 

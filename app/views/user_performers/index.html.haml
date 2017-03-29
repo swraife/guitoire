@@ -1,0 +1,12 @@
+%h1
+  Your Workspaces
+
+.performer__create-new-link
+  = link_to new_performer_path do
+    %i.fa.fa-fw.fa-plus
+    Create New Workspace
+.med-horizontal-border
+
+- @performers.each do |performer|
+  .performer__wrapper.activity__wrapper
+    = render partial: 'show', locals: { performer: performer }
