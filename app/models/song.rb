@@ -21,6 +21,7 @@
 
 class Song < ApplicationRecord
   include GlobalOwner
+  include PgSearch
   include PublicActivity::Model
   include TrackableAssociations
 
@@ -62,6 +63,8 @@ class Song < ApplicationRecord
 
   enum permission: [:copiable, :followable, :hidden]
   enum visibility: [:everyone, :friends, :only_admins]
+
+  multisearchable against: :name
 
   MUSICKEYS = %w(A A# B B# C D D# E F F# G G#)
   SCALES = %w(Major Minor Blues)

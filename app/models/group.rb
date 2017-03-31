@@ -19,6 +19,7 @@
 class Group < ApplicationRecord
   include Actor
   include GroupRoleable
+  include PgSearch
   include RoutineRoleOwner
   include SongRoleOwner
 
@@ -34,6 +35,8 @@ class Group < ApplicationRecord
   after_create :creator_group_role
 
   enum visibility: [:everyone, :only_admins]
+
+  multisearchable against: :name
 
   def self.visible_to(performer)
     # Can't currently do in one OR query w/ AR, because of bug w/ joining.

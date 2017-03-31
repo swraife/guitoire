@@ -23,6 +23,7 @@ class Performer < ApplicationRecord
   include Actor
   include Friendships
   include GroupRoleable
+  include PgSearch
   include RoutineRoleOwner
   include SongRoleOwner
 
@@ -57,6 +58,8 @@ class Performer < ApplicationRecord
                     default_url: 'https://s3-us-west-2.amazonaws.com/guitoire/assorted/default_avatar.png'
   validates_attachment_content_type :avatar,
                                     :content_type => ['image/jpg', 'image/jpeg', 'image/png']
+
+  multisearchable against: :public_name
 
   # TODO: Add friends to query
   def self.visible_to(performer)
