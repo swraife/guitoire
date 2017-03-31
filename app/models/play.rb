@@ -13,7 +13,7 @@ class Play < ApplicationRecord
   include PublicActivity::Model
   include TrackableAssociations
 
-  default_scope { order("created_at DESC") }
+  default_scope { order('created_at DESC') }
 
   tracked only: [:create], owner: :performer, recipient: :song
 
@@ -28,10 +28,10 @@ class Play < ApplicationRecord
   end
 
   def create_flash_notice
-    player_count = song.players.count
-    other_players = player_count > 1 ? "and #{player_count - 1} others" : ''
+    other_players_count = song.players.count - 1
+    others_text = other_players_count > 0 ? "#{other_players_count} others have played this song #{song.plays.count - song_role.plays.count} times." : ''
 
-    "Song Played! You #{other_players} have played this song #{song.plays.count} times!"
+    "Song Played! You have played this song #{song_role.plays.count} times! #{others_text}"
   end
 
   def song

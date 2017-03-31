@@ -24,7 +24,7 @@ class SongRole < ApplicationRecord
 
   scope :order_by_last_played, -> { left_joins(:plays)
                                     .group('song_roles.id')
-                                    .order('max(plays.created_at) DESC NULLS LAST')}
+                                    .order('max(plays.created_at) DESC NULLS LAST') }
   scope :order_by_plays_count, -> { includes(:plays).order('plays_count DESC') }
   scope :order_by_song_name, -> { order('songs.name') }
   scope :order_by_created_at, -> { order(created_at: :desc) }
