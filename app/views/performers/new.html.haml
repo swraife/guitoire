@@ -1,5 +1,21 @@
 .performer__new-wrapper
-  .performer__area-prompt
-    %h1
-      What do you do?
-  = render partial: 'form', locals: { performer: @performer }
+  - if current_user.performers.count == 1
+    .performer__new-warning
+      %h1
+        Just a heads up!
+      %p
+        = t('.warning')
+      = link_to 'Ok, got it.', '#', class: 'show-performer__new-wrapper-btn'
+  .performer__form-wrapper{ class: "#{'hide' if current_user.performers.count == 1 }" }
+    .performer__area-prompt
+      %h1
+        What do you do?
+    = render partial: 'form', locals: { performer: @performer }
+
+:javascript
+  $(document).ready(function() {
+    $('.show-performer__new-wrapper-btn').click(function() {
+      $('.performer__new-warning').hide();
+      $('.performer__form-wrapper').show();
+    });
+  });

@@ -3,3 +3,10 @@
     %h1
       What do you do?
   = render partial: 'form', locals: { performer: @performer }
+
+:javascript
+  $(document).ready(function() {
+    var areaID = "#{@performer.area_id}";
+    $('#area-' + areaID).click();
+  });
+  

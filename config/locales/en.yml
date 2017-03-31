@@ -45,6 +45,15 @@ en:
         might practice or perform at the same time, or with the same people,
         we recommend using only one workspace. However, if you do want a
         second workspace, you'll be able to create it later."
+    new:
+      warning: >
+        It looks you're adding a second workspace. Just so you know, you're
+        workspaces are kept completely separate from each other. This means
+        separate friends, groups, newsfeeds, etc. This is so you can keep, for
+        example, your aerials acts separate from your music. For similar
+        skills like juggling and unicycling, which you might perform in the
+        same act or with the same group, it's usually easier to keep them in
+        one workspace and use tags and custom fields to stay organized.
   skill_names:
     acrobalance: Acrobalance
     aerial_fabrics: Aerial Fabrics
