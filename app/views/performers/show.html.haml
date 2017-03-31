@@ -13,6 +13,6 @@
                 class: 'btn-small', form_class: 'inl-block right'
 
 .performer__tags
-  - @performer.tags.each do |tag|
+  - @performer.profile_tags.each do |tag|
     .performer__tag
       = t("skill_names.#{tag.name}", default: tag.name)

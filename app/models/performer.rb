@@ -48,7 +48,7 @@ class Performer < ApplicationRecord
 
   acts_as_taggable_on :skills, :user_input_skills, :followed_skills
 
-  after_create :user_default_performer
+  after_create :user_default_performer, :create_followed_skills
 
   enum visibility: [:everyone, :friends]
 
@@ -76,6 +76,10 @@ class Performer < ApplicationRecord
                          .where(context_query)
   end
 
+  def profile_tags
+    tags.where(id: skill_ids + user_input_skill_ids).distinct
+  end
+
   def actors
     [self, groups].flatten
   end
@@ -93,5 +97,13 @@ class Performer < ApplicationRecord
 
   def user_default_performer
     user.update(default_performer: self) unless user.default_performer
+  end
+
+  def create_followed_skills
+    tags.each do |tag|
+      ActsAsTaggableOn::Tagging.create(tag: tag,
+                                        taggable: self,
+                                        context: 'followed_skills') 
+    end
   end
 end
