@@ -38,7 +38,7 @@ class PerformersController < ApplicationController
   def performer_params
     params.require(:performer).permit(
       :name, :public_name, :avatar, :description, :email, :visibility,
-      :area_id, skill_ids: [], user_input_skill_list: []
+      :area_id, standard_skill_ids: [], user_input_skill_list: []
     )
   end
 end

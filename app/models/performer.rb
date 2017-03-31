@@ -46,7 +46,7 @@ class Performer < ApplicationRecord
 
   # default_scope { includes(:user) }
 
-  acts_as_taggable_on :skills, :user_input_skills, :followed_skills
+  acts_as_taggable_on :standard_skills, :user_input_skills, :followed_skills
 
   after_create :user_default_performer, :create_followed_skills
 
@@ -76,8 +76,8 @@ class Performer < ApplicationRecord
                          .where(context_query)
   end
 
-  def profile_tags
-    tags.where(id: skill_ids + user_input_skill_ids).distinct
+  def skills
+    tags.where(id: standard_skill_ids + user_input_skill_ids).distinct
   end
 
   def actors

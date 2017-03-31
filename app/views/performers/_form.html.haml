@@ -13,7 +13,7 @@
         .performer__skills-prompt{ class: "#{'hide' if area.id == 4}" }
           %h3
             Select as many tags as you want
-        = f.collection_check_boxes(:skill_ids, area.tags, :id, :name) do |b|
+        = f.collection_check_boxes(:standard_skill_ids, area.tags, :id, :name) do |b|
           = b.label class: 'skill-checkbox' do
             = b.check_box
             = t(b.text, scope: [:skill_names], default: b.text)
