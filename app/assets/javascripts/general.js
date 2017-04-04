@@ -11,15 +11,17 @@ $(document).ready(function() {
   });
 
   $(window).scroll(function() {
-    if($(window).scrollTop() + $(window).height() == $(document).height()) {
-      var page = $('.pagination').find('a').attr('href').slice(7);
-      $.ajax({
-        dataType: 'script',
-        method: 'GET',
-        url: '/',
-        data: { page: page }
-      });
-    }
+    if ($('.pagination').length > 0) {
+      if($(window).scrollTop() + $(window).height() == $(document).height()) {
+        var page = $('.pagination').find('a').attr('href').slice(7);
+        $.ajax({
+          dataType: 'script',
+          method: 'GET',
+          url: '/',
+          data: { page: page }
+        });
+      }
+    };
   });
 
   $('.disable-on-submit').on('submit', function() {
