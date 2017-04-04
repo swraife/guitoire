@@ -25,9 +25,25 @@
 .header__menu {
   display: inline-block;
   float: right;
+  width: 75%;
+  @media ($screen-sm) {
+    width: 55%;
+  }
+  @media ($screen-md) {
+    width: 65%;
+  }
   a {
     color: $sand;
     font-size: 32px;
+  }
+}
+.header__menu-icons {
+  float: right;
+  @media ($screen-sm) {
+    padding-right: 10px;
+  }
+  @media ($screen-lg) {
+    padding-right: 20px;
   }
 }
 .header-dropdown {
@@ -47,8 +63,96 @@
   right: 0px;
 }
 .header__add-dropdown {
-  right: 130px;
+  right: 108px;
 }
-.header__search-dropdown {
-  right: 85px;
+#search-dropdown-link {
+  display: inline-block;
+  @media ($screen-md) {
+    display: none;
+  }
+}
+.header__library-dropdown {
+  right: 150px;
+}
+.header__search-wrapper{
+  float: right;
+  height: 30px;
+  margin-top: 7px;
+  margin-right: 10px;
+
+  .header__search-form{
+    display: none;
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    top: $navbar-height;
+    z-index: 100;
+    padding-left: 20px;
+
+    @media ($screen-md) {
+      float: left;
+      width: calc(100% - 1px);
+      display: block;
+      left: auto;
+      right: auto;
+      top: auto;
+      position: relative;
+    }
+
+    @media ($screen-lg) {
+      padding-left: 0px;
+      padding-right: 20px;
+    }
+  }
+
+  &.expanded {
+    .header__search-form{
+      display: block;
+    }
+  }
+
+  i{
+    float: left;
+    @media ($screen-md) {
+      padding: 17px;
+    }
+  }
+  @media ($screen-md) {
+    float: left;
+    width: 35%;
+    color: $medium-gray;
+  }
+  @media ($screen-lg){
+    width: 50%;
+  }
+  .twitter-typeahead {
+    width: 100%;
+  }
+  .tt-menu {
+    @include dialog();
+    &.tt-open {
+      padding: 0;
+      width: 100%;
+
+      @media ($screen-md) {
+        width: 450px;
+      }
+      @media ($screen-xxl) {
+        width: 100%;
+      }
+      &:before {
+        content: none;
+        display: none;
+      }
+    }
+  }
+}
+
+.header__search-input{
+  border: none;
+  width: 100%;
+  outline: none;
+  border-radius: 25px !important;
+  height: 34px;
+  margin-bottom: 0px !important;
 }

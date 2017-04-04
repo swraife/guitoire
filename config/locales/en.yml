@@ -54,6 +54,9 @@ en:
         skills like juggling and unicycling, which you might perform in the
         same act or with the same group, it's usually easier to keep them in
         one workspace and use tags and custom fields to stay organized.
+  shared:
+    search:
+      search_placeholder: Search
   skill_names:
     acrobalance: Acrobalance
     aerial_fabrics: Aerial Fabrics

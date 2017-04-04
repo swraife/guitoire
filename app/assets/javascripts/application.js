@@ -17,7 +17,9 @@
 //= require hopscotch
 //= require featherlight
 //= require featherlight-gallery
+//= require typeahead.js/dist/typeahead.bundle.js
+//= require typeahead.js/dist/typeahead.jquery.js
+//= require typeahead.js/dist/bloodhound.js
 
 //= require_tree .
 //= require select2
-

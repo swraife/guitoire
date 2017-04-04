@@ -55,3 +55,54 @@ h3 {
 .select2-container--bootstrap {
   width: 100% !important;
 }
+@mixin dialog() {
+  box-shadow: 0 4px 6px 2px rgba(0, 0, 0, .10);
+  background-color: $cloud;
+}
+@mixin undialog() {
+  box-shadow: inherit;
+}
+.tt-open {
+  border-radius: 10px;
+}
+.tt-suggestion {
+  clear: both;
+  color: $dark-gray;
+  .tt-selectable {
+    border-bottom: thin $medium-gray;
+  }
+
+  .tt-highlight{
+    font-weight: normal;
+    color: $slate-blue;
+  }
+  a {
+    color: $dark-gray;
+    padding: 5px 10px;
+    display: block;
+    @include clearfix();
+
+    &:hover {
+      background-color: $marine-blue;
+      color: white;
+      .tt-highlight{
+        color: $medium-gray;
+      }
+    }
+  }
+  .suggestion_description {
+    font-size: 12px;
+    color: $dark-gray;
+  }
+  .suggestion_name {
+    color: $medium-gray;
+  }
+  img {
+    height: 40px;
+    width: 40px;
+    background-size: cover;
+    float: left;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+}

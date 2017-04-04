@@ -1,0 +1,19 @@
+{
+  "name": "guitoire",
+  "homepage": "https://github.com/swraife/guitoire",
+  "authors": [
+    "Sam Raife <swraife@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor/assets/components",
+    "test",
+    "tests"
+  ]
+}

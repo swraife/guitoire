@@ -14,6 +14,7 @@ Bundler.require(*Rails.groups)
 module Guitoire
   class Application < Rails::Application
     config.assets.quiet = true
+    config.assets.paths << Rails.root.join('vendor', 'assets', 'components')
     config.generators do |generate|
       generate.helper false
       generate.javascript_engine false

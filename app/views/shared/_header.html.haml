@@ -9,16 +9,21 @@
         G
   - if current_performer
     .header__menu
+      = render 'shared/search'
+
       // = link_to '#', id: 'notifications-dropdown-link' do
       //   %i.fa.fa-fw.fa-bell
-      = link_to '#', id: 'add-dropdown-link' do
-        %i.fa.fa-fw.fa-plus.add-dropdown-link
-      = link_to '#', id: 'search-dropdown-link' do
-        %i.fa.fa-fw.fa-search.search-dropdown-link
-      = link_to message_threads_path do
-        %i.fa.fa-envelope
-      = link_to '#', id: 'user-dropdown-link' do
-        %i.fa.fa-fw.fa-user.user-dropdown-link
+      .header__menu-icons
+        = link_to '#', id: 'search-dropdown-link' do
+          %i.fa.fa-fw.fa-search.search-dropdown-link
+        = link_to '#', id: 'library-dropdown-link' do
+          %i.fa.fa-fw.fa-bars.library-dropdown-link
+        = link_to '#', id: 'add-dropdown-link' do
+          %i.fa.fa-fw.fa-plus.add-dropdown-link
+        = link_to message_threads_path do
+          %i.fa.fa-envelope
+        = link_to '#', id: 'user-dropdown-link' do
+          %i.fa.fa-fw.fa-user.user-dropdown-link
     .header-dropdown.header__notifications-dropdown.hide
     .header-dropdown.header__add-dropdown.hide
       .header__dropdown-item
@@ -29,7 +34,7 @@
         .med-horizontal-border
       .header__dropdown-item
         = link_to 'Add Band', new_group_path
-    .header-dropdown.header__search-dropdown.hide
+    .header-dropdown.header__library-dropdown.hide
       .header-dropdown-item
         = link_to 'Songs', performer_songs_path(current_performer)
         .med-horizontal-border
@@ -62,8 +67,12 @@
       $('.header__add-dropdown').toggle();
     });
 
+    $('#library-dropdown-link').click(function() {
+      $('.header__library-dropdown').toggle();
+    });
+
     $('#search-dropdown-link').click(function() {
-      $('.header__search-dropdown').toggle();
+      $('.header__search-form').toggle();
     });
 
     $(window).click(function(e) {
@@ -71,8 +80,8 @@
       if (className != 'user-dropdown-link') {
         $('.header__user-dropdown').hide();
       };
-      if (className != 'search-dropdown-link') {
-        $('.header__search-dropdown').hide();
+      if (className != 'library-dropdown-link') {
+        $('.header__library-dropdown').hide();
       };
       if (className != 'add-dropdown-link') {
         $('.header__add-dropdown').hide();

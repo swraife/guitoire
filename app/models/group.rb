@@ -29,7 +29,7 @@ class Group < ApplicationRecord
 
   belongs_to :creator, class_name: 'Performer'
 
-  has_attached_file :avatar, styles: { medium: '300x300#', thumb: '100x100#' }, default_url: 'https://s3-us-west-2.amazonaws.com/guitoire/assorted/default_avatar.png'
+  has_attached_file :avatar, styles: { medium: '300x300#', thumb: '100x100#' }, default_url: 'https://s3-us-west-2.amazonaws.com/guitoire/assorted/:style/default_avatar.png'
   validates_attachment_content_type :avatar, :content_type => ['image/jpg', 'image/jpeg', 'image/png']
 
   after_create :creator_group_role
@@ -44,9 +44,7 @@ class Group < ApplicationRecord
     where(visibility: 0).or(where(id: has_role_ids))
   end
 
-  def public_name
-    name
-  end
+  alias_attribute :public_name, :name
 
   private
 

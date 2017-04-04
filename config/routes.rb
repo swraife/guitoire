@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   root 'pages#index'
 
+  get '/search' => 'search#search'
   resources :groups
 
   resources :messages, only: [:create]

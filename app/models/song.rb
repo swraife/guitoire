@@ -77,6 +77,8 @@ class Song < ApplicationRecord
     where(visibility: 0).or(where(id: has_role_ids))
   end
 
+  alias_attribute :public_name, :name
+
   def permissible_roles
     return %w(viewer follower) unless hidden?
     []
