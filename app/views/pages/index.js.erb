@@ -1,0 +1,2 @@
+$('.activities__wrapper').append("<%= j(render partial: 'shared/activities', locals: { activity_grouper: @activity_grouper }) %>")
+$('.pagination').html("<%= j(link_to_next_page @activities, 'Next Page', remote: true) %>")

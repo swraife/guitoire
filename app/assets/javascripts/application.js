@@ -20,6 +20,7 @@
 //= require typeahead.js/dist/typeahead.bundle.js
 //= require typeahead.js/dist/typeahead.jquery.js
 //= require typeahead.js/dist/bloodhound.js
+//= require jquery.infinite-pages
 
 //= require_tree .
 //= require select2

@@ -20,6 +20,7 @@
 
 %h3
   Recent Activity
-
-- @activity_grouper.each do |activities|
-  = render_activity(activities[0], locals: { activities: activities }, layout: :activity)
+.activities__wrapper
+  = render partial: 'shared/activities', locals: { activity_grouper: @activity_grouper }
+.pagination
+  = link_to_next_page @activities, 'Next Page', remote: true
