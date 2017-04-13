@@ -15,6 +15,9 @@
 class Routine < ApplicationRecord
   include GlobalOwner
   include TrackableAssociations
+  include PublicActivity::Model
+
+  tracked only: [:create], owner: :owner
 
   belongs_to :owner, polymorphic: true
   has_many :events

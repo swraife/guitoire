@@ -16,6 +16,11 @@ FactoryGirl.define do
     description 'Description'
   end
 
+  factory :play do
+    song_role
+    performer { song_role.owner }
+  end
+
   factory :routine_role do
     user_id 1
     set_list_id 1
@@ -64,6 +69,8 @@ FactoryGirl.define do
   end
 
   factory :song_role do
+    association :owner, factory: :performer
+    song
   end
 
   factory :user do

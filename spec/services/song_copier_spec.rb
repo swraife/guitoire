@@ -8,7 +8,7 @@ RSpec.describe SongCopier do
     it 'copies the song' do
       song
       expect do
-        described_class.new(song: song, copy_creator: performer).copy! 
+        described_class.new(song: song, copy_creator: performer).copy!
       end.to change(Song, :count).by(1)
     end
 

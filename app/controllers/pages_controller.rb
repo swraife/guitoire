@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
   def index
-    @activities = PublicActivity::Activity
-                    .activities_with_associations_preloaded
+    @activities = ActivityService.new(current_performer)
+                    .dashboard_activities
                     .order(created_at: :desc).page(params[:page])
     @activity_grouper = ActivityGrouper.new(@activities)
   end

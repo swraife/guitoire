@@ -25,7 +25,7 @@ class Song < ApplicationRecord
   include PublicActivity::Model
   include TrackableAssociations
 
-  tracked only: [:create], owner: :creator
+  tracked only: [:create], owner: :creator, recipient: :itself
 
   has_many :song_roles, dependent: :destroy
   has_many :admin_song_roles, -> { admin }, class_name: 'SongRole'

@@ -33,7 +33,7 @@ RSpec.describe SongRoleUpdater do
         described_class.new(song, [follower.id], []).update!
         song.reload
 
-        expect(song.admin_performers.reload).to include(follower)        
+        expect(song.admin_performers.reload).to include(follower)
       end
     end
   end
