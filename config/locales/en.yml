@@ -24,11 +24,11 @@ en:
         everyone: Everyone
         friends: Friends
         only_admins: Only Set List Admins
-    song:
+    feat:
       visibilities:
         everyone: Everyone
         friends: Friends
-        only_admins: Only Song Admins
+        only_admins: Only Feat Admins
     user:
       visibilities:
         everyone: Everyone
@@ -94,12 +94,12 @@ en:
     trapeze: Trapeze
     unicycling: Unicycling
     world: World
-  song_roles:
+  feat_roles:
     scopes:
       order_by_created_at: Order by Date Created
       order_by_last_played: Order by Last Played
       order_by_plays_count: Order by Plays Count
-      order_by_song_name: Order by Song Name
+      order_by_feat_name: Order by Feat Name
   time:
     formats:
       default:

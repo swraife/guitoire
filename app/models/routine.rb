@@ -26,8 +26,8 @@ class Routine < ApplicationRecord
   has_many :performers, through: :routine_roles, source: :owner, source_type: 'Performer'
   has_many :groups, through: :routine_roles, source: :owner, source_type: 'Group'
 
-  has_many :set_list_songs, dependent: :destroy
-  has_many :songs, through: :set_list_songs
+  has_many :routine_feats, dependent: :destroy
+  has_many :feats, through: :routine_feats
 
   after_save :owner_routine_role
 

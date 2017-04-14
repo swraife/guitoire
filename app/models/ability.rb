@@ -14,40 +14,40 @@ class Ability
       can :manage, :all
     else
       if @target_performer.visible_to? @performer
-        can :show, [Song, Routine] do |song|
-          song.everyone? || performer_or_actors_are_admin?(song)
+        can :show, [Feat, Routine] do |feat|
+          feat.everyone? || performer_or_actors_are_admin?(feat)
         end
 
-        can :index, [Song, Routine, Group]
+        can :index, [Feat, Routine, Group]
       end
 
-      can [:create, :update, :destroy], [Song, Routine] do |obj|
+      can [:create, :update, :destroy], [Feat, Routine] do |obj|
         performer_is_in_owner_performers?(obj.owner) || performer_or_actors_are_admin?(obj)
       end
 
-      can :copy, Song do |song|
-        song.copiable?
+      can :copy, Feat do |feat|
+        feat.copiable?
       end
 
-      can :follow, Song do |song|
-        !song.hidden?
+      can :follow, Feat do |feat|
+        !feat.hidden?
       end
 
       can [:create, :update, :destroy], RoutineRole do |obj|
         performer_is_in_owner_performers?(obj.owner)
       end
 
-      can [:create, :update, :destroy], SongRole do |song_role|
-        performer_is_in_owner_performers?(song_role.owner) &&
-          song_role.song.permissible_roles.include?(params[:song_role][:role])
+      can [:create, :update, :destroy], FeatRole do |feat_role|
+        performer_is_in_owner_performers?(feat_role.owner) &&
+          feat_role.feat.permissible_roles.include?(params[:feat_role][:role])
       end
 
       can :create, Play do |play|
-        play.song.everyone? || performer_or_actors_are_admin?(play.song)
+        play.feat.everyone? || performer_or_actors_are_admin?(play.feat)
       end
 
-      can [:create, :update, :destroy], SetListSong do |set_list_song|
-        performer_or_actors_are_admin? set_list_song.routine
+      can [:create, :update, :destroy], RoutineFeat do |routine_feat|
+        performer_or_actors_are_admin? routine_feat.routine
       end
 
       can [:update, :destroy], Group do |group|

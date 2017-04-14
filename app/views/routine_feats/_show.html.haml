@@ -1,0 +1,8 @@
+%li.routine_feat{id: "routine_feat_#{routine_feat.id}" }
+  = link_to routine_feat.feat do
+    %i.fa.fa-link
+  = routine_feat.feat.name
+
+  = form_for routine_feat, method: :delete, remote: true, html: {class: 'inl-block right'} do |f|
+    = button_tag type: 'submit', class: 'btn btn-times inl-block' do
+      %i.fa.fa-times

@@ -37,13 +37,13 @@
             .message_copies-unseen-count
               = current_user.message_copies.unseen.count
       .left-sidebar__link
-        = link_to new_performer_song_path(current_performer) do
+        = link_to new_performer_feat_path(current_performer) do
           %i.fa.fa-fw.fa-plus
-          Add Song
+          Add Feat
       .left-sidebar__link
-        = link_to performer_songs_path(current_performer) do
+        = link_to performer_feats_path(current_performer) do
           %i.fa.fa-fw.fa-search
-          Songs
+          Feats
       .left-sidebar__link
         = link_to performer_routines_path(current_performer) do
           %i.fa.fa-fw.fa-search

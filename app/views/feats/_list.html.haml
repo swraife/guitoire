@@ -1,0 +1,4 @@
+- @feats.each do |feat|
+  .feat__wrapper{id: "feat_#{feat.id}"}
+    = link_to feat.name, feat_path(feat)
+

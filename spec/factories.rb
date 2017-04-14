@@ -17,13 +17,13 @@ FactoryGirl.define do
   end
 
   factory :play do
-    song_role
-    performer { song_role.owner }
+    feat_role
+    performer { feat_role.owner }
   end
 
   factory :routine_role do
     user_id 1
-    set_list_id 1
+    routine_id 1
     role 1
   end
 
@@ -36,8 +36,8 @@ FactoryGirl.define do
   factory :file_resource do
   end
 
-  factory :set_list_song do
-    song_id 1
+  factory :routine_feat do
+    feat_id 1
     routine_id 1
     music_key 'MyString'
   end
@@ -50,7 +50,7 @@ FactoryGirl.define do
   factory :event do
     name 'MyString'
     date '2016-12-18'
-    set_list_id 1
+    routine_id 1
   end
 
   factory :resource do
@@ -61,16 +61,16 @@ FactoryGirl.define do
     name 'MyString'
   end
 
-  factory :song do
+  factory :feat do
     name 'Name'
     description 'MyText'
     music_key 'MyString'
     tempo 1
   end
 
-  factory :song_role do
+  factory :feat_role do
     association :owner, factory: :performer
-    song
+    feat
   end
 
   factory :user do

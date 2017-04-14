@@ -1,0 +1,11 @@
+.activity__subject
+  = link_to activity.owner.public_name, performer_feats_path(activity.owner)
+  = 'began following'
+  = link_to activity.recipient.creator.name, performer_feats_path(activity.recipient.creator)
+  = "'s #{'feat'.pluralize(activities.count)}:"
+  - truncated_sentence_array(activities.map(&:recipient).uniq).each do |item|
+    = item.is_a?(String) ? item : link_to(item.name, item)
+.activity_timestamp.subtext
+  %i.fa.fa-clock-o
+  = time_ago_in_words(activity.created_at)
+  = 'ago'

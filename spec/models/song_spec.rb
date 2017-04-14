@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: songs
+# Table name: feats
 #
 #  id             :integer          not null, primary key
 #  name           :string
@@ -21,7 +21,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Song, type: :model do
-  let(:song) { FactoryGirl.create(:song, creator: performer) }
+RSpec.describe Feat, type: :model do
+  let(:feat) { FactoryGirl.create(:feat, creator: performer) }
   let(:performer) { FactoryGirl.create(:performer) }
 end

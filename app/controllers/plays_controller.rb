@@ -1,8 +1,8 @@
 class PlaysController < ApplicationController
   def create
-    @song_role = SongRole.where(song_id: play_params[:song_id], owner: current_performer)
+    @feat_role = FeatRole.where(feat_id: play_params[:feat_id], owner: current_performer)
                     .first_or_create
-    @play = @song_role.plays.new(performer: current_performer)
+    @play = @feat_role.plays.new(performer: current_performer)
     authorize! :create, @play, params
 
     if @play.save
@@ -17,6 +17,6 @@ class PlaysController < ApplicationController
   private
 
   def play_params
-    params.require(:play).permit(:song_id)
+    params.require(:play).permit(:feat_id)
   end
 end

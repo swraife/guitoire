@@ -1,5 +1,0 @@
-%h1
-  Edit Song
-= render 'form'
-- if can? :destroy, @song
-  = link_to '(delete song)', song_path(@song), method: :delete, data: { confirm: "Are you sure you want to delete #{@song.name}?"}

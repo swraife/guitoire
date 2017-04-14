@@ -1,0 +1,154 @@
+- if !@current_performer_feat_role.admin? && can?(:copy, @feat)
+  = button_to 'Copy Feat', copy_feat_path(@feat), method: :post, form_class: 'inl-block right', class: 'btn-small copy-feat-btn'
+- if @current_performer_feat_role.viewer? && can?(:follow, @feat)
+  = form_for @current_performer_feat_role, html: { class: 'inl-block right' } do |f|
+    = f.hidden_field :feat_id
+    = f.hidden_field :global_owner, value: current_performer.global_id
+    = f.hidden_field :role, value: 'follower'
+    = f.submit 'Follow Feat', class: 'btn-small follow-feat-btn'
+- elsif @current_performer_feat_role.follower?
+  = form_for @current_performer_feat_role, html: { class: 'inl-block right' } do |f|
+    = f.hidden_field :role, value: 'viewer'
+    = f.submit 'Unfollow Feat', class: 'btn-small unfollow-feat-btn'
+
+.feat__name.item__show-name
+  %h1
+    = @feat.name
+- if can? :edit, @feat
+  .feat__edit-button.item__edit-link
+    = link_to '(edit)', edit_feat_path(@feat)
+.feat__play-form
+  = form_for @current_performer_feat_role.plays.build, remote: true, html: { class: 'inl-block' } do |f|
+    = f.hidden_field :feat_id, value: @current_performer_feat_role.feat_id
+    = button_tag type: 'submit', class: 'play-btn' do
+      %i.fa.fa-plus
+      = ' play'
+.feat__creator.small-gray
+  %p
+    = "Created by #{@feat.owner.public_name} on #{@feat.created_at.strftime('%-m/%-d/%y')}"
+.feat__description
+  %h2
+    Description:
+  %p
+    = @feat.description || 'None'
+.feat__key
+  %h2
+    = "Key: #{@feat.music_key || 'none'}"
+.feat__scale
+  %h2
+    = "Scale: #{@feat.scale || 'none'}"
+.feat__tempo
+  %h2
+    = "Tempo: #{@feat.tempo || 'none'}"
+.feat_composers
+  %h2.inl-block
+    Composers:
+  = @feat.composer_list
+.feat__versions
+  %h2.inl-block
+    Performers / Versions:
+  = @feat.version_list
+.feat__genres
+  %h2.inl-block
+    Genres:
+  = @feat.genre_list
+.feat__generics
+  %h2.inl-block
+    Miscellaneous Tags:
+  = @feat.generic_list
+.feat__resources-wrapper
+  %h2
+    Attachments:
+  - @feat.resources.each do |resource|
+    .feat__resource
+      - download_target = resource.resourceable.displayable_in_browser? ? '_blank' : '_top'
+      = link_to resource.resourceable.url, target: download_target do
+        %i{class: "fa #{resource.resourceable.icon}"}
+        = resource.resourceable.url_name
+      - if @current_performer_feat_role.has_edit_permission?
+        .feat__resource-delete-link
+          = link_to resource_path(resource), method: :delete, data: { confirm: "Are you sure you want to delete this #{resource.resourceable.is_a?(FileResource) ? 'file' : 'link'}?" } do
+            = '(delete)'
+
+- if can? :edit, @feat
+  = button_tag 'Attach File', class: 'add-resource-btn btn'
+  = button_tag 'Add Link', class: 'add-link-btn btn'
+
+  = form_for FileResource.new, html: { class: 'disable-on-submit' } do |f|
+    = f.label 'Upload File'
+    = f.file_field :main, name: 'file_resource[main]', accept: '.jpg, .jpeg, .png, .pdf, .gif, .docx, .doc, .xls, .xlsx, .mp3, .wav, .mp4, .txt, .mov'
+    = hidden_field_tag :feat_id, @feat.id
+    = button_tag type: 'submit', class: 'file_resource-upload-btn hide' do
+      %i.fa.fa-save
+      Upload
+
+  = form_for UrlResource.new, html: { class: 'disable-on-submit' } do |f|
+    = f.label 'Add Link'
+    = f.text_field :url
+    = hidden_field_tag :feat_id, @feat.id
+    = button_tag type: 'submit', class: 'url_resource-submit-btn' do |f|
+      %i.fa.fa-save
+      Save
+
+:javascript
+  $(document).ready(function() {
+    $('#new_file_resource').hide();
+    $('.add-resource-btn').click(function() {
+      $('#new_url_resource').hide();
+      $('#new_file_resource').toggle();
+    });
+
+    $('#new_url_resource').hide();
+    $('.add-link-btn').click(function() {
+      $('#new_file_resource').hide();
+      $('#new_url_resource').toggle();
+    });
+    $('input:file').change(function (){
+      $('.file_resource-upload-btn').show();
+    });
+
+    $('.follow-feat-btn').hover(function() {
+      var calloutMgr = hopscotch.getCalloutManager();
+      calloutMgr.createCallout({
+        id: 'follow-feat-btn-callout',
+        target: '.follow-feat-btn',
+        placement: 'bottom',
+        xOffset: -150,
+        arrowOffset: 200,
+        content: "Add this to your list of feats for easy searching and viewing. You won't be able to edit this feat, only the original creator can edit/delete."
+      });
+    }, function() {
+      var calloutMgr = hopscotch.getCalloutManager();
+      calloutMgr.removeCallout('follow-feat-btn-callout');
+    });
+
+    $('.unfollow-feat-btn').hover(function() {
+      var calloutMgr = hopscotch.getCalloutManager();
+      calloutMgr.createCallout({
+        id: 'unfollow-feat-btn-callout',
+        target: '.unfollow-feat-btn',
+        placement: 'bottom',
+        xOffset: -150,
+        arrowOffset: 200,
+        content: "Click this to remove this feat from your feat list. You can always follow it again later."
+      });
+    }, function() {
+      var calloutMgr = hopscotch.getCalloutManager();
+      calloutMgr.removeCallout('unfollow-feat-btn-callout');
+    });
+
+    $('.copy-feat-btn').hover(function() {
+      var calloutMgr = hopscotch.getCalloutManager();
+      calloutMgr.createCallout({
+        id: 'copy-feat-btn-callout',
+        target: '.copy-feat-btn',
+        placement: 'bottom',
+        xOffset: -150,
+        arrowOffset: 200,
+        content: "Make your own copy of this feat to edit and add attachments too. Your copy won't be affected by any changes the original creator makes to this one."
+      });
+    }, function() {
+      var calloutMgr = hopscotch.getCalloutManager();
+      calloutMgr.removeCallout('copy-feat-btn-callout');
+    });
+  });

@@ -24,12 +24,12 @@ require 'rails_helper'
 RSpec.describe Performer, type: :model do
   let(:performer) { FactoryGirl.create(:performer) }
 
-  describe '#song_tags' do
+  describe '#feat_tags' do
     it 'returns all tags when no context is given' do
-      song = FactoryGirl.create(:song, genre_list: [:jazz])
-      performer.songs << song
+      feat = FactoryGirl.create(:feat, genre_list: [:jazz])
+      performer.feats << feat
 
-      expect(performer.song_tags).to include(ActsAsTaggableOn::Tag.first)
+      expect(performer.feat_tags).to include(ActsAsTaggableOn::Tag.first)
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170331191016) do
+ActiveRecord::Schema.define(version: 20170414050517) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,34 @@ ActiveRecord::Schema.define(version: 20170331191016) do
     t.integer  "set_list_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "feat_roles", force: :cascade do |t|
+    t.integer  "feat_id"
+    t.integer  "owner_id"
+    t.integer  "role",        default: 0
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "plays_count", default: 0
+    t.string   "owner_type"
+    t.index ["feat_id", "owner_id", "owner_type"], name: "index_feat_roles_on_feat_id_and_owner_id_and_owner_type", unique: true, using: :btree
+  end
+
+  create_table "feats", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "music_key"
+    t.integer  "tempo"
+    t.integer  "composer_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "creator_id"
+    t.string   "scale"
+    t.string   "time_signature"
+    t.integer  "permission",     default: 0
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.integer  "visibility",     default: 0
   end
 
   create_table "file_resources", force: :cascade do |t|
@@ -162,7 +190,7 @@ ActiveRecord::Schema.define(version: 20170331191016) do
 
   create_table "plays", force: :cascade do |t|
     t.integer  "performer_id"
-    t.integer  "song_role_id"
+    t.integer  "feat_role_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
@@ -180,6 +208,16 @@ ActiveRecord::Schema.define(version: 20170331191016) do
     t.index ["creator_type", "creator_id"], name: "index_resources_on_creator_type_and_creator_id", using: :btree
     t.index ["resourceable_type", "resourceable_id"], name: "index_resources_on_resourceable_type_and_resourceable_id", using: :btree
     t.index ["target_id", "target_type"], name: "index_resources_on_target_id_and_target_type", using: :btree
+  end
+
+  create_table "routine_feats", force: :cascade do |t|
+    t.integer  "feat_id"
+    t.integer  "routine_id"
+    t.string   "music_key"
+    t.integer  "tempo"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "sort_value"
   end
 
   create_table "routine_roles", force: :cascade do |t|
@@ -201,50 +239,12 @@ ActiveRecord::Schema.define(version: 20170331191016) do
     t.integer  "visibility",  default: 0
   end
 
-  create_table "set_list_songs", force: :cascade do |t|
-    t.integer  "song_id"
-    t.integer  "routine_id"
-    t.string   "music_key"
-    t.integer  "tempo"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "sort_value"
-  end
-
   create_table "skills", force: :cascade do |t|
     t.string   "name"
     t.integer  "area_id"
     t.integer  "tag_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "song_roles", force: :cascade do |t|
-    t.integer  "song_id"
-    t.integer  "owner_id"
-    t.integer  "role",        default: 0
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-    t.integer  "plays_count", default: 0
-    t.string   "owner_type"
-    t.index ["song_id", "owner_id", "owner_type"], name: "index_song_roles_on_song_id_and_owner_id_and_owner_type", unique: true, using: :btree
-  end
-
-  create_table "songs", force: :cascade do |t|
-    t.string   "name"
-    t.text     "description"
-    t.string   "music_key"
-    t.integer  "tempo"
-    t.integer  "composer_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.integer  "creator_id"
-    t.string   "scale"
-    t.string   "time_signature"
-    t.integer  "permission",     default: 0
-    t.integer  "owner_id"
-    t.string   "owner_type"
-    t.integer  "visibility",     default: 0
   end
 
   create_table "taggings", force: :cascade do |t|

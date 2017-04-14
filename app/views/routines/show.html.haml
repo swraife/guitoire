@@ -14,27 +14,27 @@
     = @routine.description
 
 %h3
-  Add Song
+  Add Feat
 
-= render partial: 'set_list_songs/form', locals: { routine: @routine, songs: @songs }
+= render partial: 'routine_feats/form', locals: { routine: @routine, feats: @feats }
 
 %h3
-  Songs
+  Feats
 
-%ul.set_list_songs
-  - @routine.set_list_songs.each do |set_list_song|
-    = render partial: 'set_list_songs/show', locals: { set_list_song: set_list_song }
+%ul.routine_feats
+  - @routine.routine_feats.each do |routine_feat|
+    = render partial: 'routine_feats/show', locals: { routine_feat: routine_feat }
 
 :javascript
   $(document).ready(function() {
     if (#{ can? :edit, @routine}) {
-      $('.set_list_songs').sortable({
+      $('.routine_feats').sortable({
         cursor: 'move',
         update: function(e, ui) {
           var movedId = ui.item.attr('id').slice(14);
           var prevId = ui.item.prev().attr('id') && ui.item.prev().attr('id').slice(14);
           var nextId = ui.item.next().attr('id') && ui.item.next().attr('id').slice(14);
-          var url = "/set_list_songs/" + movedId;
+          var url = "/routine_feats/" + movedId;
           $.ajax({
             method: 'PUT',
             url: url,

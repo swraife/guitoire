@@ -12,7 +12,7 @@ class GroupsController < ApplicationController
     @current_performer_group_role = current_performer.group_roles.where(group: @group)
                                                        .first_or_initialize
 
-    @songs = @group.subscriber_songs.includes(:tags)
+    @feats = @group.subscriber_feats.includes(:tags)
                                     .visible_to(current_performer)
     @routines = @group.routines.visible_to(current_performer).order(:name)
   end

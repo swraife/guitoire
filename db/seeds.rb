@@ -18,9 +18,15 @@ names.each do |first, last|
 end
 puts 'users created'
 
-puts 'creating songs'
-song_names = ['Cherokee Shuffle', 'Summertime', 'Golden Slippers']
-song_names.each do |name|
-  Song.where(name: name).first_or_create(name: name, creator: User.first)
+puts 'creating performers...'
+User.each do |user|
+  Performer.create(user: user)
 end
-puts 'songs created'
+puts 'performers created!'
+
+puts 'creating feats'
+feat_names = ['Cherokee Shuffle', 'Summertime', 'Golden Slippers']
+feat_names.each do |name|
+  Feat.where(name: name).first_or_create(name: name, creator: Performer.first)
+end
+puts 'feats created'

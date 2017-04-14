@@ -21,7 +21,7 @@ class Group < ApplicationRecord
   include GroupRoleable
   include PgSearch
   include RoutineRoleOwner
-  include SongRoleOwner
+  include FeatRoleOwner
 
   has_many :performers, through: :group_roles
   has_many :admin_performers, through: :admin_group_roles, source: :performer

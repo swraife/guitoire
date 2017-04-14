@@ -4,7 +4,7 @@
 #
 #  id           :integer          not null, primary key
 #  performer_id :integer
-#  song_role_id :integer
+#  feat_role_id :integer
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #
@@ -15,12 +15,12 @@ class Play < ApplicationRecord
 
   default_scope { order('created_at DESC') }
 
-  tracked only: [:create], owner: :performer, recipient: :song
+  tracked only: [:create], owner: :performer, recipient: :feat
 
   belongs_to :performer
-  belongs_to :song_role, counter_cache: true
+  belongs_to :feat_role, counter_cache: true
 
-  has_one :song, through: :song_role
+  has_one :feat, through: :feat_role
 
   # To be deleted once owner is made polymorphic
   def owner
@@ -28,17 +28,17 @@ class Play < ApplicationRecord
   end
 
   def create_flash_notice
-    other_players_count = song.players.count - 1
-    others_text = other_players_count > 0 ? "#{other_players_count} others have played this song #{song.plays.count - song_role.plays.count} times." : ''
+    other_players_count = feat.players.count - 1
+    others_text = other_players_count > 0 ? "#{other_players_count} others have played this feat #{feat.plays.count - feat_role.plays.count} times." : ''
 
-    "Song Played! You have played this song #{song_role.plays.count} times! #{others_text}"
+    "Feat Played! You have played this feat #{feat_role.plays.count} times! #{others_text}"
   end
 
-  def song
-    song_role.song
+  def feat
+    feat_role.feat
   end
 
-  def song_id
-    song.id
+  def feat_id
+    feat.id
   end
 end

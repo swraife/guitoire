@@ -1,0 +1,19 @@
+- @feat_roles.each do |feat_role|
+  .feat__wrapper{id: "feat_#{feat_role.feat.id}"}
+    = link_to feat_role.feat.name, feat_path(feat_role.feat)
+    .subtext.inl-block
+      - if sort_by['order_by_last_played']
+        - last_play = feat_role.plays.first
+        - if last_play
+          = '  -  '
+          = time_ago_in_words(last_play.created_at)
+          = ' ago'
+      - elsif sort_by['order_by_plays_count']
+        - if feat_role.plays_count > 0
+          = '  -  '
+          = feat_role.plays_count
+          = 'time'.pluralize(feat_role.plays_count)
+      - elsif sort_by['order_by_created_at']
+        = '  -  '
+        = feat_role.created_at.strftime("%-m/%-d/%y")
+

@@ -8,10 +8,10 @@ class RoutinesController < ApplicationController
   end
 
   def show
-    # Watch out: including :routine_roles breaks set_list_songs ordering
-    @routine = Routine.includes(:set_list_songs, :songs).visible_to(current_performer)
+    # Watch out: including :routine_roles breaks routine_feats ordering
+    @routine = Routine.includes(:routine_feats, :feats).visible_to(current_performer)
                       .find(params[:id])
-    @songs = @routine.owner.songs.order(:name)
+    @feats = @routine.owner.feats.order(:name)
   end
 
   def new

@@ -27,33 +27,33 @@ class ActivityService
     joins.where(
       play_activities
         .or(resource_activities)
-        .or(song_create_activities)
+        .or(feat_create_activities)
         .or(routine_create_activities)
-        .or(song_role_follower_activities)
+        .or(feat_role_follower_activities)
     )
   end
 
   def joins
-    activities.join(songs, Arel::Nodes::OuterJoin).on(join_condition(songs, 'recipient'))
+    activities.join(feats, Arel::Nodes::OuterJoin).on(join_condition(feats, 'recipient'))
       .join(performers, Arel::Nodes::OuterJoin).on(join_condition(performers, 'owner'))
       .join(routines, Arel::Nodes::OuterJoin).on(join_condition(routines, 'trackable'))
   end
 
   def play_activities
     activities[:key].eq('play.create')
-      .and(recipient_song_is_visible)
+      .and(recipient_feat_is_visible)
       .and(owner_is_visible)
   end
 
   def resource_activities
     activities[:key].eq('resource.create')
-      .and(recipient_song_is_visible)
+      .and(recipient_feat_is_visible)
       .and(owner_is_visible)
   end
 
-  def song_role_follower_activities
-    activities[:key].eq('song_role.create_follower')
-      .and(recipient_song_is_visible)
+  def feat_role_follower_activities
+    activities[:key].eq('feat_role.create_follower')
+      .and(recipient_feat_is_visible)
       .and(owner_is_visible)
   end
 
@@ -65,15 +65,15 @@ class ActivityService
         .or(is_admin?(routines)))
   end
 
-  def song_create_activities
-    activities[:key].eq('song.create')
-      .and(recipient_song_is_visible)
+  def feat_create_activities
+    activities[:key].eq('feat.create')
+      .and(recipient_feat_is_visible)
   end
 
-  def recipient_song_is_visible
-    visibility_everyone?(songs)
-      .or(visibility_friends?(songs).and(owner_is_friend?(songs)))
-      .or(is_admin?(songs))
+  def recipient_feat_is_visible
+    visibility_everyone?(feats)
+      .or(visibility_friends?(feats).and(owner_is_friend?(feats)))
+      .or(is_admin?(feats))
   end
 
   def owner_is_visible
@@ -109,8 +109,8 @@ class ActivityService
                       .and(table[:id].in(send("admin_#{table.name}_ids")))
   end
 
-  def recipient_is_song?
-    activities[:recipient_type].eq('Song')
+  def recipient_is_feat?
+    activities[:recipient_type].eq('Feat')
   end
 
   def recipient_is_nil?
@@ -121,12 +121,12 @@ class ActivityService
     table.send(:type_caster).send(:types).name
   end
 
-  def songs
-    @songs ||= Song.arel_table
+  def feats
+    @feats ||= Feat.arel_table
   end
 
-  def trackable_songs
-    @trackable_songs ||= Arel::Table.new(:songs, as: 'trackable_songs')
+  def trackable_feats
+    @trackable_feats ||= Arel::Table.new(:feats, as: 'trackable_feats')
   end
 
   def performers
@@ -141,15 +141,15 @@ class ActivityService
     @friends_ids ||= performer.friendships_performer_ids
   end
 
-  def admin_songs_ids
-    @admin_songs_ids ||= performer.admin_song_ids
+  def admin_feats_ids
+    @admin_feats_ids ||= performer.admin_feat_ids
   end
 
   def admin_routines_ids
     @admin_routines_ids ||= performer.admin_routine_ids
   end
 
-  def admin_trackable_songs_ids
-    admin_songs_ids
+  def admin_trackable_feats_ids
+    admin_feats_ids
   end
 end

@@ -1,0 +1,4 @@
+= form_for RoutineFeat.new, remote: true do |f|
+  = f.hidden_field :routine_id, value: routine.id
+  = f.select :feat_id, options_from_collection_for_select(feats, :id, :name), include_blank: 'Select Feat'
+  = f.submit 'Add Feat'

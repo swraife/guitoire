@@ -9,16 +9,16 @@ Rails.application.routes.draw do
   resources :messages, only: [:create]
   resources :message_threads, only: [:create, :index]
 
-  resources :songs do
+  resources :feats do
     member do
       post 'copy'
     end
   end
-  resources :song_roles
+  resources :feat_roles
   resources :plays, only: [:create]
 
   resources :performers do
-    resources :songs
+    resources :feats
     resources :groups
     resources :routines
   end
@@ -34,7 +34,7 @@ Rails.application.routes.draw do
   resources :url_resources
 
   resources :routines
-  resources :set_list_songs
+  resources :routine_feats
 
   resources :friendships
 end

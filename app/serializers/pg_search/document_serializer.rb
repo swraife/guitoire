@@ -12,7 +12,7 @@ class PgSearch::DocumentSerializer < ActiveModel::Serializer
   end
 
   def avatar
-    if object.searchable.is_a? Song
+    if object.searchable.is_a? Feat
       object.searchable.owner.avatar.url(:thumb)
     else
       object.searchable.avatar.url(:thumb)
@@ -24,7 +24,7 @@ class PgSearch::DocumentSerializer < ActiveModel::Serializer
       ''
     elsif object.searchable.is_a? Group
       object.searchable.performers.map(&:public_name)
-    elsif object.searchable.is_a? Song
+    elsif object.searchable.is_a? Feat
       object.searchable.owner.public_name
     end
   end

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe PlaysController, type: :controller do
-  let(:song) { FactoryGirl.create(:song) }
+  let(:feat) { FactoryGirl.create(:feat) }
   let(:performer) { FactoryGirl.create(:performer) }
 
   before(:each) do
@@ -9,19 +9,19 @@ RSpec.describe PlaysController, type: :controller do
   end
 
   describe 'POST #create' do
-    it 'creates a new song role and play' do
-      current_user_song_role = SongRole.new(song: song, owner: performer)
-      post :create, params: { play: { song_id: song.id } }, xhr: true
+    it 'creates a new feat role and play' do
+      current_user_feat_role = FeatRole.new(feat: feat, owner: performer)
+      post :create, params: { play: { feat_id: feat.id } }, xhr: true
 
-      expect(SongRole.where(owner: performer, song: song).count).to eq(1)
+      expect(FeatRole.where(owner: performer, feat: feat).count).to eq(1)
       expect(Play.count).to eq(1)
     end
 
-    it 'finds existing song_role and creates new play' do
-      current_user_song_role = SongRole.create(song: song, owner: performer)
+    it 'finds existing feat_role and creates new play' do
+      current_user_feat_role = FeatRole.create(feat: feat, owner: performer)
 
-      post :create, params: { play: { song_id: song.id } }, xhr: true
-      expect(Play.first.song_role_id).to eq(current_user_song_role.id)
+      post :create, params: { play: { feat_id: feat.id } }, xhr: true
+      expect(Play.first.feat_role_id).to eq(current_user_feat_role.id)
     end
   end
 end

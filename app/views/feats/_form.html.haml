@@ -1,0 +1,93 @@
+.feat-form__wrapper
+  = form_for @feat, html: { class: 'disable-on-submit' } do |f|
+    .feat-owner{class: "#{'hide' unless performer_has_groups(current_performer)}"}
+      = f.label :owner
+      = f.select :global_owner, options_from_collection_for_select(current_performer.actors, :global_id, :public_name, @feat.owner&.global_id)
+
+    = f.label :name
+    = f.text_field :name
+    .feat__duplicates-wrapper.hide
+      Possible duplicates:
+      - @feats.each do |feat|
+        .feat__duplicate-link.hide{id: "feat_id_#{feat.id}"}
+          = link_to feat.name, feat_path(feat)
+          = ', '
+
+    = f.label :description
+    = f.text_area :description
+
+    = f.label 'Key'
+    = f.select :music_key, options_for_select(Feat::MUSICKEYS, @feat.music_key), include_blank: true
+
+    = f.label :scale
+    = f.select :scale, options_for_select(Feat::SCALES, @feat.scale), include_blank: true
+
+    = f.label :time_signature
+    = f.select :time_signature, options_for_select(Feat::TIME_SIGNATURES, @feat.time_signature), include_blank: true
+
+    = f.label :tempo
+    = f.select :tempo, options_for_select((55..155).step(5).to_a, @feat.tempo), include_blank: true
+
+    = f.label 'Composers'
+    = f.select :composer_list, options_for_select(current_performer.feat_tags('composers'), @feat.composer_list), {include_blank: true}, {multiple: true, class: 'add-select2'}
+
+    = f.label 'Performers / Versions'
+    = f.select :version_list, options_for_select(current_performer.feat_tags('versions'), @feat.version_list), {include_blank: true}, {multiple: true, class: 'add-select2'}
+
+    = f.label 'Genres'
+    = f.select :genre_list, options_for_select(current_performer.feat_tags('genres'), @feat.genre_list), {include_blank: true}, {multiple: true, class: 'add-select2'}
+
+    = f.label 'Miscellaneous Tags'
+    = f.select :generic_list, options_for_select(current_performer.feat_tags('generics'), @feat.generic_list), {include_blank: true}, {multiple: true, class: 'add-select2'}
+
+    = f.label 'Admin Users'
+    = f.select :admin_performer_ids, options_from_collection_for_select(Performer.where.not(id: current_performer.id), :id, :public_name, @feat.admin_performers.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
+
+    = f.label 'Admin Bands'
+    = f.select :admin_group_ids, options_from_collection_for_select(current_performer.admin_groups, :id, :name, @feat.admin_groups.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
+
+    = f.label 'Visible To:'
+    - default_visibility = @feat.persisted? ? @feat.visibility : current_performer.visibility
+    = f.select :visibility, options_for_select(enum_select_options(Feat, 'visibilities'), default_visibility)
+
+    %br
+
+    = f.submit 'Save', class: 'save-feat-btn'
+
+:javascript
+  var feats = #{@feats.reject { |feat| feat == @feat }.map { |feat| [feat.id, feat.name.downcase, feat.tags.map(&:name), feat_path(feat)] } };
+
+  $(document).ready(function() { 
+    $('.feat__duplicate-link').hide();
+
+    $('#feat_name').keyup(function() {
+      $('.feat__duplicates-wrapper').hide();
+      var searchInput = $(this).val().toLowerCase();
+      if (searchInput.length > 2) {
+        feats.forEach(function(i) {
+          if (i[1].includes(searchInput)) {
+            $('.feat__duplicates-wrapper').show();
+            $('#feat_id_' + i[0]).show();
+          } else {
+            $('#feat_id_' + i[0]).hide();
+          }
+        });
+      } else {
+        $('.feat__duplicates-wrapper').hide();
+      }
+    });
+
+    $('.save-feat-btn').click(function(e) {
+      var featName = $('#feat_name').val().toLowerCase();
+
+      var matches = feats.filter(function(i) {
+        return i[1] == featName
+      });
+
+      if (matches.length > 0) {
+        if (!confirm("Are you sure this isn't a duplicate?")) {
+          e.preventDefault();
+        }
+      }
+    });
+  });

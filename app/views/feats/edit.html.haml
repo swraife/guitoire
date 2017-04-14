@@ -1,0 +1,5 @@
+%h1
+  Edit Feat
+= render 'form'
+- if can? :destroy, @feat
+  = link_to '(delete feat)', feat_path(@feat), method: :delete, data: { confirm: "Are you sure you want to delete #{@feat.name}?"}

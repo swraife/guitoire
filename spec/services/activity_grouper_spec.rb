@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ActivityGrouper do
   let(:user1) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }
-  let(:song) { FactoryGirl.create(:song) }
+  let(:feat) { FactoryGirl.create(:feat) }
 
   describe '#grouped_activities' do
     it 'groups play.create activities by day and user' do

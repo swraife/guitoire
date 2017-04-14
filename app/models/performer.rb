@@ -25,7 +25,7 @@ class Performer < ApplicationRecord
   include GroupRoleable
   include PgSearch
   include RoutineRoleOwner
-  include SongRoleOwner
+  include FeatRoleOwner
 
   belongs_to :area
   belongs_to :user
@@ -37,11 +37,11 @@ class Performer < ApplicationRecord
   has_many :member_groups, through: :member_group_roles, source: :group
 
   has_many :plays
-  has_many :played_songs, -> { distinct }, through: :plays, source: :song
+  has_many :played_feats, -> { distinct }, through: :plays, source: :feat
 
   has_many :resources, as: :creator
-  has_many :created_songs, class_name: 'Song', foreign_key: :creator_id
-  has_many :set_list_songs, through: :routines
+  has_many :created_feats, class_name: 'Feat', foreign_key: :creator_id
+  has_many :routine_feats, through: :routines
 
   has_many :tags, through: :taggings
 
@@ -72,10 +72,10 @@ class Performer < ApplicationRecord
     self[:public_name] || user.public_name
   end
 
-  def song_tags(context = nil)
+  def feat_tags(context = nil)
     context_query = context.nil? ? '' : { taggings: { context: context } }
     ActsAsTaggableOn::Tag.includes(:taggings)
-                         .where(taggings: { taggable: songs })
+                         .where(taggings: { taggable: feats })
                          .where(context_query)
   end
 
