@@ -10,11 +10,11 @@ task create_performers: :environment do
       Resource.where(creator: user)
               .update_all(creator_id: performer.id, creator_type: 'Performer')
 
-      [Song, Group].each do |klass|
+      [Feat, Group].each do |klass|
         klass.where(creator_id: user.id).update_all(creator_id: performer.id)
       end
 
-      [Song, SongRole, Routine, RoutineRole, PublicActivity::Activity].each do |klass|
+      [Feat, FeatRole, Routine, RoutineRole, PublicActivity::Activity].each do |klass|
         klass.where(owner: user)
              .update_all(owner_id: performer.id, owner_type: 'Performer')
       end
