@@ -5,7 +5,7 @@
 #  id         :integer          not null, primary key
 #  name       :string
 #  area_id    :integer
-#  type_of    :string
+#  tag_id     :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

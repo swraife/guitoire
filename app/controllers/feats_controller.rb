@@ -14,17 +14,25 @@ class FeatsController < ApplicationController
 
   def show
     @feat = Feat.includes(resources: [:resourceable]).find(params[:id])
-    @current_performer_feat_role = @feat.feat_roles.where(owner: current_performer)
-                                              .first_or_initialize
+    @current_performer_feat_role =
+      @feat.feat_roles.where(owner: current_performer).first_or_initialize
+    @groups_feat_roles = @feat.feat_roles.includes(:base_tags, :owner)
+                           .where(owner: current_performer.groups)
   end
 
   def new
-    @feat = Feat.new
+    @feat = current_performer.feats_as_owner.build
     @feats = current_performer.feats.order(:name)
+    @feat_role = @feat.feat_roles.build
   end
 
   def create
-    if @feat = Feat.create(feat_params.merge(creator: current_performer))
+    @feat = Feat.new(feat_params.merge(creator: current_performer))
+    params[:custom_contexts].each do |k,v|
+      @feat.set_tag_list_on(helpers.context_name_for(k), v)
+    end
+
+    if @feat.save
       redirect_to @feat
     end
   end
@@ -47,15 +55,24 @@ class FeatsController < ApplicationController
     @feats = Feat.includes(:subscriber_feat_roles)
                  .where(feat_roles: { owner: current_performer.actors })
                  .order(:name)
+    @feat_role = @feat.feat_roles.where(owner: current_performer).first_or_initialize
   end
 
   def update
+    @feat.assign_attributes(feat_params.except(:admin_performer_ids, :admin_group_ids))
+    params[:custom_contexts].each do |k,v|
+      @feat.set_tag_list_on(helpers.context_name_for(k), v)
+    end
+
+    if @feat_role = @feat.feat_roles.where(owner: @feat.owner).first_or_initialize
+                      .update(feat_role_params)
     # Have to use feat_role_updater instead of ActiveRecord methods, because performer
     # may have an existing non-admin feat_role for the feat
-    if @feat.update(feat_params.except(:admin_performer_ids, :admin_group_ids))
-      FeatRoleUpdater.new(@feat, feat_params[:admin_performer_ids],
-                          feat_params[:admin_group_ids]).update!
-      redirect_to performer_feat_path(current_performer, @feat)
+      if @feat.save
+        FeatRoleUpdater.new(@feat, feat_params[:admin_performer_ids],
+                            feat_params[:admin_group_ids]).update!
+        redirect_to performer_feat_path(current_performer, @feat)
+      end
     end
   end
 
@@ -68,5 +85,9 @@ class FeatsController < ApplicationController
       genre_list: [], generic_list: [], composer_list: [], admin_performer_ids: [],
       admin_group_ids: []
     )
+  end
+
+  def feat_role_params
+    params.require(:feat_role).permit(private_list: [])
   end
 end

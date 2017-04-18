@@ -57,7 +57,7 @@ class Feat < ApplicationRecord
   has_many :players, -> { distinct }, through: :plays, source: :performer
   has_many :routine_feats, dependent: :destroy
 
-  acts_as_taggable_on :composers, :versions, :genres, :generics
+  acts_as_taggable_on :generics
 
   after_create :owner_feat_role
 
@@ -66,9 +66,15 @@ class Feat < ApplicationRecord
 
   multisearchable against: :name
 
-  MUSICKEYS = %w(A A# B B# C D D# E F F# G G#)
-  SCALES = %w(Major Minor Blues)
-  TIME_SIGNATURES = ['4/4', '3/4', '2/4', '3/8']
+  accepts_nested_attributes_for :feat_roles
+
+  # after_initialize :define_tag_setters
+
+  # def define_tag_setters
+  #   class_eval do
+
+  #   end
+  # end
 
   # TODO: Add friends to query
   def self.visible_to(performer)

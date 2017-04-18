@@ -31,6 +31,8 @@ class FeatRole < ApplicationRecord
 
   enum role: [:viewer, :admin, :follower]
 
+  acts_as_taggable_on :private
+
   after_create :create_follower_activity
 
   def self.scopes

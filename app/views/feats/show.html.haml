@@ -31,31 +31,41 @@
     Description:
   %p
     = @feat.description || 'None'
-.feat__key
-  %h2
-    = "Key: #{@feat.music_key || 'none'}"
-.feat__scale
-  %h2
-    = "Scale: #{@feat.scale || 'none'}"
-.feat__tempo
-  %h2
-    = "Tempo: #{@feat.tempo || 'none'}"
-.feat_composers
-  %h2.inl-block
-    Composers:
-  = @feat.composer_list
-.feat__versions
-  %h2.inl-block
-    Performers / Versions:
-  = @feat.version_list
-.feat__genres
-  %h2.inl-block
-    Genres:
-  = @feat.genre_list
 .feat__generics
   %h2.inl-block
-    Miscellaneous Tags:
+    Tags:
   = @feat.generic_list
+
+- feat_custom_contexts = @feat.custom_contexts.reject { |c| c == 'generics' }
+- if feat_custom_contexts.present?
+  %h3
+    Custom Fields
+  .horizontal-border
+  - feat_custom_contexts.each do |context|
+    .feat__custom_context
+      %h2.inl-block
+        = @feat.owner.feat_contexts[context] || context.titlecase
+        = ':'
+      = @feat.tag_list_on(context)
+
+- if @current_performer_feat_role.private_list.present?
+  .feat__role_tags
+    %h2.inl-block
+      Private Tags:
+    = @current_performer_feat_role.private_list
+
+// - if @groups_feat_roles.any? { |feat_role| feat_role.private_list.present? }
+//   %h3
+//     Private Custom Fields
+//   .horizontal-border
+//   - @groups_feat_roles.each do |feat_role|
+//     - feat_role.custom_contexts.reject { |c| c == 'private'}&.each do |context|
+//       .feat__role-custom_context
+//         %h2.inl-block
+//           = feat_role.owner.feat_role_contexts&[context] || context.titlecase
+//           = ':'
+//         = feat_role.tag_list_on(context)
+
 .feat__resources-wrapper
   %h2
     Attachments:

@@ -14,6 +14,7 @@
 #  creator_id          :integer
 #  description         :text
 #  visibility          :integer          default("everyone")
+#  context_settings    :jsonb
 #
 
 class Group < ApplicationRecord
@@ -31,6 +32,8 @@ class Group < ApplicationRecord
 
   has_attached_file :avatar, styles: { medium: '300x300#', thumb: '100x100#' }, default_url: 'https://s3-us-west-2.amazonaws.com/guitoire/assorted/:style/default_avatar.png'
   validates_attachment_content_type :avatar, :content_type => ['image/jpg', 'image/jpeg', 'image/png']
+
+  store_accessor :context_settings, :feat_contexts, :feat_role_contexts
 
   after_create :creator_group_role
 

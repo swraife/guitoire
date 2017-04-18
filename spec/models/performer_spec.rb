@@ -17,6 +17,7 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  area_id             :integer
+#  context_settings    :jsonb
 #
 
 require 'rails_helper'

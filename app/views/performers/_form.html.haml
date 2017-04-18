@@ -40,6 +40,11 @@
         = f.label 'Who can see your stuff by default? (You can also hide/share things individually)'
         = f.select :visibility, options_for_select(enum_select_options(User, :visibilities), @performer.visibility)
 
+        = f.label 'Add Custom Fields to organize your repertoire (E.g. \'tempo\' if you play music, or \'Number of People\' for circus skills)'
+        = f.select :feat_contexts,
+                   options_for_select(feat_context_options_for(@performer.actors), @performer.feat_contexts.values),
+                   {include_blank: true}, {multiple: true, class: 'add-select2'}
+
       .lrg-horizontal-border
 
       = f.submit 'All Set!'

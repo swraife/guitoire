@@ -47,4 +47,16 @@ module ApplicationHelper
       [t("enum.#{klass.to_s.underscore}.#{enum}.#{k}"), k]
     end
   end
+
+  def feat_context_options_for(actors)
+    actors.map(&:feat_contexts).compact.map(&:values).flatten.uniq
+  end
+
+  def context_name_for(context)
+    Contexts.name_for(context)
+  end
+
+  def context_names_for(context_setting)
+    Contexts.names_for(context_setting)
+  end
 end

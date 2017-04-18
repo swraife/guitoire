@@ -1,5 +1,5 @@
 .feat-form__wrapper
-  = form_for @feat, html: { class: 'disable-on-submit' } do |f|
+  = form_for @feat, html: { class: 'disable-on-submit', id: 'feat_form'} do |f|
     .feat-owner{class: "#{'hide' unless performer_has_groups(current_performer)}"}
       = f.label :owner
       = f.select :global_owner, options_from_collection_for_select(current_performer.actors, :global_id, :public_name, @feat.owner&.global_id)
@@ -16,34 +16,25 @@
     = f.label :description
     = f.text_area :description
 
-    = f.label 'Key'
-    = f.select :music_key, options_for_select(Feat::MUSICKEYS, @feat.music_key), include_blank: true
+    - current_performer.actors.each do |actor|
+      .feat__actor-fields{ id: "actor-fields-#{actor.global_id}" }
+        = f.label 'Tags'
+        = f.select :generic_list, options_for_select(actor.feat_tags('generics'), @feat.generic_list), {include_blank: true}, {multiple: true, class: 'add-select2 tag-field'}
 
-    = f.label :scale
-    = f.select :scale, options_for_select(Feat::SCALES, @feat.scale), include_blank: true
+        - if actor == current_performer
+          = f.label 'Private Tags'
+          = fields_for @feat_role do |ff|
+            = ff.select :private_list, options_for_select(current_performer.feat_role_tags('private'), @feat_role.private_list), {include_blank: true}, {multiple: true, class: 'add-select2'}
 
-    = f.label :time_signature
-    = f.select :time_signature, options_for_select(Feat::TIME_SIGNATURES, @feat.time_signature), include_blank: true
-
-    = f.label :tempo
-    = f.select :tempo, options_for_select((55..155).step(5).to_a, @feat.tempo), include_blank: true
-
-    = f.label 'Composers'
-    = f.select :composer_list, options_for_select(current_performer.feat_tags('composers'), @feat.composer_list), {include_blank: true}, {multiple: true, class: 'add-select2'}
-
-    = f.label 'Performers / Versions'
-    = f.select :version_list, options_for_select(current_performer.feat_tags('versions'), @feat.version_list), {include_blank: true}, {multiple: true, class: 'add-select2'}
-
-    = f.label 'Genres'
-    = f.select :genre_list, options_for_select(current_performer.feat_tags('genres'), @feat.genre_list), {include_blank: true}, {multiple: true, class: 'add-select2'}
-
-    = f.label 'Miscellaneous Tags'
-    = f.select :generic_list, options_for_select(current_performer.feat_tags('generics'), @feat.generic_list), {include_blank: true}, {multiple: true, class: 'add-select2'}
+        - actor.feat_contexts&.each do |context, context_name|
+          = f.label context_name
+          = select_tag "custom_contexts[#{context}]",
+                       options_for_select(actor.feat_tags(context), @feat.tag_list_on(context)), {include_blank: true, multiple: true, class: 'add-select2 tag-field'}
 
     = f.label 'Admin Users'
-    = f.select :admin_performer_ids, options_from_collection_for_select(Performer.where.not(id: current_performer.id), :id, :public_name, @feat.admin_performers.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
+    = f.select :admin_performer_ids, options_from_collection_for_select(Performer.all, :id, :public_name, @feat.admin_performers.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
 
-    = f.label 'Admin Bands'
+    = f.label 'Admin Groups'
     = f.select :admin_group_ids, options_from_collection_for_select(current_performer.admin_groups, :id, :name, @feat.admin_groups.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
 
     = f.label 'Visible To:'
@@ -59,6 +50,7 @@
 
   $(document).ready(function() { 
     $('.feat__duplicate-link').hide();
+    displayCustomContexts($('#feat_global_owner').val());
 
     $('#feat_name').keyup(function() {
       $('.feat__duplicates-wrapper').hide();
@@ -90,4 +82,19 @@
         }
       }
     });
+
+    $('#feat_form').submit(function() {
+      var globalOwner = $('#feat_global_owner').val();
+      $('.tag-field').not($('#actor-fields-' + globalOwner + ' .tag-field')).val('');
+    });
+
+    $('#feat_global_owner').change(function() {
+      var globalOwner = $(this).val();
+      displayCustomContexts(globalOwner);
+    });
   });
+
+  function displayCustomContexts(globalOwner) {
+    $('.feat__actor-fields').hide();
+    $('#actor-fields-' + globalOwner).show();
+  }

@@ -17,6 +17,7 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  area_id             :integer
+#  context_settings    :jsonb
 #
 
 class Performer < ApplicationRecord
@@ -48,7 +49,9 @@ class Performer < ApplicationRecord
   # default_scope { includes(:user) }
 
   acts_as_taggable_on :standard_skills, :user_input_skills, :followed_skills
+  store_accessor :context_settings, :feat_contexts, :feat_role_contexts
 
+  before_save :format_custom_contexts
   after_create :user_default_performer, :create_followed_skills
 
   enum visibility: [:everyone, :friends]
@@ -70,13 +73,6 @@ class Performer < ApplicationRecord
 
   def public_name
     self[:public_name] || user.public_name
-  end
-
-  def feat_tags(context = nil)
-    context_query = context.nil? ? '' : { taggings: { context: context } }
-    ActsAsTaggableOn::Tag.includes(:taggings)
-                         .where(taggings: { taggable: feats })
-                         .where(context_query)
   end
 
   def skills
@@ -107,6 +103,14 @@ class Performer < ApplicationRecord
       ActsAsTaggableOn::Tagging.create(tag: tag,
                                         taggable: self,
                                         context: 'followed_skills') 
+    end
+  end
+
+  def format_custom_contexts
+    if feat_contexts.is_a? Array
+      self.feat_contexts = feat_contexts.each_with_object({}) do |context, hsh|
+        hsh[Contexts.name_for(context)] = context if context.present?
+      end
     end
   end
 end

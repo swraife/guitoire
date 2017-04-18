@@ -5,7 +5,7 @@
 #  id          :integer          not null, primary key
 #  name        :string
 #  date        :date
-#  routine_id :integer
+#  set_list_id :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
