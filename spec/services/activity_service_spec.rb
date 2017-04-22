@@ -35,6 +35,11 @@ RSpec.describe ActivityService do
           FactoryGirl.create(:accepted_friendship, connector: feat.owner, connected: performer)
           expect(subject).to include(feat.activities.first)
         end
+
+        it 'returns the activity when performer is viewer' do
+          feat = FactoryGirl.create(:feat, owner: performer, creator: performer, visibility: visibility)
+          expect(subject).to include(feat.activities.first)
+        end
       end
 
       context 'feat visibility is only_admins' do

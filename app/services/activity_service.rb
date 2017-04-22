@@ -138,7 +138,7 @@ class ActivityService
   end
 
   def friends_ids
-    @friends_ids ||= performer.friendships_performer_ids
+    @friends_ids ||= performer.friendships_performer_ids.push(performer.id)
   end
 
   def admin_feats_ids
