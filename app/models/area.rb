@@ -13,4 +13,11 @@ class Area < ApplicationRecord
   has_many :skills
 
   has_many :tags, through: :skills
+
+  DEFAULT_FEAT_NAMES = {
+    1 => 'move',
+    2 => 'move',
+    3 => 'song',
+    4 => 'skill'
+  }
 end

@@ -26,7 +26,7 @@ class FeatRole < ApplicationRecord
                                     .group('feat_roles.id')
                                     .order('max(plays.created_at) DESC NULLS LAST') }
   scope :order_by_plays_count, -> { includes(:plays).order('plays_count DESC') }
-  scope :order_by_feat_name, -> { order('feats.name') }
+  scope :order_by_name, -> { order('feats.name') }
   scope :order_by_created_at, -> { order(created_at: :desc) }
 
   enum role: [:viewer, :admin, :follower]
@@ -36,8 +36,8 @@ class FeatRole < ApplicationRecord
   after_create :create_follower_activity
 
   def self.scopes
-    # order_by_feat_name should be first. The order is the order of display in the select_tag
-    [:order_by_feat_name, :order_by_created_at, :order_by_plays_count, :order_by_last_played]
+    # order_by_name should be first. The order is the order of display in the select_tag
+    [:order_by_name, :order_by_created_at, :order_by_plays_count, :order_by_last_played]
   end
 
   def self.subscriber

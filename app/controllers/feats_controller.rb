@@ -3,7 +3,7 @@ class FeatsController < ApplicationController
 
   def index
     @performer = Performer.find(params[:performer_id])
-    order = FeatRole.scopes.include?(params[:sort_by]&.to_sym) ? params[:sort_by] : 'order_by_feat_name'
+    order = FeatRole.scopes.include?(params[:sort_by]&.to_sym) ? params[:sort_by] : 'order_by_name'
     @feat_roles = @performer.subscriber_feat_roles.includes(:plays, feat: :tags).send(order)
 
     respond_to do |format|

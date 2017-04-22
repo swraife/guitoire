@@ -17,7 +17,6 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  area_id             :integer
-#  context_settings    :jsonb
 #
 
 class Performer < ApplicationRecord
@@ -49,7 +48,7 @@ class Performer < ApplicationRecord
   # default_scope { includes(:user) }
 
   acts_as_taggable_on :standard_skills, :user_input_skills, :followed_skills
-  store_accessor :context_settings, :feat_contexts, :feat_role_contexts
+  store_accessor :settings, :feat_contexts, :feat_role_contexts, :feat_name, :routine_name
 
   before_save :format_custom_contexts
   after_create :user_default_performer, :create_followed_skills

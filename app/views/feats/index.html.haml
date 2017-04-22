@@ -1,10 +1,10 @@
 %h1.inl-block
-  = "#{@performer.public_name}'s Feats"
+  = "#{@performer.public_name}'s #{@performer.feat_name.capitalize.pluralize}"
 .advanced-filters-btn.inl-block.right
   = link_to '#' do
     %i.fa.fa-filter
     Filters
-= text_field_tag 'feat_search', nil, placeholder: 'Search by feat name', autofocus: true
+= text_field_tag 'feat_search', nil, placeholder: 'Search by name', autofocus: true
 = select_tag 'tag_search', options_for_select(current_performer.feat_tags.order(:name)), class: 'tag_search-input', include_blank: true, multiple: true
 .advanced-filters.hide
   = form_tag( { controller: :feats, action: :index }, { method: 'get', remote: true, id: 'feats-sort' } ) do

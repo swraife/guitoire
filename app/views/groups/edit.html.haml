@@ -4,4 +4,4 @@
 = link_to '(delete group)',
           performer_group_path(current_performer, @group),
           method: :delete,
-          data: { confirm: "Are you sure you want to delete #{@group.name}? All #{@group.name}'s feats and set lists will be permanently deleted."}
+          data: { confirm: "Are you sure you want to delete #{@group.name}? All #{@group.name}'s #{feat_name.pluralize} and #{routine_name.pluralize} will be permanently deleted."}

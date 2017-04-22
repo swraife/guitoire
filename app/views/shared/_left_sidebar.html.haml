@@ -39,19 +39,20 @@
       .left-sidebar__link
         = link_to new_performer_feat_path(current_performer) do
           %i.fa.fa-fw.fa-plus
-          Add Feat
+          Add
+          = current_performer.feat_name.capitalize
       .left-sidebar__link
         = link_to performer_feats_path(current_performer) do
           %i.fa.fa-fw.fa-search
-          Feats
+          = current_performer.feat_name.capitalize.pluralize
       .left-sidebar__link
         = link_to performer_routines_path(current_performer) do
           %i.fa.fa-fw.fa-search
-          Set Lists
+          = current_performer.routine_name.capitalize.pluralize
       .left-sidebar__link
         = link_to performer_groups_path(current_performer) do
           %i.fa.fa-fw.fa-search
-          Bands
+          Groups
 
 :javascript
   $(document).ready(function() {

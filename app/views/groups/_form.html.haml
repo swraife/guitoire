@@ -1,6 +1,6 @@
 .group-form__wrapper
   = form_for @group, html: { class: 'disable-on-submit' } do |f|
-    = f.label 'Band Picture'
+    = f.label 'Group Picture'
     - unless @group.avatar_file_size.nil?
       = link_to image_tag(@group.avatar.url(:medium)), @group.avatar.url
     = f.file_field :avatar
@@ -11,7 +11,7 @@
     = f.label :description
     = f.text_area :description
 
-    = f.label 'Band Admins'
+    = f.label 'Group Admins'
     = f.select :admin_performer_ids,
                options_from_collection_for_select(Performer.all, :id, :public_name, @group.admin_performers.pluck(:id).push(current_performer.id)),
                {include_blank: true}, {multiple: true, required: true, class: 'add-select2'}
@@ -30,7 +30,7 @@
 
     $('.save-group-btn').click(function(e) {
       if (!$('#group_admin_performer_ids').val().includes(currentPerformerId)) {
-        if (!confirm("Are you sure you want to remove yourself as an admin of the band? You won't have permission to re-add yourself.")) {
+        if (!confirm("Are you sure you want to remove yourself as an admin of the group? You won't have permission to re-add yourself.")) {
           e.preventDefault();
         }
       }

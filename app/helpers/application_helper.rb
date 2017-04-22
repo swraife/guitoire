@@ -59,4 +59,12 @@ module ApplicationHelper
   def context_names_for(context_setting)
     Contexts.names_for(context_setting)
   end
+
+  def feat_name(performer = current_performer)
+    performer.feat_name
+  end
+
+  def routine_name(performer = current_performer)
+    performer.routine_name
+  end
 end

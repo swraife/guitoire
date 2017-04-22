@@ -13,7 +13,7 @@
   = f.label 'Admin Users'
   = f.select :performer_ids, options_from_collection_for_select(Performer.all, :id, :public_name, @routine.performers.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
 
-  = f.label 'Admin Bands'
+  = f.label 'Admin Groups'
   = f.select :group_ids, options_from_collection_for_select(current_performer.actors, :id, :name, @routine.groups.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
   
   = f.label 'Visible To:'
@@ -22,4 +22,4 @@
 
   %br
 
-  = f.submit 'Save Set List'
+  = f.submit "Save #{routine_name.capitalize}"

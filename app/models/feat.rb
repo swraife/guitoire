@@ -68,13 +68,7 @@ class Feat < ApplicationRecord
 
   accepts_nested_attributes_for :feat_roles
 
-  # after_initialize :define_tag_setters
-
-  # def define_tag_setters
-  #   class_eval do
-
-  #   end
-  # end
+  FEAT_NAMES = %w(song skill trick move).freeze
 
   # TODO: Add friends to query
   def self.visible_to(performer)

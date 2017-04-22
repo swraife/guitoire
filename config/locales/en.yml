@@ -18,17 +18,17 @@ en:
       visibilities:
         everyone: Everyone
         friends: Friends
-        only_admins: Only Band Admins
+        only_admins: Only Group Admins
     routine:
       visibilities:
         everyone: Everyone
         friends: Friends
-        only_admins: Only Set List Admins
+        only_admins: Only Admins
     feat:
       visibilities:
         everyone: Everyone
         friends: Friends
-        only_admins: Only Feat Admins
+        only_admins: Only Admins
     user:
       visibilities:
         everyone: Everyone
@@ -99,7 +99,7 @@ en:
       order_by_created_at: Order by Date Created
       order_by_last_played: Order by Last Played
       order_by_plays_count: Order by Plays Count
-      order_by_feat_name: Order by Feat Name
+      order_by_name: Order by Name
   time:
     formats:
       default:

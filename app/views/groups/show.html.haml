@@ -14,7 +14,7 @@
 - if @feats.present?
   .group__feats
     %h3
-      Feats
+      = feat_name.pluralize.capitalize
 
   .feats__list
     = render partial: 'feats/list', locals: { feats: @feats }
@@ -22,7 +22,7 @@
 - if @routines.present?
   .group__routines
     %h3
-      Set Lists
+      = routine_name.pluralize.capitalize
 
   .routines__list
     - @routines.each do |routine|

@@ -37,13 +37,25 @@
         = f.label 'Choose a public name to go by:'
         = f.text_field :public_name, value: current_user.public_name
 
+        = f.label 'What do you call the things you learn and perform? A song? trick? move? skill? Other?'
+        - feat_name_options = Feat::FEAT_NAMES.dup.push(@performer.feat_name).compact.uniq
+        = f.select :feat_name,
+                   options_for_select(feat_name_options, @performer.feat_name),
+                   {include_blank: true}, {multiple: true}
+
+        = f.label "Add Custom Fields to the things above (For example, 'tempo' for songs, or 'Number of People' for circus moves)"
+        = f.select :feat_contexts,
+                   options_for_select(feat_context_options_for(@performer.actors), @performer.feat_contexts&.values),
+                   {include_blank: true}, {multiple: true, class: 'add-select2'}
+
+        = f.label 'When you combine those things in performance, what do you call it? A routine? act? set? other?'
+        - routine_name_options = Routine::ROUTINE_NAMES.dup.push(@performer.routine_name).compact.uniq
+        = f.select :routine_name,
+                   options_for_select(routine_name_options, @performer.routine_name),
+                   {include_blank: true}, {multiple: true}
+
         = f.label 'Who can see your stuff by default? (You can also hide/share things individually)'
         = f.select :visibility, options_for_select(enum_select_options(User, :visibilities), @performer.visibility)
-
-        = f.label 'Add Custom Fields to organize your repertoire (E.g. \'tempo\' if you play music, or \'Number of People\' for circus skills)'
-        = f.select :feat_contexts,
-                   options_for_select(feat_context_options_for(@performer.actors), @performer.feat_contexts.values),
-                   {include_blank: true}, {multiple: true, class: 'add-select2'}
 
       .lrg-horizontal-border
 
@@ -64,6 +76,7 @@
       $('#performer_area_id').val(areaId);
       $('.performer__tags-collection').hide();
       $('#area-tags-' + areaId).show();
+      setFeatAndRoutineNames(name);
       $('.performer__skills-fields-wrapper').show();
     });
 
@@ -85,4 +98,26 @@
       var config = $.featherlight.defaults;
       $.featherlight($content, config);
     });
+
+    $('#performer_feat_name, #performer_routine_name').select2({
+      theme: 'bootstrap',
+      tags: true,
+      maximumSelectionLength: 1,
+    });
   });
+
+  function setFeatAndRoutineNames(areaName) {
+    if (#{!@performer.persisted?}) {
+      if (areaName == 'Music') {
+        $('#performer_feat_name').val('song').trigger('change');
+        $('#performer_routine_name').val('set').trigger('change');
+      } else if (areaName == 'Dance') {
+        $('#performer_feat_name').val('move').trigger('change');
+        $('#performer_routine_name').val('routine').trigger('change');
+      } else {
+        $('#performer_feat_name').val('skill').trigger('change');
+        $('#performer_routine_name').val('routine').trigger('change');
+      }
+    }
+  }
+

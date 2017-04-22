@@ -7,7 +7,7 @@ $(document).ready(function() {
   $('#tag_search').select2({
     theme: 'bootstrap',
     tags: true,
-    placeholder: 'Search by feat tags'
+    placeholder: 'Search by tags'
   });
 
   $(window).scroll(function() {

@@ -27,22 +27,22 @@
     .header-dropdown.header__notifications-dropdown.hide
     .header-dropdown.header__add-dropdown.hide
       .header__dropdown-item
-        = link_to 'Add Feat', new_performer_feat_path(current_performer)
+        = link_to "Add #{feat_name.capitalize}", new_performer_feat_path(current_performer)
         .med-horizontal-border
       .header__dropdown-item
-        = link_to 'Add Set List', new_routine_path
+        = link_to "Add #{routine_name.capitalize}", new_routine_path
         .med-horizontal-border
       .header__dropdown-item
-        = link_to 'Add Band', new_group_path
+        = link_to 'Add Group', new_group_path
     .header-dropdown.header__library-dropdown.hide
       .header-dropdown-item
-        = link_to 'Feats', performer_feats_path(current_performer)
+        = link_to feat_name.capitalize.pluralize, performer_feats_path(current_performer)
         .med-horizontal-border
       .header__dropdown-item
-        = link_to 'Set Lists', performer_routines_path(current_performer)
+        = link_to routine_name.capitalize.pluralize, performer_routines_path(current_performer)
         .med-horizontal-border
       .header__dropdown-item
-        = link_to 'Bands', performer_groups_path(current_performer)
+        = link_to 'Groups', performer_groups_path(current_performer)
     .header-dropdown.header__user-dropdown.hide
       - if current_user
         .header__dropdown-item

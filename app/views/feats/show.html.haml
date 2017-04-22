@@ -1,15 +1,15 @@
 - if !@current_performer_feat_role.admin? && can?(:copy, @feat)
-  = button_to 'Copy Feat', copy_feat_path(@feat), method: :post, form_class: 'inl-block right', class: 'btn-small copy-feat-btn'
+  = button_to "Copy #{feat_name.capitalize}", copy_feat_path(@feat), method: :post, form_class: 'inl-block right', class: 'btn-small copy-feat-btn'
 - if @current_performer_feat_role.viewer? && can?(:follow, @feat)
   = form_for @current_performer_feat_role, html: { class: 'inl-block right' } do |f|
     = f.hidden_field :feat_id
     = f.hidden_field :global_owner, value: current_performer.global_id
     = f.hidden_field :role, value: 'follower'
-    = f.submit 'Follow Feat', class: 'btn-small follow-feat-btn'
+    = f.submit "Follow #{feat_name.capitalize}", class: 'btn-small follow-feat-btn'
 - elsif @current_performer_feat_role.follower?
   = form_for @current_performer_feat_role, html: { class: 'inl-block right' } do |f|
     = f.hidden_field :role, value: 'viewer'
-    = f.submit 'Unfollow Feat', class: 'btn-small unfollow-feat-btn'
+    = f.submit "Unfollow #{feat_name.capitalize}", class: 'btn-small unfollow-feat-btn'
 
 .feat__name.item__show-name
   %h1
@@ -125,7 +125,7 @@
         placement: 'bottom',
         xOffset: -150,
         arrowOffset: 200,
-        content: "Add this to your list of feats for easy searching and viewing. You won't be able to edit this feat, only the original creator can edit/delete."
+        content: "Add this to your list of #{feats} for easy searching and viewing. You won't be able to edit it, only the #{feat_name} admins can edit/delete."
       });
     }, function() {
       var calloutMgr = hopscotch.getCalloutManager();
@@ -140,7 +140,7 @@
         placement: 'bottom',
         xOffset: -150,
         arrowOffset: 200,
-        content: "Click this to remove this feat from your feat list. You can always follow it again later."
+        content: "Click this to remove this #{feat} from your #{feat} list. You can always follow it again later."
       });
     }, function() {
       var calloutMgr = hopscotch.getCalloutManager();
@@ -155,7 +155,7 @@
         placement: 'bottom',
         xOffset: -150,
         arrowOffset: 200,
-        content: "Make your own copy of this feat to edit and add attachments too. Your copy won't be affected by any changes the original creator makes to this one."
+        content: "Make your own copy of this #{feat_name} to edit and add attachments too. Your copy won't be affected by any changes the original creator makes to this one."
       });
     }, function() {
       var calloutMgr = hopscotch.getCalloutManager();

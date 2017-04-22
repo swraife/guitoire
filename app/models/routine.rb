@@ -33,6 +33,8 @@ class Routine < ApplicationRecord
 
   enum visibility: [:everyone, :friends, :only_admins]
 
+  ROUTINE_NAMES = %w(set routine act).freeze
+
   # make sure to change this if more routine_role.roles are ever added
   alias_attribute :admin_performers, :performers
   alias_attribute :admin_groups, :groups

@@ -14,12 +14,12 @@
     = @routine.description
 
 %h3
-  Add Feat
+  = "Add #{feat_name}"
 
 = render partial: 'routine_feats/form', locals: { routine: @routine, feats: @feats }
 
 %h3
-  Feats
+  = feat_name.pluralize
 
 %ul.routine_feats
   - @routine.routine_feats.each do |routine_feat|
