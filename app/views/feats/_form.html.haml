@@ -19,7 +19,7 @@
     - current_performer.actors.each do |actor|
       .feat__actor-fields{ id: "actor-fields-#{actor.global_id}" }
         = f.label 'Tags'
-        = f.select :generic_list, options_for_select(actor.feat_tags('generics'), @feat.generic_list), {include_blank: true}, {multiple: true, class: 'add-select2 tag-field'}
+        = f.select :generic_list, options_from_collection_for_select(feat_tag_options(actor, 'generics'), :name, :translate_name, @feat.generic_list), {include_blank: true}, {multiple: true, class: 'add-select2 tag-field'}
 
         - if actor == current_performer
           = f.label 'Private Tags'

@@ -67,4 +67,12 @@ module ApplicationHelper
   def routine_name(performer = current_performer)
     performer.routine_name
   end
+
+  def feat_tag_options(actor, context)
+    actor.feat_tags(context) | current_performer.skills | current_performer.area.tags
+  end
+
+  def translated_tag_list(tags_collection)
+    tags_collection.map { |tag| t("skill_names.#{tag.name}", default: tag.name) }.join(', ')
+  end
 end

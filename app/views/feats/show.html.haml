@@ -34,7 +34,7 @@
 .feat__generics
   %h2.inl-block
     Tags:
-  = @feat.generic_list
+  = translated_tag_list(@feat.generics)
 
 - feat_custom_contexts = @feat.custom_contexts.reject { |c| c == 'generics' }
 - if feat_custom_contexts.present?
@@ -46,13 +46,13 @@
       %h2.inl-block
         = @feat.owner.feat_contexts[context] || context.titlecase
         = ':'
-      = @feat.tag_list_on(context)
+      = translated_tag_list(@feat.tags_on(context))
 
 - if @current_performer_feat_role.private_list.present?
   .feat__role_tags
     %h2.inl-block
       Private Tags:
-    = @current_performer_feat_role.private_list
+    = translated_tag_list(@current_performer_feat_role.private)
 
 // - if @groups_feat_roles.any? { |feat_role| feat_role.private_list.present? }
 //   %h3
@@ -125,7 +125,7 @@
         placement: 'bottom',
         xOffset: -150,
         arrowOffset: 200,
-        content: "Add this to your list of #{feats} for easy searching and viewing. You won't be able to edit it, only the #{feat_name} admins can edit/delete."
+        content: "Add this to your list of #{feat_name.pluralize} for easy searching and viewing. You won't be able to edit it, only the #{feat_name} admins can edit/delete."
       });
     }, function() {
       var calloutMgr = hopscotch.getCalloutManager();
@@ -140,7 +140,7 @@
         placement: 'bottom',
         xOffset: -150,
         arrowOffset: 200,
-        content: "Click this to remove this #{feat} from your #{feat} list. You can always follow it again later."
+        content: "Click this to remove this #{feat_name} from your #{feat_name} list. You can always follow it again later."
       });
     }, function() {
       var calloutMgr = hopscotch.getCalloutManager();
