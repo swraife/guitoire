@@ -4,10 +4,7 @@ RSpec.describe FeatsController, type: :controller do
   let(:performer) { FactoryGirl.create(:performer) }
   let(:feat) { FactoryGirl.create(:feat, owner: performer) }
   let(:valid_attributes) { FactoryGirl.attributes_for(:feat)
-                                      .merge(composer_list: [''],
-                                             version_list: [''],
-                                             generic_list: [''],
-                                             genre_list: [''],
+                                      .merge(generic_list: [''],
                                              admin_performer_ids: [''],
                                              admin_group_ids: ['']) }
   let(:performer2) { FactoryGirl.create(:performer) }
@@ -62,13 +59,20 @@ RSpec.describe FeatsController, type: :controller do
 
   describe 'PUT #update' do
     it 'redirects to feat#show' do
-      put :update, params: { performer_id: performer.id, id: feat.id, global_admin_ids: [''], feat: valid_attributes }
+      put :update, params: { performer_id: performer.id,
+                             id: feat.id,
+                             global_admin_ids: [''],
+                             feat: valid_attributes,
+                             feat_role: { private_list: [''] } }
       expect(response).to redirect_to(performer_feat_path(performer, feat))
     end
 
     it 'adds and deletes feat_roles for performers and groups' do
       feat.admin_performers << performer2
-      put :update, params: { performer_id: performer.id, id: feat.id, feat: valid_attributes.merge(admin_performer_ids: [performer.id], admin_group_ids: [group.id]) }
+      put :update, params: { performer_id: performer.id,
+                             id: feat.id,
+                             feat_role: { private_list: [''] },
+                             feat: valid_attributes.merge(admin_performer_ids: [performer.id], admin_group_ids: [group.id]) }
 
       feat.reload
       expect(response).to redirect_to(performer_feat_path(performer, feat))

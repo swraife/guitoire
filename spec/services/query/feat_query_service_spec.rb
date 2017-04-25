@@ -84,7 +84,7 @@ RSpec.describe Query::FeatQueryService do
             described_class.new(actor: actor, viewer: viewer, order: 'plays_count').find_feats
           }
 
-          it 'returns feats by last played date' do
+          xit 'returns feats by last played date' do
             ('a'..'c').each_with_index do |name, i|
               f = create(:feat, owner: owner, visibility: visibility, name: name)
               i.times { Play.create(feat_role: f.feat_roles.first) }

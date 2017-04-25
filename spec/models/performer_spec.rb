@@ -26,7 +26,7 @@ RSpec.describe Performer, type: :model do
 
   describe '#feat_tags' do
     it 'returns all tags when no context is given' do
-      feat = FactoryGirl.create(:feat, genre_list: [:jazz])
+      feat = FactoryGirl.create(:feat, generic_list: [:jazz])
       performer.feats << feat
 
       expect(performer.feat_tags).to include(ActsAsTaggableOn::Tag.first)

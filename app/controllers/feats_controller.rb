@@ -63,7 +63,7 @@ class FeatsController < ApplicationController
 
   def update
     @feat.assign_attributes(feat_params.except(:admin_performer_ids, :admin_group_ids))
-    params[:custom_contexts].each do |k,v|
+    params[:custom_contexts]&.each do |k,v|
       @feat.set_tag_list_on(helpers.context_name_for(k), v)
     end
 
