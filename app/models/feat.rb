@@ -91,6 +91,6 @@ class Feat < ApplicationRecord
   private
 
   def owner_feat_role
-    FeatRole.first_or_initialize(owner: owner, feat_id: id).admin!
+    FeatRole.where(owner: owner, feat_id: id).first_or_initialize.admin!
   end
 end

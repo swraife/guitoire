@@ -71,7 +71,7 @@ RSpec.describe Query::FeatRoleQueryService do
             described_class.new(actor: actor, viewer: viewer, order: 'order_by_created_at').find_feat_roles
           }
 
-          it 'returns feats by last played date' do
+          it 'returns feats by created_at date' do
             ('a'..'c').each do |name|
               create(:feat, owner: owner, visibility: visibility, name: name)
             end
@@ -85,13 +85,13 @@ RSpec.describe Query::FeatRoleQueryService do
             described_class.new(actor: actor, viewer: viewer, order: 'order_by_plays_count').find_feat_roles
           }
 
-          it 'returns feats by last played date' do
+          it 'returns feats by plays_count' do
             ('a'..'c').each_with_index do |name, i|
               f = create(:feat, owner: owner, visibility: visibility, name: name)
               i.times { Play.create(feat_role: f.feat_roles.first) }
               if name == 'a' 
                 other_performer = create(:performer)
-                fr = FeatRole.create(feat: f, role: 1, owner: other_performer, plays_count: 5)
+                FeatRole.create(feat: f, role: 1, owner: other_performer, plays_count: 5)
               end
             end
 

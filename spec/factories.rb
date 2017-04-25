@@ -82,6 +82,7 @@ FactoryGirl.define do
   end
 
   factory :performer do
+    settings { { feat_name: 'trick', routine_name: 'act' } }
     user
   end
 

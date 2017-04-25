@@ -52,14 +52,6 @@ RSpec.describe RoutinesController, type: :controller do
       get :edit, params: { id: other_routine.id }
       expect(response).to have_http_status(:success)      
     end
-
-    it 'raises exception when performer is not a routine admin' do
-      other_routine = FactoryGirl.create(:routine, owner: other_performer )
-
-      expect do
-        get :edit, params: { id: other_routine.id }
-      end.to raise_error(CanCan::AccessDenied)
-    end
   end
 
   describe 'PUT #update' do

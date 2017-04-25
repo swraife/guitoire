@@ -22,7 +22,7 @@
     = f.hidden_field :feat_id, value: @current_performer_feat_role.feat_id
     = button_tag type: 'submit', class: 'play-btn' do
       %i.fa.fa-plus
-      = ' play'
+      = ' perform'
 .feat__creator.small-gray
   %p
     = "Created by #{@feat.owner.public_name} on #{@feat.created_at.strftime('%-m/%-d/%y')}"
