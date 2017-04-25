@@ -1,10 +1,11 @@
 %h1.inl-block
-  = "#{@performer.public_name}'s Groups"
+  = "#{other_performer_name(@performer)} Groups"
 
-.group__create-new-link
-  = link_to new_group_path do
-    %i.fa.fa-fw.fa-plus
-    Add New Group
+- if @performer == current_performer
+  .group__create-new-link
+    = link_to new_group_path do
+      %i.fa.fa-fw.fa-plus
+      Add New Group
 .med-horizontal-border
 .groups__list
   - @groups.each do |group|

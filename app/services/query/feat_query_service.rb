@@ -48,9 +48,9 @@ module Query
     def feat_matches
       join_feat_roles.where(
         feat_role_owner_is_actor
-        .and(visibility_everyone?(feats))
+        .and(visibility_everyone?(feats)
         .or(visibility_friends?(feats).and(owner_is_friend?(feats)))
-        .or(is_admin?(feats))
+        .or(is_admin?(feats)))
       )
     end
 

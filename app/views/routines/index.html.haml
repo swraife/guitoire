@@ -1,5 +1,5 @@
-%h3
-  = routine_name.pluralize
+%h1.inl-block
+  = "#{other_performer_name(@performer)} #{@performer.routine_name.capitalize.pluralize}"
 .routine__create-new-link
   = link_to new_routine_path do
     %i.fa.fa-fw.fa-plus

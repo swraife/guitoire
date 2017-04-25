@@ -42,8 +42,8 @@ class Group < ApplicationRecord
 
   def self.visible_to(performer)
     # Can't currently do in one OR query w/ AR, because of bug w/ joining.
-    has_role_ids = joins(:group_roles).where(group_roles: { performer: performer }).ids
-    where(visibility: 0).or(where(id: has_role_ids))
+    ids = performer.group_roles.where(role: %w(member admin)).pluck(:group_id)
+    where(visibility: 0).or(where(id: ids))
   end
 
   alias_attribute :public_name, :name

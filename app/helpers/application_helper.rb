@@ -75,4 +75,8 @@ module ApplicationHelper
   def translated_tag_list(tags_collection)
     tags_collection.map { |tag| t("skill_names.#{tag.name}", default: tag.name) }.join(', ')
   end
+
+  def other_performer_name(performer)
+    "#{performer.public_name}'s" unless performer == current_performer
+  end
 end
