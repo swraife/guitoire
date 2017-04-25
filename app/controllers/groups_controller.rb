@@ -9,11 +9,13 @@ class GroupsController < ApplicationController
   end
 
   def show
-    @current_performer_group_role = current_performer.group_roles.where(group: @group)
-                                                       .first_or_initialize
+    @current_performer_group_role =
+      current_performer.group_roles.where(group: @group).first_or_initialize
 
-    @feats = @group.subscriber_feats.includes(:tags)
-                                    .visible_to(current_performer)
+    @feat_roles = Query::FeatRoleQueryService.new(
+      actor: @group, viewer: current_performer
+    ).find_feat_roles
+
     @routines = @group.routines.visible_to(current_performer).order(:name)
   end
 

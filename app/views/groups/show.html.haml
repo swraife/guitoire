@@ -11,13 +11,13 @@
   %p
     = @group.description
 
-- if @feats.present?
+- if @feat_roles.present?
   .group__feats
     %h3
       = feat_name.pluralize.capitalize
 
   .feats__list
-    = render partial: 'feats/list', locals: { feats: @feats }
+    = render partial: 'feat_roles/list', locals: { feat_roles: @feat_roles, sort_by: {} }
 
 - if @routines.present?
   .group__routines

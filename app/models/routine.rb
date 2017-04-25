@@ -41,9 +41,8 @@ class Routine < ApplicationRecord
 
   # TODO: Add friends to query
   def self.visible_to(performer)
-    # Can't currently do in one OR query w/ AR, because of bug w/ joining.
-    has_role_ids = joins(:routine_roles).where(routine_roles: { owner: performer.actors }).ids
-    where(visibility: 0).or(where(id: has_role_ids))
+    ids = joins(:routine_roles).where(routine_roles: { owner: performer.actors }).ids
+    where(visibility: 0).or(where(id: ids))
   end
 
   private

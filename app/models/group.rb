@@ -41,7 +41,6 @@ class Group < ApplicationRecord
   multisearchable against: :name
 
   def self.visible_to(performer)
-    # Can't currently do in one OR query w/ AR, because of bug w/ joining.
     ids = performer.group_roles.where(role: %w(member admin)).pluck(:group_id)
     where(visibility: 0).or(where(id: ids))
   end

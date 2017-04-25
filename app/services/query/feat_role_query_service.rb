@@ -12,8 +12,7 @@ module Query
     end
 
     def find_feat_roles
-      # FeatRole.includes(:feat).where(query).group(feat_roles[:id])
-      FeatRole.includes(:feat).where(query).send(order)
+      FeatRole.includes(feat: :tags).where(query).send(order)
     end
 
     private
@@ -37,16 +36,16 @@ module Query
     def feat_role_matches
       joins.where(
         feat_role_owner_is_actor
-        .and(visibility_everyone?(feats)
-        .or(visibility_friends?(feats).and(owner_is_friend?(feats)))
-        .or(is_admin?(feats)))
+        .and(
+          visibility_everyone?(feats)
+          .or(visibility_friends?(feats).and(owner_is_friend?(feats)))
+          .or(is_admin?(feats))
+        )
       )
     end
 
     def joins
-      feat_roles.join(feats).on(
-        feats[:id].eq(feat_roles[:feat_id])
-      )
+      feat_roles.join(feats).on(feats[:id].eq(feat_roles[:feat_id]))
     end
 
     def feat_role_owner_is_actor
@@ -59,7 +58,7 @@ module Query
     end
 
     def admin_feats_ids
-      @admin_feats_ids ||= viewer.admin_feat_ids
+      @admin_feats_ids ||= FeatRole.admin.where(owner: viewer.actors).pluck(:feat_id)
     end
   end
 end
