@@ -38,4 +38,8 @@ class ApplicationController < ActionController::Base
   def create_first_performer
     redirect_to new_performer_path if signed_in? && current_performer == nil
   end
+
+  rescue_from CanCan::AccessDenied do |exception|
+    render file: "#{Rails.root}/public/403", formats: [:html], status: 403, layout: false
+  end
 end

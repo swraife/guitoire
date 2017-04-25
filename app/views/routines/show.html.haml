@@ -13,10 +13,11 @@
   %p
     = @routine.description
 
-%h3
-  = "Add #{feat_name}"
+- if can? :edit, @routine
+  %h3
+    = "Add #{feat_name}"
 
-= render partial: 'routine_feats/form', locals: { routine: @routine, feats: @feats }
+  = render partial: 'routine_feats/form', locals: { routine: @routine, feats: @feats }
 
 %h3
   = feat_name.pluralize
