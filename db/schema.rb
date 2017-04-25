@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170416191943) do
+ActiveRecord::Schema.define(version: 20170425183808) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,11 +21,11 @@ ActiveRecord::Schema.define(version: 20170416191943) do
     t.string   "owner_type"
     t.integer  "owner_id"
     t.string   "key"
-    t.text     "parameters"
     t.string   "recipient_type"
     t.integer  "recipient_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.jsonb    "parameters",     default: {}
     t.index ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type", using: :btree
     t.index ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type", using: :btree
     t.index ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type", using: :btree
@@ -127,11 +127,12 @@ ActiveRecord::Schema.define(version: 20170416191943) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
     t.integer  "creator_id"
     t.text     "description"
     t.integer  "visibility",          default: 0
+    t.jsonb    "context_settings",    default: {}
   end
 
   create_table "message_copies", force: :cascade do |t|
@@ -173,10 +174,11 @@ ActiveRecord::Schema.define(version: 20170416191943) do
     t.text     "description"
     t.string   "email"
     t.integer  "visibility",          default: 0
-    t.jsonb    "settings",            default: {}
+    t.jsonb    "settings"
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
     t.integer  "area_id"
+    t.jsonb    "context_settings",    default: {}
   end
 
   create_table "pg_search_documents", force: :cascade do |t|
