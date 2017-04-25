@@ -1,20 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe Query::ActivityService do
-  let(:performer) { FactoryGirl.create(:performer) }
-  let(:performer2) { FactoryGirl.create(:performer) }
+  let(:area) { create(:area) }
+  let(:performer) { FactoryGirl.create(:performer, area: area) }
+  let(:performer2) { FactoryGirl.create(:performer, area: area) }
   let(:subject) { described_class.new(performer) }
 
   describe '#dashboard_activities' do
     let(:subject) { described_class.new(performer).dashboard_activities }
 
-    context 'feat.create activities' do
+    context 'for feat.create activities' do
       let(:feat) { FactoryGirl.create(:feat, owner: performer2, creator: performer2, visibility: visibility) }
 
-      context 'feat visibility is everyone' do
+      context 'when feat visibility is everyone' do
         let(:visibility) { 'everyone' }
 
         it 'returns feat.create activities' do
+          feat
           expect(subject).to include(feat.activities.first)
         end
 
@@ -58,7 +60,7 @@ RSpec.describe Query::ActivityService do
 
     context 'routine.create activities' do
       it 'returns the activity' do
-        routine = FactoryGirl.create(:routine)
+        routine = FactoryGirl.create(:routine, owner: performer2)
 
         expect(subject).to include(routine.activities.first)
       end
@@ -71,8 +73,8 @@ RSpec.describe Query::ActivityService do
     end
 
     context 'friendship.accepted activities' do
-      it 'returns friendship.create activities' do
-        friendship = FactoryGirl.create(:accepted_friendship)
+      it 'returns friendship.accepted activities' do
+        friendship = FactoryGirl.create(:accepted_friendship, connector: performer2)
 
         expect(subject).to include(friendship.activities.first)
       end
@@ -81,7 +83,7 @@ RSpec.describe Query::ActivityService do
     context 'for play.create activities' do
       context 'when the feat is visibility to everyone' do
         it 'returns the activity' do
-          play = FactoryGirl.create(:play)
+          play = FactoryGirl.create(:play, feat_role: create(:feat_role, owner: performer2))
 
           expect(subject).to include(play.activities.first)
         end
@@ -201,12 +203,13 @@ RSpec.describe Query::ActivityService do
 
     context 'for feat_role.create_follower activities' do
       let(:feat) { FactoryGirl.create(:feat, creator: performer2, owner: performer2, visibility: visibility) }
-      let(:feat_role) { FactoryGirl.create(:feat_role, role: 'follower', feat: feat) }
+      let(:feat_role) { FactoryGirl.create(:feat_role, role: 'follower', feat: feat, owner: create(:performer, area: area)) }
 
       context 'when the feat is visible to everyone' do
         let(:visibility) { 'everyone' }
 
         it 'returns the activity' do
+          feat_role
           expect(subject).to include(feat_role.activities.first)
         end
 
@@ -218,7 +221,7 @@ RSpec.describe Query::ActivityService do
 
           it 'does return the activity performer is a friend' do
             feat_role.owner.friends!
-            friendship = FactoryGirl.create(:accepted_friendship, connected: performer, connector: feat_role.owner)
+            FactoryGirl.create(:accepted_friendship, connected: performer, connector: feat_role.owner)
             expect(subject).to include(feat_role.activities.first)
           end
         end
@@ -232,8 +235,43 @@ RSpec.describe Query::ActivityService do
         end
 
         it 'returns the activity if performer is a friend' do
-          friendship = FactoryGirl.create(:accepted_friendship, connected: performer, connector: feat.creator)
+          FactoryGirl.create(:accepted_friendship, connected: performer, connector: feat.creator)
+          feat_role
           expect(subject).to include(feat_role.activities.first)
+        end
+      end
+    end
+
+    context 'for the performer\'s friends\' activities' do
+      let(:friendship) do
+        FactoryGirl.create(:accepted_friendship, connected: performer)
+      end
+
+      it 'returns feat.create activities' do
+        friend = friendship.connector
+        feat = create(:feat, owner: friend, creator: friend)
+
+        expect(subject).to include(feat.activities.first)
+      end
+    end
+
+    context 'for activities tagged with the performer\'s skills' do
+      let(:tag) { create(:tag) }
+
+      context 'the happy path' do
+        it 'returns feat.create activities' do
+          performer.update(standard_skill_ids: [tag.id])
+          feat = create(:feat, generic_list: [tag.name])
+          performer.reload
+          expect(subject).to include(feat.activities.first)
+        end
+      end
+
+      context 'the unhappy path' do
+        it 'does not return feat.create activities tagged with other skills' do
+          feat = create(:feat, generic_list: [tag.name])
+          performer.reload
+          expect(subject).not_to include(feat.activities.first)
         end
       end
     end

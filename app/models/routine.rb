@@ -29,6 +29,8 @@ class Routine < ApplicationRecord
   has_many :routine_feats, dependent: :destroy
   has_many :feats, through: :routine_feats
 
+  has_many :tags, through: :taggings
+
   after_save :owner_routine_role
 
   enum visibility: [:everyone, :friends, :only_admins]
@@ -38,6 +40,8 @@ class Routine < ApplicationRecord
   # make sure to change this if more routine_role.roles are ever added
   alias_attribute :admin_performers, :performers
   alias_attribute :admin_groups, :groups
+
+  acts_as_taggable_on :generics
 
   # TODO: Add friends to query
   def self.visible_to(performer)

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe PagesController, type: :controller do
-  let(:performer) { FactoryGirl.create(:performer) }
+  let(:performer) { create(:performer, area: create(:area)) }
 
   before(:each) do
     sign_in performer.user

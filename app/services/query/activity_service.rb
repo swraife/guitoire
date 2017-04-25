@@ -29,12 +29,8 @@ module Query
 
     def activity_matches
       joins.where(
-        play_activities
-          .or(resource_activities)
-          .or(feat_create_activities)
-          .or(routine_create_activities)
-          .or(feat_role_follower_activities)
-          .or(friendship_activities)
+        visible_activities.and(
+          belongs_to_friend.or(performer_belongs_to_area).or(tagged_with_skills))
       )
     end
 
@@ -42,11 +38,41 @@ module Query
       activities.join(feats, Arel::Nodes::OuterJoin).on(join_condition(feats, 'recipient'))
         .join(performers, Arel::Nodes::OuterJoin).on(join_condition(performers, 'owner'))
         .join(routines, Arel::Nodes::OuterJoin).on(join_condition(routines, 'trackable'))
+        .join(taggings, Arel::Nodes::OuterJoin).on(tagging_join_condition)
     end
 
     def join_condition(joined_table, column)
       activities["#{column}_id".to_sym].eq(joined_table[:id])
         .and(activities["#{column}_type".to_sym].eq(str_class_of(joined_table)))
+    end
+
+    def tagging_join_condition
+      feats[:id].eq(taggings[:taggable_id])
+                .and(taggings[:taggable_type].eq('Feat'))
+                .and(taggings[:tag_id].in(tag_ids))
+    end
+
+    def visible_activities
+      play_activities
+        .or(resource_activities)
+        .or(feat_create_activities)
+        .or(routine_create_activities)
+        .or(feat_role_follower_activities)
+        .or(friendship_activities)
+    end
+
+    def belongs_to_friend
+      activities[:owner_type].eq('Performer')
+        .and(activities[:owner_id].in(friends_ids))
+    end
+
+    def performer_belongs_to_area
+      activities[:owner_type].eq('Performer')
+        .and(activities[:owner_id].in(area_performer_ids))
+    end
+
+    def tagged_with_skills
+      activities[:recipient_id].eq(taggings[:taggable_id])
     end
 
     def play_activities
@@ -129,8 +155,20 @@ module Query
       @routines ||= Routine.arel_table
     end
 
+    def taggings
+      @taggings ||= ActsAsTaggableOn::Tagging.arel_table
+    end
+
     def friends_ids
       @friends_ids ||= performer.friendships_performer_ids.push(performer.id)
+    end
+
+    def tag_ids
+      @tag_ids ||= performer.tag_ids
+    end
+
+    def area_performer_ids
+      @area_performer_ids ||= performer.area.performer_ids
     end
 
     def admin_feats_ids

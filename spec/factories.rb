@@ -1,4 +1,7 @@
 FactoryGirl.define do
+  factory :area do
+  end
+
   factory :friendship do
     association :connector, factory: :performer
     association :connected, factory: :performer
@@ -87,5 +90,9 @@ FactoryGirl.define do
   end
 
   factory :message_thread do
+  end
+
+  factory :tag, class: ActsAsTaggableOn::Tag do |t|
+    t.name 'Fly'
   end
 end

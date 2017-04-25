@@ -1,7 +1,7 @@
 .activity__top
   .activity__subject
     = link_to activity.owner.public_name, activity.owner
-    = activities.length > 1 ? "added new #{feat_name.pluralize}:" : "added a new #{feat_name}:"
+    = activities.length > 1 ? "added new #{routine_name.pluralize}:" : "added a new #{routine_name}:"
     - truncated_sentence_array(activities.map(&:trackable)).each do |item|
       = item.is_a?(String) ? item : link_to(item.name, item)
   .activity_timestamp.subtext
@@ -9,7 +9,7 @@
     = time_ago_in_words(activity.created_at)
     = 'ago'
 .activity__bottom
-  - tags = activities.each_with_object([]) { |act, arr| act.recipient.tags.each { |tag| arr.push(tag) } }
+  - tags = activities.each_with_object([]) { |act, arr| act.trackable.tags.each { |tag| arr.push(tag) } }
   - if tags.present?
     %i.fa.fa-tags
     = tags.uniq.map { |tag| t("skill_names.#{tag.name}", default: tag.name) }.join(', ')

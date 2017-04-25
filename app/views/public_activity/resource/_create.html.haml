@@ -1,21 +1,27 @@
-.activity__subject
-  = link_to activity.owner.public_name, performer_feats_path(activity.owner)
-  - if activities.count > 1
-    = "added #{activities.count} new #{'resource'.pluralize(activities.count)} to"
-    = link_to activity.recipient.name, activity.recipient
-  - else
-    = 'added a new'
-    = activity.trackable.resourceable.display_type_name
-    = 'to'
-    = link_to activity.recipient.name, activity.recipient
-.activity_timestamp.subtext
-  %i.fa.fa-clock-o
-  = time_ago_in_words(activity.created_at)
-  = 'ago'
-.activity__content
-  - download_target = activity.trackable.resourceable.displayable_in_browser? ? '_blank' : '_top'
-  - activities.each do |grouped_activity|
-    .activity__resource-link
-      = link_to grouped_activity.trackable.resourceable.url, target: download_target do
-        %i{class: "fa #{activity.trackable.resourceable.icon}"}
-        = grouped_activity.trackable.resourceable.url_name
+.activity__top
+  .activity__subject
+    = link_to activity.owner.public_name, performer_feats_path(activity.owner)
+    - if activities.count > 1
+      = "added #{activities.count} new #{'resource'.pluralize(activities.count)} to"
+      = link_to activity.recipient.name, activity.recipient
+    - else
+      = 'added a new'
+      = activity.trackable.resourceable.display_type_name
+      = 'to'
+      = link_to activity.recipient.name, activity.recipient
+  .activity_timestamp.subtext
+    %i.fa.fa-clock-o
+    = time_ago_in_words(activity.created_at)
+    = 'ago'
+  .activity__content
+    - download_target = activity.trackable.resourceable.displayable_in_browser? ? '_blank' : '_top'
+    - activities.each do |grouped_activity|
+      .activity__resource-link
+        = link_to grouped_activity.trackable.resourceable.url, target: download_target do
+          %i{class: "fa #{activity.trackable.resourceable.icon}"}
+          = grouped_activity.trackable.resourceable.url_name
+.activity__bottom
+  - tags = activities.each_with_object([]) { |act, arr| act.recipient.tags.each { |tag| arr.push(tag) } }
+  - if tags.present?
+    %i.fa.fa-tags
+    = tags.uniq.map { |tag| t("skill_names.#{tag.name}", default: tag.name) }.join(', ')
