@@ -32,9 +32,9 @@
       $('.routine_feats').sortable({
         cursor: 'move',
         update: function(e, ui) {
-          var movedId = ui.item.attr('id').slice(14);
-          var prevId = ui.item.prev().attr('id') && ui.item.prev().attr('id').slice(14);
-          var nextId = ui.item.next().attr('id') && ui.item.next().attr('id').slice(14);
+          var movedId = ui.item.attr('id').slice(13);
+          var prevId = ui.item.prev().attr('id') && ui.item.prev().attr('id').slice(13);
+          var nextId = ui.item.next().attr('id') && ui.item.next().attr('id').slice(13);
           var url = "/routine_feats/" + movedId;
           $.ajax({
             method: 'PUT',
