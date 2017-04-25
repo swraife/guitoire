@@ -54,7 +54,6 @@ RSpec.describe Query::ActivityService do
           expect(subject).to include(feat.activities.first)
         end
       end
-
     end
 
     context 'routine.create activities' do
@@ -72,7 +71,7 @@ RSpec.describe Query::ActivityService do
     end
 
     context 'friendship.accepted activities' do
-      xit 'returns friendship.create activities' do
+      it 'returns friendship.create activities' do
         friendship = FactoryGirl.create(:accepted_friendship)
 
         expect(subject).to include(friendship.activities.first)
@@ -232,7 +231,7 @@ RSpec.describe Query::ActivityService do
           expect(subject).not_to include(feat_role.activities.first)
         end
 
-        it 'does return the activity if performer is a friend' do
+        it 'returns the activity if performer is a friend' do
           friendship = FactoryGirl.create(:accepted_friendship, connected: performer, connector: feat.creator)
           expect(subject).to include(feat_role.activities.first)
         end

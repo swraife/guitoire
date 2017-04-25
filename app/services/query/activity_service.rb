@@ -34,6 +34,7 @@ module Query
           .or(feat_create_activities)
           .or(routine_create_activities)
           .or(feat_role_follower_activities)
+          .or(friendship_activities)
       )
     end
 
@@ -69,14 +70,19 @@ module Query
     def routine_create_activities
       activities[:key].eq('routine.create')
         .and(visibility_everyone?(routines)
-          .or(visibility_friends?(routines)
-            .and(owner_is_friend?(routines)))
-          .or(is_admin?(routines)))
+        .or(visibility_friends?(routines)
+          .and(owner_is_friend?(routines)))
+        .or(is_admin?(routines)))
     end
 
     def feat_create_activities
       activities[:key].eq('feat.create')
         .and(recipient_feat_is_visible)
+    end
+
+    def friendship_activities
+      activities[:key].eq('friendship.accepted')
+        .and(visibility_everyone?(performers))
     end
 
     def recipient_feat_is_visible
