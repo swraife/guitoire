@@ -26,10 +26,11 @@ class Play < ApplicationRecord
   end
 
   def create_flash_notice
+    feat_name = performer.feat_name
     other_players_count = feat.players.count - 1
-    others_text = other_players_count > 0 ? "#{other_players_count} others have played this feat #{feat.plays.count - feat_role.plays.count} times." : ''
+    others_text = other_players_count > 0 ? "#{other_players_count} others have played this #{feat_name} #{feat.plays.count - feat_role.plays.count} times." : ''
 
-    "Feat Played! You have played this feat #{feat_role.plays.count} times! #{others_text}"
+    "#{feat_name.capitalize} Played! You have played this #{feat_name} #{feat_role.plays.count} times! #{others_text}"
   end
 
   def feat

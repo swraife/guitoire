@@ -85,13 +85,12 @@ class Feat < ApplicationRecord
   alias_attribute :public_name, :name
 
   def permissible_roles
-    return %w(viewer follower) unless hidden?
-    []
+    hidden? ? [] : %w(viewer follower)
   end
 
   private
 
   def owner_feat_role
-    FeatRole.create(owner: owner, feat_id: id, role: 1)
+    FeatRole.first_or_initialize(owner: owner, feat_id: id).admin!
   end
 end
