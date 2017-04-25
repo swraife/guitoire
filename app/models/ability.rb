@@ -15,7 +15,8 @@ class Ability
     else
       if @target_performer.visible_to? @performer
         can :show, [Feat, Routine] do |feat|
-          feat.everyone? || performer_or_actors_are_admin?(feat)
+          feat.everyone? || performer_or_actors_are_admin?(feat) ||
+            (feat.friends? && performer.friendships_performer_ids(:accepted).include?(@target_performer.id))
         end
 
         can :index, [Feat, Routine, Group]
@@ -92,5 +93,9 @@ class Ability
 
   def performer_or_actors_are_admin?(obj)
     obj.admin_performers.include?(@performer) || (obj.admin_groups & @performer.actors).present?
+  end
+
+  def performer_friends_ids
+
   end
 end

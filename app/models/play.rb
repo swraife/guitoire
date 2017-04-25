@@ -13,8 +13,6 @@ class Play < ApplicationRecord
   include PublicActivity::Model
   include TrackableAssociations
 
-  default_scope { order('created_at DESC') }
-
   tracked only: [:create], owner: :performer, recipient: :feat
 
   belongs_to :performer

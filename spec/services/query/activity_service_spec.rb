@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ActivityService do
+RSpec.describe Query::ActivityService do
   let(:performer) { FactoryGirl.create(:performer) }
   let(:performer2) { FactoryGirl.create(:performer) }
   let(:subject) { described_class.new(performer) }

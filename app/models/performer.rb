@@ -70,6 +70,10 @@ class Performer < ApplicationRecord
     where(visibility: 0).or(where(id: friend_ids))
   end
 
+  def visible_to?(performer)
+    performer == self || everyone? || friends.include?(performer)
+  end
+
   def public_name
     self[:public_name] || user.public_name
   end
@@ -80,10 +84,6 @@ class Performer < ApplicationRecord
 
   def actors
     [self, groups].flatten
-  end
-
-  def visible_to?(performer)
-    performer == self || everyone? || friends.include?(performer)
   end
 
   # makes owners(group || performer) both respond to #performers for authorization.

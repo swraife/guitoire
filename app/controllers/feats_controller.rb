@@ -1,10 +1,13 @@
 class FeatsController < ApplicationController
-  load_and_authorize_resource except: :new
+  load_and_authorize_resource except: [:new, :index]
 
   def index
     @performer = Performer.find(params[:performer_id])
     order = FeatRole.scopes.include?(params[:sort_by]&.to_sym) ? params[:sort_by] : 'order_by_name'
-    @feat_roles = @performer.subscriber_feat_roles.includes(:plays, feat: :tags).send(order)
+
+    @feat_roles = Query::FeatRoleQueryService.new(
+      actor: @performer, viewer: current_performer, order: order
+    ).find_feat_roles
 
     respond_to do |format|
       format.js {}
@@ -28,7 +31,7 @@ class FeatsController < ApplicationController
 
   def create
     @feat = Feat.new(feat_params.merge(creator: current_performer))
-    params[:custom_contexts].each do |k,v|
+    params[:custom_contexts]&.each do |k,v|
       @feat.set_tag_list_on(helpers.context_name_for(k), v)
     end
 

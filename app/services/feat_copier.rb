@@ -13,9 +13,7 @@ class FeatCopier
     self.feat_copy = Feat.create!(
       attributes.merge(creator: copy_creator,
                        owner: copy_creator,
-                       version_list: feat.version_list,
-                       generic_list: feat.generic_list,
-                       composer_list: feat.composer_list)
+                       generic_list: feat.generic_list)
     )
 
     feat.resources.each do |resource|
