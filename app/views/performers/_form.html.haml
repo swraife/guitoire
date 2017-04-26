@@ -24,6 +24,11 @@
         = f.select :user_input_skill_list,
                    options_for_select(current_user.performer_tags('user_input_skills'), @performer.user_input_skill_list),
                   {include_blank: true}, {multiple: true, class: 'add-select2'}
+      .performer__avatar-field
+        %h3
+          = 'Upload Profile Picture'
+        = f.file_field :avatar
+
       .performer__optional-settings
         = link_to '#', class: 'performer__optional-settings-link' do
           %i.fa.fa-caret-right

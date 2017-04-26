@@ -1,16 +1,20 @@
-- unless @performer.user == current_user
+- if @performer.user == current_user
+  - if current_performer != @performer
+    = button_to 'Switch to this workspace',
+                user_current_performers_path(current_user, performer_id: @performer.id),
+                class: 'btn-small', form_class: 'inl-block right'
+- else
   .friendship__form-wrapper
     = render partial: 'friendships/form', locals: { friendship: @friendship }
+
+.performer__avatar
+  = link_to image_tag(@performer.avatar.url(:medium)), @performer.avatar.url
 .performer__name.item__show-name
   %h1
     = @performer.public_name
 - if can? :edit, @performer
   .performer__edit-button.item__edit-link
     = link_to '(edit)', edit_performer_path(@performer)
-  - if current_user.performers.count > 1 && current_performer != @performer
-    = button_to 'Switch to this workspace',
-                user_current_performers_path(current_user, performer_id: @performer.id),
-                class: 'btn-small', form_class: 'inl-block right'
 
 .performer__tags
   - @performer.skills.each do |tag|

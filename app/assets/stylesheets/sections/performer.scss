@@ -28,7 +28,7 @@
   }
 }
 .performer__optional-settings {
-  padding-top: 15px;
+  padding-top: 7px;
 }
 .performer__help-btn {
   margin-left: 20px;
@@ -45,7 +45,11 @@
   display: inline-block;
   background-color: $cloud;
   padding: 0px 5px;
+  margin: 2px 0px;
   border-radius: 5px;
+}
+.performer__name {
+  font-size: 20px;
 }
 .change-performer-dropdown {
   background-color: $salmon;
@@ -54,7 +58,7 @@
   padding: 15px;
 }
 .performer__wrapper {
-  height: 100px;
+  height: 140px;
   width: 97%;
   @media ($screen-sm) {
     width: calc((100% / 2) - 15px);
@@ -64,4 +68,16 @@
   padding: 15px;
   margin: 5px;
   display: inline-block;
+}
+.performer__top-section {
+  height: 60%;
+}
+.performer__left-section {
+  width: 70%;
+  display: inline-block;
+}
+.performer__right-section {
+  width: 20%;
+  display: inline-block;
+  float: right;
 }

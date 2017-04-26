@@ -1,0 +1,15 @@
+.performer__top-section
+  .performer__left-section
+    .performer__name
+      = link_to performer.public_name, performer_feats_path(performer)
+    .performer__links{ style: "font-size: 14px"}
+      = link_to performer.feat_name.pluralize.capitalize, performer_feats_path(performer)
+      %i.small-circle.fa.fa-circle{ style: "font-size:6px" }
+      = link_to performer.routine_name.pluralize.capitalize, performer_routines_path(performer)
+  .performer__right-section
+    - if current_user.performers.include? performer
+      = link_to '(edit)', edit_performer_path(performer)
+.performer__bottom-section.subtext
+  - if performer.tags.present?
+    %i.fa.fa-tags
+    = performer.tags.map { |tag| t("skill_names.#{tag.name}", default: tag.name) }.join(', ')
