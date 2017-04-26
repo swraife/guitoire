@@ -49,8 +49,12 @@ module Query
     end
 
     def feat_role_owner_is_actor
-      feat_roles[:owner_type].eq(actor.class)
-                             .and(feat_roles[:owner_id].eq(actor[:id]))
+      if actor
+        feat_roles[:owner_type].eq(actor.class)
+                               .and(feat_roles[:owner_id].eq(actor.id))
+      else
+        feat_roles[:id].not_eq(nil)
+      end
     end
 
     def friends_ids

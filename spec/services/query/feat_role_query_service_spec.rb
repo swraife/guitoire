@@ -89,7 +89,7 @@ RSpec.describe Query::FeatRoleQueryService do
             ('a'..'c').each_with_index do |name, i|
               f = create(:feat, owner: owner, visibility: visibility, name: name)
               i.times { Play.create(feat_role: f.feat_roles.first) }
-              if name == 'a' 
+              if name == 'a'
                 other_performer = create(:performer)
                 FeatRole.create(feat: f, role: 1, owner: other_performer, plays_count: 5)
               end
@@ -142,6 +142,16 @@ RSpec.describe Query::FeatRoleQueryService do
             expect(subject).not_to include(feat_role)
           end
         end
+      end
+    end
+
+    context 'when actor is nil' do
+      let(:subject) do
+        described_class.new(actor: nil, viewer: viewer).find_feat_roles
+      end
+
+      it 'finds all viewable feats' do
+        expect(subject).to include(feat_role)
       end
     end
   end

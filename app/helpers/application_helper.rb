@@ -77,6 +77,6 @@ module ApplicationHelper
   end
 
   def other_performer_name(performer)
-    "#{performer.public_name}'s" unless performer == current_performer
+    "#{performer.public_name}'s" unless performer == current_performer || !performer
   end
 end

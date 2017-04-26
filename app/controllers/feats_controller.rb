@@ -2,7 +2,7 @@ class FeatsController < ApplicationController
   load_and_authorize_resource except: [:new, :index]
 
   def index
-    @performer = Performer.find(params[:performer_id])
+    @performer = Performer.find_by_id(params[:performer_id])
     order = FeatRole.scopes.include?(params[:sort_by]&.to_sym) ? params[:sort_by] : 'order_by_name'
 
     @feat_roles = Query::FeatRoleQueryService.new(
