@@ -57,8 +57,11 @@ class Feat < ApplicationRecord
   has_many :players, -> { distinct }, through: :plays, source: :performer
   has_many :routine_feats, dependent: :destroy
 
-  scope :order_by_last_played, -> { group('feats.id')
-                                    .order('max(plays.created_at) DESC NULLS LAST') }
+  # scope :order_by_last_played, -> { group('feats.id')
+  #                                   .order('max(plays.created_at) DESC NULLS LAST') }
+
+  # scope :order_by_last_played, -> { includes(feat_roles: :plays).order('plays.created_at desc NULLS LAST')}
+
   scope :order_by_plays_count, -> { order('feat_roles.plays_count DESC') }
   scope :order_by_name, -> { order(:name) }
 
