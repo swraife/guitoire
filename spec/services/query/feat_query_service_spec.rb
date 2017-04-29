@@ -6,6 +6,7 @@
 #   let(:owner) { actor }
 #   let(:viewer) { actor }
 #   let(:visibility) { 'everyone' }
+#   let(:feat_role) { feat.feat_roles.first }
 
 #   describe '#find_feats' do
 #     let(:subject) do
@@ -13,16 +14,16 @@
 #     end
 
 #     context 'when viewer is the actor' do
-#       it 'returns the actor\'s feats' do
+#       it 'returns the actor\'s find_feats' do
 #         expect(subject).to include(feat)
 #       end
 
-#       it 'returns feats where visibility is friends' do
+#       it 'returns the feat where feat visibility is friends' do
 #         feat.friends!
 #         expect(subject).to include(feat)
 #       end
 
-#       it 'returns feats where visibility is only_admins' do
+#       it 'returns the feat where feat visibility is only_admins' do
 #         feat.only_admins!
 #         expect(subject).to include(feat)
 #       end
@@ -31,28 +32,28 @@
 #         let(:owner) { create(:performer) }
 
 #         it 'does not return feat when actor has not feat role' do
-#           expect(subject).not_to include(feat)
+#           expect(subject).to be_empty
 #         end
 
-#         it 'does not return feat when actor feat_role.viewer? is true' do
+#         it 'does not return feat when actor feat.viewer? is true' do
 #           actor.viewer_feats << feat
 
-#           expect(subject).not_to include(feat)
+#           expect(subject).not_to include(actor.feats.first)
 #         end
 #       end
 
 #       context 'it orders feats correctly' do
-#         it 'returns feats in alphabetical order' do
+#         it 'returns find_feats ordered by feat name' do
 #           ('a'..'c').each do |name|
 #             create(:feat, owner: owner, visibility: visibility, name: name)
 #           end
 
-#           expect(subject.pluck(:name)).to eq(%w(a b c))
+#           expect(subject.map { |i| i.name}).to eq(%w(a b c))
 #         end
 
 #         context 'order is last_played' do
 #           let(:subject) {
-#             described_class.new(actor: actor, viewer: viewer, order: 'last_played').find_feats
+#             described_class.new(actor: actor, viewer: viewer, order: 'order_by_last_played').find_feats
 #           }
 
 #           it 'returns feats by last played date' do
@@ -61,40 +62,40 @@
 #               Play.create(feat_role: f.feat_roles.first) unless name == 'b'
 #             end
 
-#             expect(subject.pluck(:name)).to eq(%w(c a b))
+#             expect(subject.map { |i| i.name}).to eq(%w(c a b))
 #           end
 #         end
 
 #         context 'order is created_at' do
 #           let(:subject) {
-#             described_class.new(actor: actor, viewer: viewer, order: 'created_at').find_feats
+#             described_class.new(actor: actor, viewer: viewer, order: 'order_by_created_at').find_feats
 #           }
 
-#           it 'returns feats by last played date' do
+#           it 'returns feats by created_at date' do
 #             ('a'..'c').each do |name|
 #               create(:feat, owner: owner, visibility: visibility, name: name)
 #             end
 
-#             expect(subject.pluck(:name)).to eq(%w(c b a))
+#             expect(subject.map { |i| i.name}).to eq(%w(c b a))
 #           end
 #         end
 
 #         context 'order is plays_count' do
 #           let(:subject) {
-#             described_class.new(actor: actor, viewer: viewer, order: 'plays_count').find_feats
+#             described_class.new(actor: actor, viewer: viewer, order: 'order_by_plays_count').find_feats
 #           }
 
-#           xit 'returns feats by last played date' do
+#           it 'returns feats by plays_count' do
 #             ('a'..'c').each_with_index do |name, i|
 #               f = create(:feat, owner: owner, visibility: visibility, name: name)
 #               i.times { Play.create(feat_role: f.feat_roles.first) }
-#               if name == 'a' 
+#               if name == 'a'
 #                 other_performer = create(:performer)
-#                 fr = FeatRole.create(feat: f, role: 1, owner: other_performer, plays_count: 5)
+#                 FeatRole.create(feat: f, role: 1, owner: other_performer, plays_count: 5)
 #               end
 #             end
 
-#             expect(subject.pluck(:name)).to eq(%w(c b a))
+#             expect(subject.map { |i| i.name}).to eq(%w(c b a))
 #           end
 #         end
 #       end
@@ -141,6 +142,16 @@
 #             expect(subject).not_to include(feat)
 #           end
 #         end
+#       end
+#     end
+
+#     context 'when actor is nil' do
+#       let(:subject) do
+#         described_class.new(actor: nil, viewer: viewer).find_feats
+#       end
+
+#       it 'finds all viewable feats' do
+#         expect(subject).to include(feat)
 #       end
 #     end
 #   end
