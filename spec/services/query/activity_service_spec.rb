@@ -83,8 +83,8 @@ RSpec.describe Query::ActivityService do
     context 'for play.create activities' do
       context 'when the feat is visibility to everyone' do
         it 'returns the activity' do
-          play = FactoryGirl.create(:play, feat_role: create(:feat_role, owner: performer2))
-
+          feat_role = create(:feat_role, owner: performer2)
+          play = FactoryGirl.create(:play, feat_role: feat_role, feat: feat_role.feat)
           expect(subject).to include(play.activities.first)
         end
 

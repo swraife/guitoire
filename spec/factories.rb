@@ -22,6 +22,7 @@ FactoryGirl.define do
   factory :play do
     feat_role
     performer { feat_role.owner }
+    feat { feat_role.feat }
   end
 
   factory :routine_role do
