@@ -1,0 +1,22 @@
+- feats.each do |feat|
+  // Shouldn't always just be current_performer passed in here!!
+  - feat_role = feat_role_for(feat, @performer)
+  .feat__wrapper{id: "feat_#{feat.id}"}
+    = link_to feat.name, feat_path(feat)
+    .subtext.inl-block
+      - if sort_by['order_by_last_played']
+        - last_play = feat_role ? feat_role.plays.first&.created_at : @feat_service.last_played_dates[feat.id]
+        - if last_play
+          = '  -  '
+          = time_ago_in_words(last_play)
+          = ' ago'
+      - elsif sort_by['order_by_plays_count']
+        - plays_count = feat_role ? feat_role.plays_count : feat.plays_count
+        - if plays_count > 0
+          = '  -  '
+          = plays_count
+          = 'time'.pluralize(plays_count)
+      - elsif sort_by['order_by_created_at']
+        = '  -  '
+        = feat.created_at.strftime("%-m/%-d/%y")
+

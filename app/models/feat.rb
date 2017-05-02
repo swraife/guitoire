@@ -17,6 +17,7 @@
 #  owner_id       :integer
 #  owner_type     :string
 #  visibility     :integer          default("everyone")
+#  plays_count    :integer          default(0)
 #
 
 class Feat < ApplicationRecord
@@ -53,17 +54,12 @@ class Feat < ApplicationRecord
   has_many :url_resources, through: :resources, source: :resourceable, source_type: 'UrlResource'
 
   has_many :tags, through: :taggings
-  has_many :plays, through: :feat_roles
+  has_many :plays
   has_many :players, -> { distinct }, through: :plays, source: :performer
   has_many :routine_feats, dependent: :destroy
 
-  # scope :order_by_last_played, -> { group('feats.id')
-  #                                   .order('max(plays.created_at) DESC NULLS LAST') }
-
-  # scope :order_by_last_played, -> { includes(feat_roles: :plays).order('plays.created_at desc NULLS LAST')}
-
-  scope :order_by_plays_count, -> { order('feat_roles.plays_count DESC') }
-  scope :order_by_name, -> { order(:name) }
+  scope :order_by_name, ->(_id) { order('lower(name)') }
+  scope :order_by_created_at, ->(_id) { order(created_at: :desc) }
 
   acts_as_taggable_on :generics
 
@@ -78,6 +74,23 @@ class Feat < ApplicationRecord
 
   FEAT_NAMES = %w(song skill trick move).freeze
 
+  def self.order_by_last_played(id)
+    ids = id ? id : Performer.ids
+    where(feat_roles: { owner_id: ids })
+      .group('feats.id, feat_roles.id, plays.id, tags.id')
+      .order('max(plays.created_at) DESC NULLS LAST')
+  end
+
+  def self.order_by_plays_count(id)
+    if id
+      where(feat_roles: { owner_id: ids })
+        .group('feats.id, feat_roles.id, plays.id, tags.id')
+        .order('feat_roles.plays_count DESC')
+    else
+      order('plays_count DESC')
+    end
+  end
+
   # TODO: Add friends to query
   def self.visible_to(performer)
     # Can't currently do in one OR query w/ AR, because of bug w/ joining.
@@ -89,6 +102,10 @@ class Feat < ApplicationRecord
 
   def permissible_roles
     hidden? ? [] : %w(viewer follower)
+  end
+
+  def feat_role_for(actor)
+    feat_roles.where(owner: actor).first_or_initialize
   end
 
   private

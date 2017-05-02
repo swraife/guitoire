@@ -12,4 +12,7 @@
   - tags = activities.each_with_object([]) { |act, arr| act.recipient.tags.each { |tag| arr.push(tag) } }
   - if tags.present?
     %i.fa.fa-tags
-    = tags.uniq.map { |tag| t("skill_names.#{tag.name}", default: tag.name) }.join(', ')
+    - uniq_tags = tags.uniq
+    - uniq_tags.each_with_index do |tag, index|
+      = link_to t("skill_names.#{tag.name}", default: tag.name), feats_path(filters: { tags: [tag.name] })
+      = ', ' unless index == uniq_tags.count - 1

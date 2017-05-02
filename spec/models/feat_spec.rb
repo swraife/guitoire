@@ -17,6 +17,7 @@
 #  owner_id       :integer
 #  owner_type     :string
 #  visibility     :integer          default("everyone")
+#  plays_count    :integer          default(0)
 #
 
 require 'rails_helper'

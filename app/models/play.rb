@@ -7,6 +7,7 @@
 #  feat_role_id :integer
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  feat_id      :integer
 #
 
 class Play < ApplicationRecord
@@ -17,8 +18,7 @@ class Play < ApplicationRecord
 
   belongs_to :performer
   belongs_to :feat_role, counter_cache: true
-
-  has_one :feat, through: :feat_role
+  belongs_to :feat, counter_cache: true
 
   # To be deleted once owner is made polymorphic
   def owner

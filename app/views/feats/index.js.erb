@@ -1,2 +1,2 @@
 <% sort_by = { params[:sort_by] => true } %>
-$('.feats__list').html("<%= escape_javascript(render partial: 'feat_roles/list', locals: { feat_roles: @feat_roles, sort_by: sort_by }) %>");
+$('.feats__list').html("<%= escape_javascript(render partial: 'list', locals: { feats: @feats, sort_by: sort_by }) %>");

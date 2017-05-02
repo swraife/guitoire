@@ -7,6 +7,7 @@ RSpec.describe Query::FeatRoleQueryService do
   let(:viewer) { actor }
   let(:visibility) { 'everyone' }
   let(:feat_role) { feat.feat_roles.first }
+  let(:tag) { create(:tag) }
 
   describe '#find_feat_roles' do
     let(:subject) do
@@ -152,6 +153,23 @@ RSpec.describe Query::FeatRoleQueryService do
 
       it 'finds all viewable feats' do
         expect(subject).to include(feat_role)
+      end
+    end
+
+    context 'when filter tags are provided' do
+      let(:filters) { { tag_ids: [tag.id] } }
+      let(:subject) do
+        described_class.new(actor: actor, viewer: viewer, filters: filters).find_feat_roles
+      end
+
+      context 'when tag_ids are given' do
+        it 'finds feat_roles with the tagged feats' do
+          feat.update(generic_list: "#{tag.name}, other_tag")
+          feat2 = create(:feat, owner: owner, visibility: visibility, generic_list: 'other_tag')
+
+          expect(subject).to include(feat.feat_roles.first)
+          expect(subject).not_to include(feat2.feat_roles.first)
+        end
       end
     end
   end

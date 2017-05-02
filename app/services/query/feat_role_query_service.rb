@@ -2,12 +2,12 @@ module Query
   class FeatRoleQueryService
     include VisibilityQueryHelpers
 
-    attr_reader :actor, :viewer, :order
+    attr_reader :actor, :viewer, :order, :tag_ids
 
     def initialize(actor:, viewer:, order: 'order_by_name', filters: {})
       @actor = actor
       @viewer = viewer
-      @filters = filters
+      @filters = set_filters(filters)
       @order = order
     end
 
@@ -41,11 +41,15 @@ module Query
           .or(visibility_friends?(feats).and(owner_is_friend?(feats)))
           .or(is_admin?(feats))
         )
+        .and(filter_tags)
       )
     end
 
     def joins
-      feat_roles.join(feats).on(feats[:id].eq(feat_roles[:feat_id]))
+      feat_roles.join(feats)
+                .on(feats[:id].eq(feat_roles[:feat_id]))
+                .join(taggings, Arel::Nodes::OuterJoin)
+                .on(taggings[:taggable_id].eq(feats[:id]).and(taggings[:taggable_type].eq('Feat')))
     end
 
     def feat_role_owner_is_actor
@@ -53,8 +57,16 @@ module Query
         feat_roles[:owner_type].eq(actor.class)
                                .and(feat_roles[:owner_id].eq(actor.id))
       else
-        feat_roles[:id].not_eq(nil)
+        where_all
       end
+    end
+
+    def filter_tags
+      tag_ids ? taggings[:tag_id].in(tag_ids) : where_all
+    end
+
+    def where_all
+      feat_roles[:id].not_eq(nil)
     end
 
     def friends_ids
@@ -63,6 +75,14 @@ module Query
 
     def admin_feats_ids
       @admin_feats_ids ||= FeatRole.admin.where(owner: viewer.actors).pluck(:feat_id)
+    end
+
+    def taggings
+      @taggings ||= ActsAsTaggableOn::Tagging.arel_table
+    end
+
+    def set_filters(filters)
+      @tag_ids = filters[:tag_ids]
     end
   end
 end

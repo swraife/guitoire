@@ -4,10 +4,11 @@ class FeatsController < ApplicationController
   def index
     @performer = Performer.find_by_id(params[:performer_id])
     order = FeatRole.scopes.include?(params[:sort_by]&.to_sym) ? params[:sort_by] : 'order_by_name'
-
-    @feat_roles = Query::FeatRoleQueryService.new(
-      actor: @performer, viewer: current_performer, order: order
-    ).find_feat_roles
+    @filters = filter_params.each_with_object({}) { |(k,v), hsh| hsh[k.to_sym] = v }
+    @feat_service = Query::FeatQueryService.new(
+      actor: @performer, viewer: current_performer, filters: @filters, order: order
+    )
+    @feats = @feat_service.find_feats
 
     respond_to do |format|
       format.js {}
@@ -92,5 +93,9 @@ class FeatsController < ApplicationController
 
   def feat_role_params
     params.require(:feat_role).permit(private_list: [])
+  end
+
+  def filter_params
+    params[:filters] ? params.require(:filters).permit(:name, tags: []) : []
   end
 end

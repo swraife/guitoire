@@ -79,4 +79,12 @@ module ApplicationHelper
   def other_performer_name(performer)
     "#{performer.public_name}'s" unless performer == current_performer || !performer
   end
+
+  def feat_role_for(feat, actor)
+    return nil unless actor
+    results = feat.feat_roles.select do |feat_role|
+      feat_role.owner_id == actor.id && feat_role.owner_type == actor.class.to_s
+    end
+    results.first
+  end
 end

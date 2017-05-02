@@ -4,64 +4,88 @@
   = link_to '#' do
     %i.fa.fa-filter
     Filters
-= text_field_tag 'feat_search', nil, placeholder: 'Search by name', autofocus: true
-= select_tag 'tag_search', options_for_select(current_performer.feat_tags.order(:name)), class: 'tag_search-input', include_blank: true, multiple: true
+= text_field_tag 'name_search', nil, placeholder: 'Search by name', autofocus: true
+= select_tag 'tag_search', options_for_select(current_performer.feat_tags.order(:name), @filters[:tags]), class: 'tag_search-input', include_blank: true, multiple: true
 .advanced-filters.hide
-  = form_tag( { controller: :feats, action: :index }, { method: 'get', remote: true, id: 'feats-sort' } ) do
-    .sort_by-select
-      = select_tag 'sort_by', options_for_select(FeatRole.scopes.each_with_object({}) { |scope, hsh| hsh[t("feat_roles.scopes.#{scope.to_s}")] = scope.to_s })
-    = submit_tag 'submit', id: 'sort-submit-btn', :style => "display: none;"
+  .sort_by-select
+    = select_tag 'sort_by', options_for_select(FeatRole.scopes.each_with_object({}) { |scope, hsh| hsh[t("feat_roles.scopes.#{scope.to_s}")] = scope.to_s })
 
 .feats__list
-  = render partial: 'feat_roles/list', locals: { feat_roles: @feat_roles, sort_by: {} }
+  = render partial: 'list', locals: { feats: @feats, sort_by: {} }
 
 :javascript
-  var feats = #{@feat_roles.map { |feat_role| [feat_role.feat.id, feat_role.feat.name.downcase, feat_role.feat.tags.map(&:name)] } };
+  var feats = #{@feats.map { |feat| [feat.id, feat.name.downcase, feat.tags.map(&:name)] } };
 
   $(document).ready(function() { 
-    $('#feat_search').keyup(function() {
-      var searchInput = $(this).val().toLowerCase();
-      if (searchInput != '') {
-        result = feats.filter(function(i) {
-          return i[1].includes(searchInput);
-        });
-        $('.feat__wrapper').hide();
-        result.forEach(function(arr) {
-          $('#feat_' + arr[0]).show();
-        });
-      } else { 
-        $('.feat__wrapper').show();
-      }
-    });
+    // $('#feat_search').keyup(function() {
+    //   var searchInput = $(this).val().toLowerCase();
+    //   if (searchInput != '') {
+    //     result = feats.filter(function(i) {
+    //       return i[1].includes(searchInput);
+    //     });
+    //     $('.feat__wrapper').hide();
+    //     result.forEach(function(arr) {
+    //       $('#feat_' + arr[0]).show();
+    //     });
+    //   } else { 
+    //     $('.feat__wrapper').show();
+    //   }
+    // });
 
-    $('#tag_search').change(function() {
-      var tagSearch = $(this).val();
+    // $('#tag_search').change(function() {
+    //   var tagSearch = $(this).val();
 
-      if (tagSearch != null) {
-        if (tagSearch[0] == '') {
-          tagSearch = tagSearch.splice(1);
-        };
+    //   if (tagSearch != null) {
+    //     if (tagSearch[0] == '') {
+    //       tagSearch = tagSearch.splice(1);
+    //     };
 
-        result = feats.filter(function(i) {
-          return tagSearch.every(function(tag) {
-            return i[2].includes(tag);
-          });
-        });
-          $('.feat__wrapper').hide();
-        result.forEach(function(arr) {
-          $('#feat_' + arr[0]).show();
-        });
-      } else {
-        $('.feat__wrapper').show();
-      };
-    });
+    //     result = feats.filter(function(i) {
+    //       return tagSearch.every(function(tag) {
+    //         return i[2].includes(tag);
+    //       });
+    //     });
+    //       $('.feat__wrapper').hide();
+    //     result.forEach(function(arr) {
+    //       $('#feat_' + arr[0]).show();
+    //     });
+    //   } else {
+    //     $('.feat__wrapper').show();
+    //   };
+    // });
 
     $('.advanced-filters-btn').click(function() {
       $('.advanced-filters').toggle();
     });
 
-    $('#feats-sort').change(function() {
-      $('#sort-submit-btn').trigger('click');
+    $('#name_search').keyup(function() {
+      featFilter();
+    });
+
+    $('#tag_search').change(function() {
+      featFilter();
+    });
+
+    $('#sort_by').change(function() {
+      featFilter();
     });
   });
 
+  function featFilter() {
+    var url = '/feats'
+    var name = $('#name_search').val();
+    var tags = $('#tag_search').val();
+    var sort_by = $('#sort_by').val();
+    $.ajax({
+      method: 'GET',
+      url: url,
+      dataType: 'script',
+      data: {
+        authenticity_token: '#{form_authenticity_token}',
+        filters: { tags: tags, name: name },
+        sort_by: sort_by,
+      },
+      success: function(data){
+      }
+    });
+  }
