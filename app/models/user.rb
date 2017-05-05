@@ -62,6 +62,10 @@ class User < ApplicationRecord
                          .where(context_query)    
   end
 
+  def actors
+    performers.map { |performer| [performer, performer.groups] }.flatten
+  end
+
   def public_name
     name = "#{first_name} #{last_name}"
     name.present? ? name : "User#{id}"

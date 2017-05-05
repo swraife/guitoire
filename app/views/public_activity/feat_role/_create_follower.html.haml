@@ -1,8 +1,8 @@
 .activity__top
   .activity__subject
-    = link_to activity.owner.public_name, performer_feats_path(activity.owner)
+    = link_to activity.owner.public_name, activity.owner
     = 'began following'
-    = link_to activity.recipient.creator.name, performer_feats_path(activity.recipient.creator)
+    = link_to activity.recipient.creator.name, activity.recipient.creator
     = "'s #{feat_name.pluralize(activities.count)}:"
     - truncated_sentence_array(activities.map(&:recipient).uniq).each do |item|
       = item.is_a?(String) ? item : link_to(item.name, item)

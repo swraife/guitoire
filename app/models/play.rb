@@ -17,9 +17,10 @@ class Play < ApplicationRecord
   tracked only: [:create], owner: :performer, recipient: :feat
 
   belongs_to :performer
-  belongs_to :feat_role, counter_cache: true
-  belongs_to :feat, counter_cache: true
+  belongs_to :feat_role
+  belongs_to :feat
 
+  after_create :update_feat_and_feat_roles
   # To be deleted once owner is made polymorphic
   def owner
     performer
@@ -40,5 +41,12 @@ class Play < ApplicationRecord
 
   def feat_id
     feat.id
+  end
+
+  private
+
+  def update_feat_and_feat_roles
+    feat_role.update(last_played_at: created_at, plays_count: feat_role.plays_count + 1)
+    feat.update(last_played_at: created_at, plays_count: feat.plays_count + 1)
   end
 end

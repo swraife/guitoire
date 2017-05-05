@@ -2,10 +2,10 @@ module Query
   class FeatQueryService
     include VisibilityQueryHelpers
 
-    attr_reader :actor, :viewer, :order, :tags, :name
+    attr_reader :actors, :viewer, :order, :tags, :name
 
-    def initialize(actor:, viewer:, order: 'order_by_name', filters: {})
-      @actor = actor
+    def initialize(actors:, viewer:, order: 'order_by_name', filters: {})
+      @actors = actors
       @viewer = viewer
       @filters = set_filters(filters)
       @order = set_order(order)
@@ -14,15 +14,7 @@ module Query
     def find_feats
       @feats_list ||= Feat.includes(:tags, feat_roles: :plays)
                           .send(*tag_query)
-                          .where(query).send(order, actor&.id)
-    end
-
-    def last_played_dates
-      @last_played_dates ||= Play.joins(:feat_role)
-                                 .where(feat_roles: {feat_id: find_feats.ids})
-                                 .order(created_at: :desc)
-                                 .pluck(:feat_id, :created_at)
-                                 .uniq(&:first).to_h
+                          .where(query).send(order, actors)
     end
 
     private
@@ -33,7 +25,7 @@ module Query
 
     def feat_matches
       joins.where(
-        feat_role_owner_is_actor
+        feat_role_owner_is_in_actors
         .and(
           visibility_everyone?(feats)
           .or(visibility_friends?(feats).and(owner_is_friend?(feats)))
@@ -42,19 +34,17 @@ module Query
       )
     end
 
-    def order_matches
-      joins.where(feat_role_owner_is_actor)
-    end
-
     def joins
       feats.join(feat_roles).on(feats[:id].eq(feat_roles[:feat_id]))
     end
 
-    def feat_role_owner_is_actor
-      if actor
-        feat_roles[:owner_type].eq(actor.class)
-                               .and(feat_roles[:owner_id].eq(actor.id))
-                               .and(feat_roles[:role].not_eq(0))
+    def feat_role_owner_is_in_actors
+      if actors.present?
+        feat_roles[:role].not_eq(0)
+                         .and((feat_roles[:owner_type].eq('Performer')
+                           .and(feat_roles[:owner_id].in(performer_actors.map(&:id))))
+                         .or(feat_roles[:owner_type].eq('Group')
+                           .and(feat_roles[:owner_id].in(group_actors.map(&:id)))))
       else
         where_all
       end
@@ -67,10 +57,6 @@ module Query
     def name_query
       name ? feats[:name].matches("%#{name}%") : where_all
     end
-
-    # def filter_tags
-    #   tags ? taggings[:tag_id].in(tag_ids) : where_all
-    # end
 
     def where_all
       feats[:id].not_eq(nil)
@@ -116,6 +102,14 @@ module Query
 
     def plays
       @plays ||= Play.arel_table
+    end
+
+    def performer_actors
+      actors.select { |actor| actor.is_a? Performer }
+    end
+
+    def group_actors
+      actors.select { |actor| actor.is_a? Group }
     end
   end
 end

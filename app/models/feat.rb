@@ -18,6 +18,7 @@
 #  owner_type     :string
 #  visibility     :integer          default("everyone")
 #  plays_count    :integer          default(0)
+#  last_played_at :datetime
 #
 
 class Feat < ApplicationRecord
@@ -74,16 +75,19 @@ class Feat < ApplicationRecord
 
   FEAT_NAMES = %w(song skill trick move).freeze
 
-  def self.order_by_last_played(id)
-    ids = id ? id : Performer.ids
-    where(feat_roles: { owner_id: ids })
-      .group('feats.id, feat_roles.id, plays.id, tags.id')
-      .order('max(plays.created_at) DESC NULLS LAST')
+  def self.order_by_last_played(actors)
+    if actors.present?
+      where(feat_roles: { owner: actors })
+        .group('feats.id, feat_roles.id, plays.id, tags.id')
+        .order('max(feat_roles.last_played_at) DESC NULLS LAST')
+    else
+      order('last_played_at DESC NULLS LAST')
+    end
   end
 
-  def self.order_by_plays_count(id)
-    if id
-      where(feat_roles: { owner_id: ids })
+  def self.order_by_plays_count(actors)
+    if actors.present?
+      where(feat_roles: { owner: actors })
         .group('feats.id, feat_roles.id, plays.id, tags.id')
         .order('feat_roles.plays_count DESC')
     else

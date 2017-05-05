@@ -18,6 +18,7 @@
 #  owner_type     :string
 #  visibility     :integer          default("everyone")
 #  plays_count    :integer          default(0)
+#  last_played_at :datetime
 #
 
 require 'rails_helper'

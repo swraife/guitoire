@@ -42,7 +42,7 @@
           Add
           = current_performer.feat_name.capitalize
       .left-sidebar__link
-        = link_to performer_feats_path(current_performer) do
+        = link_to feats_path(actor_ids: [current_performer.global_id]) do
           %i.fa.fa-fw.fa-search
           = current_performer.feat_name.capitalize.pluralize
       .left-sidebar__link

@@ -1,6 +1,6 @@
 .activity__top
   .activity__subject
-    = link_to activity.owner.public_name, performer_feats_path(activity.owner)
+    = link_to activity.owner.public_name, activity.owner
     - if activities.count > 1
       = "added #{activities.count} new #{'resource'.pluralize(activities.count)} to"
       = link_to activity.recipient.name, activity.recipient

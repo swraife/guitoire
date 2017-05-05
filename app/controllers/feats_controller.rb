@@ -2,13 +2,12 @@ class FeatsController < ApplicationController
   load_and_authorize_resource except: [:new, :index]
 
   def index
-    @performer = Performer.find_by_id(params[:performer_id])
     order = FeatRole.scopes.include?(params[:sort_by]&.to_sym) ? params[:sort_by] : 'order_by_name'
     @filters = filter_params.each_with_object({}) { |(k,v), hsh| hsh[k.to_sym] = v }
-    @feat_service = Query::FeatQueryService.new(
-      actor: @performer, viewer: current_performer, filters: @filters, order: order
-    )
-    @feats = @feat_service.find_feats
+    @actors = GlobalID::Locator.locate_many(params[:actor_ids] || [])
+    @feats = Query::FeatQueryService.new(
+      actors: @actors, viewer: current_performer, filters: @filters, order: order
+    ).find_feats
 
     respond_to do |format|
       format.js {}
@@ -50,7 +49,7 @@ class FeatsController < ApplicationController
 
   def destroy
     if @feat.destroy
-      redirect_to performer_feats_path(current_performer),
+      redirect_to feats_path(actor_ids: [@feat.owner.global_id]),
         flash: { notice: "#{@feat.name} was deleted!"}
     end
   end

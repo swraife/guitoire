@@ -1,11 +1,15 @@
 %h1.inl-block
-  = "#{other_performer_name(@performer)} #{current_performer.feat_name.capitalize.pluralize}"
+  = current_performer.feat_name.capitalize.pluralize
 .advanced-filters-btn.inl-block.right
   = link_to '#' do
     %i.fa.fa-filter
     Filters
 = text_field_tag 'name_search', nil, placeholder: 'Search by name', autofocus: true
-= select_tag 'tag_search', options_for_select(current_performer.feat_tags.order(:name), @filters[:tags]), class: 'tag_search-input', include_blank: true, multiple: true
+- tag_options = (current_performer.feat_tags.order(:name) + current_performer.area.tags + (@filters[:tags] || [])).uniq { |i| i.is_a?(String) ? i : i.name }
+= select_tag 'tag_search', options_for_select(tag_options, @filters[:tags]), class: 'tag_search-input', include_blank: true, multiple: true
+.performer-id-select{ style: "padding-top:5px" }
+  = select_tag 'actor_ids', options_from_collection_for_select(current_user.actors, :global_id, :name, @actors.map(&:global_id)), include_blank: true, multiple: true
+
 .advanced-filters.hide
   .sort_by-select
     = select_tag 'sort_by', options_for_select(FeatRole.scopes.each_with_object({}) { |scope, hsh| hsh[t("feat_roles.scopes.#{scope.to_s}")] = scope.to_s })
@@ -62,11 +66,7 @@
       featFilter();
     });
 
-    $('#tag_search').change(function() {
-      featFilter();
-    });
-
-    $('#sort_by').change(function() {
+    $('#tag_search, #sort_by, #actor_ids').change(function() {
       featFilter();
     });
   });
@@ -76,6 +76,7 @@
     var name = $('#name_search').val();
     var tags = $('#tag_search').val();
     var sort_by = $('#sort_by').val();
+    var actor_ids = $('#actor_ids').val();
     $.ajax({
       method: 'GET',
       url: url,
@@ -84,6 +85,7 @@
         authenticity_token: '#{form_authenticity_token}',
         filters: { tags: tags, name: name },
         sort_by: sort_by,
+        actor_ids: actor_ids
       },
       success: function(data){
       }

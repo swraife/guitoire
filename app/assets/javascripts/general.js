@@ -10,6 +10,13 @@ $(document).ready(function() {
     placeholder: 'Search by tags'
   });
 
+  $('#actor_ids').select2({
+    theme: 'bootstrap',
+    tags: true,
+    placeholder: 'Select Your Workspaces and Groups'
+  });
+
+
   $(window).scroll(function() {
     if ($('.pagination').length > 0) {
       if($(window).scrollTop() + $(window).height() == $(document).height()) {

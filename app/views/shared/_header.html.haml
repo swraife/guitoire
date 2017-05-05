@@ -36,7 +36,7 @@
         = link_to 'Add Group', new_group_path
     .header-dropdown.header__library-dropdown.hide
       .header-dropdown-item
-        = link_to feat_name.capitalize.pluralize, performer_feats_path(current_performer)
+        = link_to feat_name.capitalize.pluralize, feats_path(actor_ids: [current_performer.global_id])
         .med-horizontal-border
       .header__dropdown-item
         = link_to routine_name.capitalize.pluralize, performer_routines_path(current_performer)

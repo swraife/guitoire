@@ -11,7 +11,7 @@ RSpec.describe Query::FeatQueryService do
 
   describe '#find_feats' do
     let(:subject) do
-      described_class.new(actor: actor, viewer: viewer).find_feats
+      described_class.new(actors: [actor], viewer: viewer).find_feats
     end
 
     context 'when viewer is the actor' do
@@ -54,13 +54,13 @@ RSpec.describe Query::FeatQueryService do
 
         context 'order is last_played' do
           let(:subject) {
-            described_class.new(actor: actor, viewer: viewer, order: 'order_by_last_played').find_feats
+            described_class.new(actors: [actor], viewer: viewer, order: 'order_by_last_played').find_feats
           }
 
           it 'returns feats by last played date' do
             ('a'..'c').each do |name|
               f = create(:feat, owner: owner, visibility: visibility, name: name)
-              Play.create(feat_role: f.feat_roles.first) unless name == 'b'
+              Play.create(feat_role: f.feat_roles.first, feat: f) unless name == 'b'
             end
             
             expect(subject.map { |i| i.name}).to eq(%w(c a b))
@@ -69,7 +69,7 @@ RSpec.describe Query::FeatQueryService do
 
         context 'order is created_at' do
           let(:subject) {
-            described_class.new(actor: actor, viewer: viewer, order: 'order_by_created_at').find_feats
+            described_class.new(actors: [actor], viewer: viewer, order: 'order_by_created_at').find_feats
           }
 
           it 'returns feats by created_at date' do
@@ -83,13 +83,13 @@ RSpec.describe Query::FeatQueryService do
 
         context 'order is plays_count' do
           let(:subject) {
-            described_class.new(actor: actor, viewer: viewer, order: 'order_by_plays_count').find_feats
+            described_class.new(actors: [actor], viewer: viewer, order: 'order_by_plays_count').find_feats
           }
 
           it 'returns feats by plays_count' do
             ('a'..'c').each_with_index do |name, i|
               f = create(:feat, owner: owner, visibility: visibility, name: name)
-              i.times { Play.create(feat_role: f.feat_roles.first) }
+              i.times { Play.create(feat_role: f.feat_roles.first, feat: f) }
               if name == 'a'
                 other_performer = create(:performer)
                 FeatRole.create(feat: f, role: 1, owner: other_performer, plays_count: 5)
@@ -147,7 +147,7 @@ RSpec.describe Query::FeatQueryService do
 
     context 'when actor is nil' do
       let(:subject) do
-        described_class.new(actor: nil, viewer: viewer).find_feats
+        described_class.new(actors: nil, viewer: viewer).find_feats
       end
 
       it 'finds all viewable feats' do
@@ -157,7 +157,7 @@ RSpec.describe Query::FeatQueryService do
 
     context 'when filter tags are provided' do
       let(:subject) do
-        described_class.new(actor: actor, viewer: viewer, filters: filters).find_feats
+        described_class.new(actors: [actor], viewer: viewer, filters: filters).find_feats
       end
 
       context 'when tags are given' do
@@ -181,6 +181,19 @@ RSpec.describe Query::FeatQueryService do
           expect(subject).to include(feat)
           expect(subject).not_to include(feat2)
         end
+      end
+    end
+
+    context 'when multiple actors are given' do
+      let(:group) { create(:group, creator: actor) }
+
+      let(:subject) do
+        described_class.new(actors: [actor, group], viewer: viewer).find_feats
+      end
+
+      it 'finds all viewable feats' do
+        group_feat = create(:feat, owner: group, visibility: visibility)
+        expect(subject).to include(feat, group_feat)
       end
     end
   end
