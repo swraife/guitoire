@@ -46,7 +46,7 @@ RSpec.describe FeatsController, type: :controller do
   describe 'DELETE #destroy' do
     it 'returns http success' do
       delete :destroy, params: { performer_id: performer.id, id: feat.id }
-      expect(response).to redirect_to(performer_feats_path(performer))
+      expect(response).to redirect_to(feats_path(actor_ids: [performer.global_id]))
     end
   end
 
