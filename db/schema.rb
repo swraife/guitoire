@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170502005847) do
+ActiveRecord::Schema.define(version: 20170504204047) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,11 +69,12 @@ ActiveRecord::Schema.define(version: 20170502005847) do
   create_table "feat_roles", force: :cascade do |t|
     t.integer  "feat_id"
     t.integer  "owner_id"
-    t.integer  "role",        default: 0
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-    t.integer  "plays_count", default: 0
+    t.integer  "role",           default: 0
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "plays_count",    default: 0
     t.string   "owner_type"
+    t.datetime "last_played_at"
     t.index ["feat_id", "owner_id", "owner_type"], name: "index_feat_roles_on_feat_id_and_owner_id_and_owner_type", unique: true, using: :btree
   end
 
@@ -93,6 +94,7 @@ ActiveRecord::Schema.define(version: 20170502005847) do
     t.string   "owner_type"
     t.integer  "visibility",     default: 0
     t.integer  "plays_count",    default: 0
+    t.datetime "last_played_at"
   end
 
   create_table "file_resources", force: :cascade do |t|
