@@ -12,9 +12,11 @@ module Query
     end
 
     def find_feats
-      @feats_list ||= Feat.includes(:tags, feat_roles: :plays)
+      @feats_list ||= Feat.joins(:feat_roles)
                           .send(*tag_query)
-                          .where(query).send(order, actors)
+                          .where(query)
+                          .send(order, actors)
+                          .preload(:feat_roles, :tags)
     end
 
     private
@@ -98,10 +100,6 @@ module Query
 
     def feats
       @feats ||= Feat.arel_table
-    end
-
-    def plays
-      @plays ||= Play.arel_table
     end
 
     def performer_actors
