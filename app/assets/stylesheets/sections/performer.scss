@@ -58,7 +58,7 @@
   padding: 15px;
 }
 .performer__wrapper {
-  height: 140px;
+  min-height: 140px;
   width: 97%;
   @media ($screen-sm) {
     width: calc((100% / 2) - 15px);
