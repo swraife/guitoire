@@ -21,7 +21,7 @@ class PgSearch::DocumentSerializer < ActiveModel::Serializer
 
   def description
     if object.searchable.is_a? Performer
-      object.searchable.tags.first(10)
+      object.searchable.base_tags.first(10)
             .map { |tag| I18n.t("skill_names.#{tag.name}", default: tag.name) }
             .join(', ')
     elsif object.searchable.is_a? Group

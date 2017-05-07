@@ -3,7 +3,7 @@ class FeatsController < ApplicationController
 
   def index
     order = FeatRole.scopes.include?(params[:sort_by]&.to_sym) ? params[:sort_by] : 'order_by_name'
-    @filters = filter_params.each_with_object({}) { |(k,v), hsh| hsh[k.to_sym] = v }
+    @filters = filter_params.to_h.each_with_object({}) { |(k,v), hsh| hsh[k.to_sym] = v }
     @actors = GlobalID::Locator.locate_many(params[:actor_ids] || [])
     @feats = Query::FeatQueryService.new(
       actors: @actors, viewer: current_performer, filters: @filters, order: order

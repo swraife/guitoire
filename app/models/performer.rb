@@ -43,8 +43,6 @@ class Performer < ApplicationRecord
   has_many :created_feats, class_name: 'Feat', foreign_key: :creator_id
   has_many :routine_feats, through: :routines
 
-  has_many :tags, through: :taggings
-
   # default_scope { includes(:user) }
 
   acts_as_taggable_on :standard_skills, :user_input_skills, :followed_skills
@@ -79,7 +77,7 @@ class Performer < ApplicationRecord
   end
 
   def skills
-    tags.where(id: standard_skill_ids + user_input_skill_ids).distinct
+    base_tags.where(id: standard_skill_ids + user_input_skill_ids).distinct
   end
 
   def actors
@@ -98,7 +96,7 @@ class Performer < ApplicationRecord
   end
 
   def create_followed_skills
-    tags.each do |tag|
+    base_tags.each do |tag|
       ActsAsTaggableOn::Tagging.create(tag: tag,
                                         taggable: self,
                                         context: 'followed_skills') 

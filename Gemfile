@@ -2,19 +2,20 @@ source 'https://rubygems.org'
 
 ruby '2.3.1'
 
+gem 'rails', '~> 5.1.0'
+
 gem 'aasm'
 gem 'active_model_serializers'
-gem 'acts-as-taggable-on', '~> 4.0'
+gem 'acts-as-taggable-on', github: 'mbleigh/acts-as-taggable-on'
 gem 'annotate'
 gem 'autoprefixer-rails'
 gem 'aws-sdk', '~> 2'
 gem 'cancancan'
-gem 'delayed_job_active_record'
-gem 'devise'
+gem 'devise', github: 'plataformatec/devise'
 gem 'featherlight'
 gem 'flutie'
-gem 'font-awesome-rails'
-gem 'haml'
+gem 'font-awesome-rails', github: 'bokmann/font-awesome-rails'
+gem 'haml', git: 'https://github.com/haml/haml'
 gem 'hopscotch-rails'
 gem 'jquery-fileupload-rails'
 gem 'jquery-rails'
@@ -27,15 +28,11 @@ gem 'pg_search'
 gem 'public_activity'
 gem 'puma'
 gem 'rack-canonical-host'
-gem 'rack-mini-profiler' #must be after pg
-gem 'rails', '~> 5.0.0'
 gem 'recipient_interceptor'
 gem 'sass-rails', '~> 5.0'
 gem 'select2-rails'
 gem 'sendgrid-ruby'
-gem 'simple_form'
 gem 'sprockets', '>= 3.0.0'
-gem 'suspenders'
 gem 'title'
 gem 'uglifier'
 
@@ -48,9 +45,9 @@ end
 
 group :development, :test do
   gem 'awesome_print'
-  gem 'bullet'
+  gem 'bullet', '~> 5.5.1'
   gem 'bundler-audit', '>= 0.5.0', require: false
-  gem 'dotenv-rails'
+  gem 'dotenv-rails', github: 'bkeepers/dotenv'
   gem 'factory_girl_rails'
   gem 'guard-rails', require: false
   gem 'guard-rspec', require: false

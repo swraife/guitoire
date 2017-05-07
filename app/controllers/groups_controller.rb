@@ -27,7 +27,7 @@ class GroupsController < ApplicationController
     if @group = Group.create(group_params.merge(creator: current_performer))
       redirect_to @group
     else
-      redirect_to :back
+      redirect_back fallback_location: root_path, flash: { error: 'Uh oh, something broke!' }
     end
   end
 
@@ -38,7 +38,7 @@ class GroupsController < ApplicationController
     if @group.update(group_params)
       can?(:show, @group.reload) ? redirect_to(@group) : redirect_to('/')
     else
-      redirect_to :back
+      redirect_back fallback_location: @group, flash: { error: 'Uh oh, something broke!' }
     end
   end
 
@@ -46,7 +46,7 @@ class GroupsController < ApplicationController
     if @group.destroy
       redirect_to performer_groups_path(current_performer)
     else
-      redirect_to :back
+      redirect_back fallback_location: @group, flash: { error: 'Uh oh, something broke!' }
     end
   end
 

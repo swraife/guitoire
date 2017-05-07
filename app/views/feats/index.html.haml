@@ -18,46 +18,8 @@
   = render partial: 'list', locals: { feats: @feats, sort_by: {} }
 
 :javascript
-  var feats = #{@feats.map { |feat| [feat.id, feat.name.downcase, feat.tags.map(&:name)] } };
 
-  $(document).ready(function() { 
-    // $('#feat_search').keyup(function() {
-    //   var searchInput = $(this).val().toLowerCase();
-    //   if (searchInput != '') {
-    //     result = feats.filter(function(i) {
-    //       return i[1].includes(searchInput);
-    //     });
-    //     $('.feat__wrapper').hide();
-    //     result.forEach(function(arr) {
-    //       $('#feat_' + arr[0]).show();
-    //     });
-    //   } else { 
-    //     $('.feat__wrapper').show();
-    //   }
-    // });
-
-    // $('#tag_search').change(function() {
-    //   var tagSearch = $(this).val();
-
-    //   if (tagSearch != null) {
-    //     if (tagSearch[0] == '') {
-    //       tagSearch = tagSearch.splice(1);
-    //     };
-
-    //     result = feats.filter(function(i) {
-    //       return tagSearch.every(function(tag) {
-    //         return i[2].includes(tag);
-    //       });
-    //     });
-    //       $('.feat__wrapper').hide();
-    //     result.forEach(function(arr) {
-    //       $('#feat_' + arr[0]).show();
-    //     });
-    //   } else {
-    //     $('.feat__wrapper').show();
-    //   };
-    // });
-
+  $(document).ready(function() {
     $('.advanced-filters-btn').click(function() {
       $('.advanced-filters').toggle();
     });

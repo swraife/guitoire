@@ -54,7 +54,6 @@ class Feat < ApplicationRecord
   has_many :file_resources, through: :resources, source: :resourceable, source_type: 'FileResource'
   has_many :url_resources, through: :resources, source: :resourceable, source_type: 'UrlResource'
 
-  has_many :tags, through: :taggings
   has_many :plays
   has_many :players, -> { distinct }, through: :plays, source: :performer
   has_many :routine_feats, dependent: :destroy

@@ -16,7 +16,7 @@ module Query
     private
 
     def public_activity
-      PublicActivity::Activity.includes(:trackable, :owner, recipient: [:creator, :tags])
+      PublicActivity::Activity.includes(:trackable, :owner, recipient: [:creator, :base_tags])
     end
 
     def activities
@@ -164,7 +164,7 @@ module Query
     end
 
     def tag_ids
-      @tag_ids ||= performer.tag_ids
+      @tag_ids ||= performer.base_tag_ids
     end
 
     def area_performer_ids

@@ -3,7 +3,7 @@ class ResourcesController < ApplicationController
 
   def destroy
     if @resource.destroy
-      redirect_to :back
+      redirect_back(fallback_location: @resource.target)
     end
   end
 end

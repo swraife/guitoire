@@ -9,7 +9,7 @@
     = time_ago_in_words(activity.created_at)
     = 'ago'
 .activity__bottom
-  - tags = activities.each_with_object([]) { |act, arr| act.recipient.tags.each { |tag| arr.push(tag) } }
+  - tags = activities.each_with_object([]) { |act, arr| act.recipient.base_tags.each { |tag| arr.push(tag) } }
   - if tags.present?
     %i.fa.fa-tags
     - uniq_tags = tags.uniq

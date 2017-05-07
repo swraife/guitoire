@@ -50,9 +50,9 @@
     %br
 
     = f.submit 'Save', class: 'save-feat-btn'
-
+    - byebug
 :javascript
-  var feats = #{@feats.reject { |feat| feat == @feat }.map { |feat| [feat.id, feat.name.downcase, feat.tags.map(&:name), feat_path(feat)] } };
+  var feats = #{@feats.reject { |feat| feat == @feat }.map { |feat| [feat.id, feat.name.downcase, feat_path(feat)] } };
 
   $(document).ready(function() { 
     $('.feat__duplicate-link').hide();

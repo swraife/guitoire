@@ -16,7 +16,7 @@ module Query
                           .send(*tag_query)
                           .where(query)
                           .send(order, actors)
-                          .preload(:feat_roles, :tags)
+                          .preload(:feat_roles, :base_tags)
     end
 
     private

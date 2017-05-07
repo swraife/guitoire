@@ -29,8 +29,6 @@ class Routine < ApplicationRecord
   has_many :routine_feats, dependent: :destroy
   has_many :feats, through: :routine_feats
 
-  has_many :tags, through: :taggings
-
   after_save :owner_routine_role
 
   enum visibility: [:everyone, :friends, :only_admins]

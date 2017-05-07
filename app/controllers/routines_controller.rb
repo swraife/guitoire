@@ -22,7 +22,7 @@ class RoutinesController < ApplicationController
     if @routine.save
       redirect_to @routine
     else
-      redirect_to :back, flash: { error: 'Uh oh, something broke!' }
+      redirect_back fallback_location: root_path, flash: { error: 'Uh oh, something broke!' }
     end
   end
 
@@ -33,7 +33,7 @@ class RoutinesController < ApplicationController
     if @routine.update(routine_params)
       redirect_to @routine
     else
-      redirect_to :back, flash: { error: 'Uh oh, something broke!' }
+      redirect_back fallback_location: @routine, flash: { error: 'Uh oh, something broke!' }
     end      
   end
 

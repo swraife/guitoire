@@ -10,6 +10,6 @@
     - if current_user.performers.include? performer
       = link_to '(edit)', edit_performer_path(performer)
 .performer__bottom-section.subtext
-  - if performer.tags.present?
+  - if performer.base_tags.present?
     %i.fa.fa-tags
-    = performer.tags.map { |tag| t("skill_names.#{tag.name}", default: tag.name) }.join(', ')
+    = performer.base_tags.map { |tag| t("skill_names.#{tag.name}", default: tag.name) }.join(', ')
