@@ -22,6 +22,7 @@ class FeatRole < ApplicationRecord
   belongs_to :feat
 
   has_many :plays, dependent: :destroy
+  has_many :resources, as: :target, dependent: :destroy
 
   scope :order_by_last_played, -> { left_joins(:plays)
                                     .group('feat_roles.id')
@@ -43,6 +44,10 @@ class FeatRole < ApplicationRecord
 
   def self.subscriber
     where(role: [1,2])
+  end
+
+  def subscriber?
+    admin? || follower?
   end
 
   def has_edit_permission?

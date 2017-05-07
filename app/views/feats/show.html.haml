@@ -83,8 +83,11 @@
 - if can? :edit, @feat
   = button_tag 'Attach File', class: 'add-resource-btn btn'
   = button_tag 'Add Link', class: 'add-link-btn btn'
+- if @current_performer_feat_role.subscriber? 
+  = button_tag 'Add Private Tags', class: 'add-private-tags-btn btn'
 
-  = form_for FileResource.new, html: { class: 'disable-on-submit' } do |f|
+- if can? :edit, @feat
+  = form_for FileResource.new, html: { class: 'feat-show-form disable-on-submit' } do |f|
     = f.label 'Upload File'
     = f.file_field :main, name: 'file_resource[main]', accept: '.jpg, .jpeg, .png, .pdf, .gif, .docx, .doc, .xls, .xlsx, .mp3, .wav, .mp4, .txt, .mov'
     = hidden_field_tag :feat_id, @feat.id
@@ -92,7 +95,7 @@
       %i.fa.fa-save
       Upload
 
-  = form_for UrlResource.new, html: { class: 'disable-on-submit' } do |f|
+  = form_for UrlResource.new, html: { class: 'feat-show-form disable-on-submit' } do |f|
     = f.label 'Add Link'
     = f.text_field :url
     = hidden_field_tag :feat_id, @feat.id
@@ -100,21 +103,36 @@
       %i.fa.fa-save
       Save
 
+- if @current_performer_feat_role.subscriber? 
+  = form_for @current_performer_feat_role, html: { class: 'feat-show-form feat-role-private-list-form disable-on-submit' } do |f|
+    = f.label 'Private Tags'
+    = f.select :private_list, options_for_select(current_performer.feat_role_tags('private'), @current_performer_feat_role.private_list), {include_blank: true}, {multiple: true, class: 'add-select2'}
+    = button_tag type: 'submit', class: 'feat-role-submit-btn' do |f|
+      %i.fa.fa-save
+      Save
+
+
 :javascript
   $(document).ready(function() {
     $('#new_file_resource').hide();
     $('.add-resource-btn').click(function() {
-      $('#new_url_resource').hide();
+      $('.feat-show-form').hide();
       $('#new_file_resource').toggle();
     });
 
     $('#new_url_resource').hide();
     $('.add-link-btn').click(function() {
-      $('#new_file_resource').hide();
+      $('.feat-show-form').hide();
       $('#new_url_resource').toggle();
     });
     $('input:file').change(function (){
       $('.file_resource-upload-btn').show();
+    });
+
+    $('.feat-role-private-list-form').hide();
+    $('.add-private-tags-btn').click(function() {
+      $('.feat-show-form').hide();
+      $('.feat-role-private-list-form').toggle();
     });
 
     $('.follow-feat-btn').hover(function() {

@@ -18,6 +18,6 @@ class FeatRolesController < ApplicationController
   private
 
   def feat_role_params
-    params.require(:feat_role).permit(:feat_id, :role, :global_owner)
+    params.require(:feat_role).permit(:feat_id, :role, :global_owner, private_list: [])
   end
 end
