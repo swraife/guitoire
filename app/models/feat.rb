@@ -59,8 +59,8 @@ class Feat < ApplicationRecord
   has_many :players, -> { distinct }, through: :plays, source: :performer
   has_many :routine_feats, dependent: :destroy
 
-  scope :order_by_name, ->(_id) { order('lower(feats.name)') }
-  scope :order_by_created_at, ->(_id) { order(created_at: :desc) }
+  scope :order_by_name, ->(_id) { group('feats.id').order('lower(feats.name)') }
+  scope :order_by_created_at, ->(_id) { group('feats.id').order(created_at: :desc) }
 
   acts_as_taggable_on :generics
 
@@ -77,11 +77,11 @@ class Feat < ApplicationRecord
 
   def self.order_by_last_played(actors)
     if actors.present?
-      where(feat_roles: { owner: actors })
-        .group('feats.id')
+      group('feats.id')
+        .where(feat_roles: { owner: actors })
         .order('max(feat_roles.last_played_at) DESC NULLS LAST')
     else
-      order('last_played_at DESC NULLS LAST')
+      group('feats.id').order('last_played_at DESC NULLS LAST')
     end
   end
 
@@ -91,7 +91,7 @@ class Feat < ApplicationRecord
         .group('feats.id')
         .order('sum(feat_roles.plays_count) DESC')
     else
-      order('plays_count DESC')
+      group('feats.id').order('plays_count DESC')
     end
   end
 
