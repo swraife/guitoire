@@ -96,8 +96,8 @@
     });
 
     $('.performer__help-btn').click(function() {
-      var missing_area_or_tags_help = #{t('.missing_area_or_tags_help')};
-      var multiple_workspaces_help = #{t('.multiple_workspaces_help')};
+      var missing_area_or_tags_help = "#{j t('.missing_area_or_tags_help')}";
+      var multiple_workspaces_help = "#{j t('.multiple_workspaces_help')}";
       var $content = "<div class='performer__help-featherlight-wrapper'><h2>FAQ</h2><p>" + missing_area_or_tags_help + "</p>" +
         "<p>" + multiple_workspaces_help + "</p></div>";
       var config = $.featherlight.defaults;
@@ -116,8 +116,8 @@
       if (areaName == 'Music') {
         $('#performer_feat_name').val('song').trigger('change');
         $('#performer_routine_name').val('set').trigger('change');
-      } else if (areaName == 'Dance') {
-        $('#performer_feat_name').val('move').trigger('change');
+      } else if (areaName == 'Extreme Sports') {
+        $('#performer_feat_name').val('trick').trigger('change');
         $('#performer_routine_name').val('routine').trigger('change');
       } else {
         $('#performer_feat_name').val('skill').trigger('change');

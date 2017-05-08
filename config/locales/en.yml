@@ -37,23 +37,23 @@ en:
     form:
       custom_tags: "Add your own tags such as 'Underwater Basket Weaving' or 'Cactus Throwing'."
       missing_area_or_tags_help: >
-        "Q: What if my skills or tags aren't listed?  A: No worries, this is
+        Q: What if my skills or tags aren't listed?  A: No worries, this is
         just a quick start. Select 'other' and/or add custom tags for what you
-        do. You'll be able to customize more later."
+        do. You'll be able to customize more later.
       multiple_workspaces_help: >
-        "Q: What if I need two workspaces?  A: For related skills that you
+        Q: What if I need two workspaces?  A: For related skills that you
         might practice or perform at the same time, or with the same people,
         we recommend using only one workspace. However, if you do want a
-        second workspace, you'll be able to create it later."
+        second workspace, you'll be able to create it later.
     new:
       warning: >
         It looks you're adding a second workspace. Just so you know, you're
         workspaces are kept completely separate from each other. This means
         separate friends, groups, newsfeeds, etc. This is so you can keep, for
-        example, your aerials acts separate from your music. For similar
+        example, your aerials acts separate from your metal band. For similar
         skills like juggling and unicycling, which you might perform in the
         same act or with the same group, it's usually easier to keep them in
-        one workspace and use tags and custom fields to stay organized.
+        one workspace and use tags to stay organized.
   shared:
     search:
       search_placeholder: Search
@@ -63,6 +63,7 @@ en:
     ballet: Ballet
     bluegrass: Bluegrass
     blues: Blues
+    bmx: BMX
     chains: Chains
     classical: Classical
     clowning: Clowning
@@ -87,12 +88,17 @@ en:
     reggae: Reggae
     rock: Rock
     rope: Rope
+    skateboarding: Skateboarding
+    skiing: Skiing
+    slacklining: Slacklining
+    snowboarding: Snowboarding
     staff: Staff
     straps: Straps
     swing: Swing
     tap: Tap
     trapeze: Trapeze
     unicycling: Unicycling
+    wakeboarding: Wakeboarding
     world: World
   feat_roles:
     scopes:

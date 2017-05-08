@@ -6,7 +6,7 @@ task create_skills_and_areas: :environment do
                             chains contact_juggling unicycling magic illusion
                             clowning mime acrobalance diabolo devil_sticks
                             staff rope),
-    'dance'  => %w(ballet swing tap modern_dance),
+    'extreme_sports'  => %w(skateboarding snowboarding skiing bmx slacklining wakeboarding),
     'music'  => %w(bluegrass folk jazz classical rock country blues rap
                             punk pop reggae metal world hip_hop),
     'other'  => []
