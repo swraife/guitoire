@@ -8,4 +8,8 @@ module GlobalOwner
   def global_owner=(owner)
     self.owner = GlobalID::Locator.locate owner
   end
+
+  def global_id
+    to_global_id.to_param
+  end
 end

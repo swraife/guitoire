@@ -15,6 +15,7 @@
 
 class FeatRole < ApplicationRecord
   include PublicActivity::Model
+  include GlobalOwner
 
   belongs_to :owner, polymorphic: true
   belongs_to :performer, class_name: 'Performer', foreign_key: 'owner_id'

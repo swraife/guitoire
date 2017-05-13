@@ -52,4 +52,14 @@ class Group < ApplicationRecord
   def creator_group_role
     admin_group_roles.where(performer_id: creator_id).first_or_create!
   end
+
+  def format_custom_contexts
+    if feat_contexts.is_a? Array
+      self.feat_contexts = feat_contexts.each_with_object({}) do |context, hsh|
+        hsh[Contexts.name_for(context)] = context if context.present?
+      end
+    elsif feat_contexts.nil?
+      self.feat_contexts = {}
+    end
+  end
 end

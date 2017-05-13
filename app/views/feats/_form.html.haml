@@ -50,44 +50,44 @@
     %br
 
     = f.submit 'Save', class: 'save-feat-btn'
-    - byebug
+
 :javascript
-  var feats = #{@feats.reject { |feat| feat == @feat }.map { |feat| [feat.id, feat.name.downcase, feat_path(feat)] } };
+  // var feats = #{@feats.reject { |feat| feat == @feat }.map { |feat| [feat.id, feat.name.downcase, feat_path(feat)] } };
 
   $(document).ready(function() { 
     $('.feat__duplicate-link').hide();
     displayCustomContexts($('#feat_global_owner').val());
 
-    $('#feat_name').keyup(function() {
-      $('.feat__duplicates-wrapper').hide();
-      var searchInput = $(this).val().toLowerCase();
-      if (searchInput.length > 2) {
-        feats.forEach(function(i) {
-          if (i[1].includes(searchInput)) {
-            $('.feat__duplicates-wrapper').show();
-            $('#feat_id_' + i[0]).show();
-          } else {
-            $('#feat_id_' + i[0]).hide();
-          }
-        });
-      } else {
-        $('.feat__duplicates-wrapper').hide();
-      }
-    });
+    // $('#feat_name').keyup(function() {
+    //   $('.feat__duplicates-wrapper').hide();
+    //   var searchInput = $(this).val().toLowerCase();
+    //   if (searchInput.length > 2) {
+    //     feats.forEach(function(i) {
+    //       if (i[1].includes(searchInput)) {
+    //         $('.feat__duplicates-wrapper').show();
+    //         $('#feat_id_' + i[0]).show();
+    //       } else {
+    //         $('#feat_id_' + i[0]).hide();
+    //       }
+    //     });
+    //   } else {
+    //     $('.feat__duplicates-wrapper').hide();
+    //   }
+    // });
 
-    $('.save-feat-btn').click(function(e) {
-      var featName = $('#feat_name').val().toLowerCase();
+    // $('.save-feat-btn').click(function(e) {
+    //   var featName = $('#feat_name').val().toLowerCase();
 
-      var matches = feats.filter(function(i) {
-        return i[1] == featName
-      });
+    //   var matches = feats.filter(function(i) {
+    //     return i[1] == featName
+    //   });
 
-      if (matches.length > 0) {
-        if (!confirm("Are you sure this isn't a duplicate?")) {
-          e.preventDefault();
-        }
-      }
-    });
+    //   if (matches.length > 0) {
+    //     if (!confirm("Are you sure this isn't a duplicate?")) {
+    //       e.preventDefault();
+    //     }
+    //   }
+    // });
 
     $('#feat_form').submit(function() {
       var globalOwner = $('#feat_global_owner').val();

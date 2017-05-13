@@ -1,13 +1,17 @@
 class FileResourcesController < ApplicationController
   def create
+    @target = GlobalID::Locator.locate resource_params[:global_target]
+    authorize! :edit, @target
+
     ActiveRecord::Base.transaction do
       file_resource = FileResource.create!(file_resource_params)
-      @feat = current_performer.admin_feats.find(params[:feat_id])
-      file_resource.resources.create(target: @feat, creator: current_performer)
+      file_resource.resources.create(target: @target,
+                                     name: resource_params[:global_target],
+                                     creator: current_performer)
     end
-    redirect_to performer_feat_path(current_performer, params[:feat_id])
+    redirect_to feat_path(params[:feat_id])
   rescue ActiveRecord::ActiveRecordError => exception
-    redirect_to performer_feat_path(current_performer, params[:feat_id]),
+    redirect_to feat_path(params[:feat_id]),
       flash: { error: "Uh oh, something broke - #{exception}" }
   end
 
@@ -15,5 +19,9 @@ class FileResourcesController < ApplicationController
 
   def file_resource_params
     params.require(:file_resource).permit(:main)
+  end
+
+  def resource_params
+    params.require(:resource).permit(:name, :global_target)
   end
 end

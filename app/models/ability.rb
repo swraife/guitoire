@@ -40,7 +40,7 @@ class Ability
 
       can [:create, :update, :destroy], FeatRole do |feat_role|
         performer_is_in_owner_performers?(feat_role.owner) &&
-          (feat_role.feat.permissible_roles.include?(params[:feat_role][:role]) || params[:feat_role][:role].nil?)
+          (feat_role.feat.permissible_roles.include?(params[:feat_role]&[:role]) || !params[:feat_role]&[:role])
       end
 
       can :create, Play do |play|
