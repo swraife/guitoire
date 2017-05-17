@@ -1,7 +1,7 @@
 = form_for MessageThread.new, remote: true do |f|
   = f.hidden_field :name, value: ''
   = f.label 'Recipients'
-  = f.select :user_ids, options_from_collection_for_select(User.where.not(id: current_user.id), :id, :name), {include_blank: true}, {multiple: true, class: 'add-select2'}
+  = f.select :performer_ids, options_from_collection_for_select(@friends.where.not(id: current_performer.id), :id, :public_name), {include_blank: true}, {multiple: true, class: 'add-select2'}
   = fields_for Message.new do |ff|
     = ff.label 'Message'
     = ff.text_field :content, class: 'message-input'

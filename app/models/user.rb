@@ -37,11 +37,6 @@ class User < ApplicationRecord
 
   has_many :performers
 
-  has_many :messages
-  has_many :message_copies
-  has_many :user_message_threads
-  has_many :message_threads, through: :user_message_threads
-
   enum role: [:subscriber, :admin]
   enum visibility: [:everyone, :friends]
 

@@ -1,8 +1,8 @@
 .message_thread-preview.preview-btn{ id: "message_thread_preview_#{message_thread.id}" }
-  - if message_thread.message_copies.where(user: current_user).unseen.present?
+  - if message_thread.message_copies.where(performer: current_performer).unseen.present?
     .message_thread-unseen
       NEW
-  .message_thread-users
-    = truncate(message_thread.users.where.not(id: current_user.id).map(&:name).join(', '), length: 23)
+  .message_thread-performers
+    = truncate(message_thread.performers.where.not(id: current_performer.id).map(&:public_name).join(', '), length: 23)
   .message_thread-last-message
     = truncate(message_thread.messages.last.content, length: 23)

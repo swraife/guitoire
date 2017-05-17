@@ -11,6 +11,6 @@
 class MessageThread < ApplicationRecord
   has_many :messages
   has_many :message_copies, through: :messages
-  has_many :user_message_threads
-  has_many :users, through: :user_message_threads
+  has_many :performer_message_threads
+  has_many :performers, through: :performer_message_threads
 end

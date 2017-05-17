@@ -36,6 +36,11 @@ class Performer < ApplicationRecord
   has_many :admin_groups, through: :admin_group_roles, source: :group
   has_many :member_groups, through: :member_group_roles, source: :group
 
+  has_many :messages
+  has_many :message_copies
+  has_many :performer_message_threads
+  has_many :message_threads, through: :performer_message_threads
+
   has_many :plays
   has_many :played_feats, -> { distinct }, through: :plays, source: :feat
 

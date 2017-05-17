@@ -1,7 +1,7 @@
 .message_thread-show.hide{ id: "message_thread_#{message_thread.id}" }
-  .message_thread-show-users
+  .message_thread-show-performers
     %h3
-      = message_thread.users.where.not(id: current_user.id).map(&:name).join(', ')
+      = message_thread.performers.where.not(id: current_performer.id).map(&:public_name).join(', ')
   .message_thread-messages
     - message_thread.messages.each_with_index do |message, index|
       = render partial: 'messages/show', locals: { message_thread: message_thread, message: message, index: index }

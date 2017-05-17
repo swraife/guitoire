@@ -33,9 +33,9 @@
         = link_to message_threads_path do
           %i.fa.fa-fw.fa-envelope
           Messages
-          - if current_user.message_copies.unseen.present?
+          - if current_performer.message_copies.unseen.present?
             .message_copies-unseen-count
-              = current_user.message_copies.unseen.count
+              = current_performer.message_copies.unseen.count
       .left-sidebar__link
         = link_to new_performer_feat_path(current_performer) do
           %i.fa.fa-fw.fa-plus
