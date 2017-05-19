@@ -32,10 +32,11 @@
             = select_tag "custom_contexts[#{context}]",
                          options_for_select(actor.feat_tags(context) | @feat.tags_on(context), @feat.tag_list_on(context)), {include_blank: true, multiple: true, class: 'add-select2 tag-field'}
 
-        - @feat.custom_contexts.each do |context|
-          = f.label t("skill_names.#{context}", default: context)
-          = select_tag "custom_contexts[#{context}]",
-                       options_for_select(actor.feat_tags(context) | @feat.tags_on(context), @feat.tag_list_on(context)), {include_blank: true, multiple: true, class: 'add-select2 tag-field'}
+        - if @feat.persisted?
+          - @feat.custom_contexts.each do |context|
+            = f.label t("skill_names.#{context}", default: context)
+            = select_tag "custom_contexts[#{context}]",
+                         options_for_select(actor.feat_tags(context) | @feat.tags_on(context), @feat.tag_list_on(context)), {include_blank: true, multiple: true, class: 'add-select2 tag-field'}
 
     = f.label 'Admin Users'
     = f.select :admin_performer_ids, options_from_collection_for_select(Performer.all, :id, :public_name, @feat.admin_performers.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}

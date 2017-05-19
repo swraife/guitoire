@@ -2,7 +2,7 @@
   Your Friends
 
 .med-horizontal-border
-
-- @performers.each do |performer|
-  .performer__wrapper.activity__wrapper
-    = render partial: 'show', locals: { performer: performer }
+.performers__list-wrapper
+  - @performers.each do |performer|
+    .performer__wrapper.activity__wrapper
+      = render partial: 'show', locals: { performer: performer }

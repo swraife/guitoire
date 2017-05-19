@@ -1,7 +1,11 @@
+- belongs_to_current_performer = current_user.performers.include? performer
 .performer__top-section
   .performer__left-section
     .performer__name
-      = link_to performer.public_name, performer_path(performer)
+      - if belongs_to_current_performer
+        = link_to performer.name, performer_path(performer)
+      - else
+        = link_to performer.public_name, performer_path(performer)
     .performer__links{ style: "font-size: 14px"}
       = link_to performer.feat_name.pluralize.capitalize, actor_feats_link(performer)
       %i.small-circle.fa.fa-circle{ style: "font-size:6px" }
