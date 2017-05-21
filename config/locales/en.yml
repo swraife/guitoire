@@ -103,8 +103,8 @@ en:
   feat_roles:
     scopes:
       order_by_created_at: Order by Date Created
-      order_by_last_played: Order by Last Played
-      order_by_plays_count: Order by Plays Count
+      order_by_last_played: Order by Last Performed
+      order_by_plays_count: Order by Perform Count
       order_by_name: Order by Name
   time:
     formats:
