@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170516153058) do
+ActiveRecord::Schema.define(version: 20170520203354) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -135,7 +135,6 @@ ActiveRecord::Schema.define(version: 20170516153058) do
     t.integer "creator_id"
     t.text "description"
     t.integer "visibility", default: 0
-    t.jsonb "context_settings", default: {}
   end
 
   create_table "message_copies", id: :serial, force: :cascade do |t|
@@ -184,11 +183,10 @@ ActiveRecord::Schema.define(version: 20170516153058) do
     t.text "description"
     t.string "email"
     t.integer "visibility", default: 0
-    t.jsonb "settings"
+    t.jsonb "settings", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "area_id"
-    t.jsonb "context_settings", default: {}
   end
 
   create_table "pg_search_documents", id: :serial, force: :cascade do |t|
@@ -313,6 +311,7 @@ ActiveRecord::Schema.define(version: 20170516153058) do
     t.integer "role", default: 0
     t.integer "visibility", default: 0
     t.integer "default_performer_id"
+    t.jsonb "email_settings"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

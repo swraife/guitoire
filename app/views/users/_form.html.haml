@@ -12,6 +12,13 @@
   = f.label :email
   = f.email_field :email
 
+  = f.fields_for :email_settings do |ff|
+    = ff.label 'Receive Email Notifications?'
+    = ff.radio_button :subscribed, false, checked: !@user.subscribed?
+    = ff.label 'No', class: 'inl-block'
+    = ff.radio_button :subscribed, true, checked: @user.subscribed?, :style=>'margin-left:20px;'
+    = ff.label 'Yes', class: 'inl-block'
+
   = f.label 'Visible To:'
   = f.select :visibility, options_for_select(enum_select_options(User, 'visibilities'), @user.visibility) 
 

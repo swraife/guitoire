@@ -24,6 +24,7 @@
 #  role                   :integer          default("subscriber")
 #  visibility             :integer          default("everyone")
 #  default_performer_id   :integer
+#  email_settings         :jsonb
 #
 
 class User < ApplicationRecord
@@ -41,6 +42,7 @@ class User < ApplicationRecord
   enum visibility: [:everyone, :friends]
 
   before_create { |user| user.first_name.capitalize! && user.last_name.capitalize! }
+  before_save :add_email_settings
 
   acts_as_tagger
 
@@ -49,6 +51,8 @@ class User < ApplicationRecord
                     default_url: 'https://s3-us-west-2.amazonaws.com/guitoire/assorted/default_avatar.png'
   validates_attachment_content_type :avatar,
                                     :content_type => ['image/jpg', 'image/jpeg', 'image/png']
+
+  store_accessor :email_settings, :subscribed
 
   def performer_tags(context = nil)
     context_query = context.nil? ? '' : { taggings: { context: context } }
@@ -64,5 +68,17 @@ class User < ApplicationRecord
   def public_name
     name = "#{first_name} #{last_name}"
     name.present? ? name : "User#{id}"
+  end
+
+  def subscribed?
+    subscribed == 'true'
+  end
+
+  private
+
+  def add_email_settings
+    if subscribed.nil?
+      self.subscribed = true
+    end
   end
 end

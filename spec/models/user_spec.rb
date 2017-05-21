@@ -24,6 +24,7 @@
 #  role                   :integer          default("subscriber")
 #  visibility             :integer          default("everyone")
 #  default_performer_id   :integer
+#  email_settings         :jsonb
 #
 
 require 'rails_helper'
