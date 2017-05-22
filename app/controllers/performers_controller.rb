@@ -4,12 +4,14 @@ class PerformersController < ApplicationController
   before_action :format_params, only: [:create, :update]
 
   def index
-    @performers = current_performer.accepted_friends.order(:public_name)
+    @performers = current_performer.followed.order(:public_name)
   end
 
   def show
-    @friends = @performer.accepted_friends
-    @follower = current_performer.follower_with(@performer)
+    @followed = @performer.followed
+    @follow = current_performer.follows_as_follower
+                               .where(performer: @performer)
+                               .first_or_initialize
   end
 
   def new

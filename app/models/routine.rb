@@ -31,7 +31,7 @@ class Routine < ApplicationRecord
 
   after_save :owner_routine_role
 
-  enum visibility: [:everyone, :friends, :only_admins]
+  enum visibility: [:everyone, :only_admins]
 
   ROUTINE_NAMES = %w(set routine act).freeze
 
@@ -41,7 +41,6 @@ class Routine < ApplicationRecord
 
   acts_as_taggable_on :generics
 
-  # TODO: Add friends to query
   def self.visible_to(performer)
     ids = joins(:routine_roles).where(routine_roles: { owner: performer.actors }).ids
     where(visibility: 0).or(where(id: ids))

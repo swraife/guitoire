@@ -27,7 +27,7 @@ class FeatsController < ApplicationController
     @feat = current_performer.feats_as_owner.build
     @feats = current_performer.feats.order(:name)
     @feat_role = @feat.feat_roles.build
-    @friends = current_performer.friends
+    @followed = current_performer.followed
   end
 
   def create
@@ -60,7 +60,7 @@ class FeatsController < ApplicationController
                  .where(feat_roles: { owner: current_performer.actors })
                  .order(:name)
     @feat_role = @feat.feat_roles.where(owner: current_performer).first_or_initialize
-    @friends = current_performer.friends
+    @followed = current_performer.followed
   end
 
   def update

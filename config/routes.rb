@@ -36,5 +36,5 @@ Rails.application.routes.draw do
   resources :routines
   resources :routine_feats
 
-  resources :followers
+  resources :follows
 end

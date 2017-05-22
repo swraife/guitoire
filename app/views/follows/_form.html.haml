@@ -1,0 +1,7 @@
+- if !follow.persisted?
+  = form_for follow, remote: true, html: { class: 'inl-block right' } do |f|
+    = f.hidden_field :performer_id, value: @follow.performer_id
+    = f.submit 'Follow', class: 'btn-small'
+- else
+  = form_for follow, remote: true, method: :delete, html: { class: 'inl-block right' } do |f|
+    = f.submit 'Unfollow', class: 'btn-small'

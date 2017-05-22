@@ -1,4 +1,3 @@
-# TODO: Add friends!
 class Ability
   include CanCan::Ability
 
@@ -15,8 +14,7 @@ class Ability
     else
       if @target_performer.visible_to? @performer
         can :show, [Feat, Routine] do |feat|
-          feat.everyone? || performer_or_actors_are_admin?(feat) ||
-            (feat.friends? && performer.followers_performer_ids(:accepted).include?(@target_performer.id))
+          feat.everyone? || performer_or_actors_are_admin?(feat)
         end
 
         can :index, [Feat, Routine, Group]
@@ -68,8 +66,7 @@ class Ability
       can :index, Performer
 
       can :show, Performer do |target_performer|
-        target_performer.everyone? || target_performer.user == @performer.user ||
-          target_performer.followers_performer_ids(:accepted).include?(@performer.id)
+        target_performer.everyone? || target_performer.user == @performer.user
       end
 
       can :update, Performer do |performer|
@@ -93,9 +90,5 @@ class Ability
 
   def performer_or_actors_are_admin?(obj)
     obj.admin_performers.include?(@performer) || (obj.admin_groups & @performer.actors).present?
-  end
-
-  def performer_friends_ids
-
   end
 end

@@ -17,17 +17,14 @@ en:
     group:
       visibilities:
         everyone: Everyone
-        friends: Friends
         only_admins: Only Group Admins
     routine:
       visibilities:
         everyone: Everyone
-        friends: Friends
         only_admins: Only Admins
     feat:
       visibilities:
         everyone: Everyone
-        friends: Friends
         only_admins: Only Admins
     user:
       visibilities:
@@ -49,7 +46,7 @@ en:
       warning: >
         It looks you're adding a second workspace. Just so you know, you're
         workspaces are kept completely separate from each other. This means
-        separate friends, groups, newsfeeds, etc. This is so you can keep, for
+        separate followers, groups, newsfeeds, etc. This is so you can keep, for
         example, your aerials acts separate from your metal band. For similar
         skills like juggling and unicycling, which you might perform in the
         same act or with the same group, it's usually easier to keep them in

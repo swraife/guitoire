@@ -21,7 +21,6 @@
 
 class Performer < ApplicationRecord
   include Actor
-  include Followers
   include GroupRoleable
   include PgSearch
   include RoutineRoleOwner
@@ -31,6 +30,12 @@ class Performer < ApplicationRecord
   belongs_to :user
   # This only exists to allow eager loading of activities.recipient.creator
   belongs_to :creator, foreign_key: :id, class_name: 'Performer'
+
+  has_many :follows, dependent: :destroy
+  has_many :followers, through: :follows
+
+  has_many :follows_as_follower, class_name: 'Follow', foreign_key: :follower_id, dependent: :destroy
+  has_many :followed, source: :performer, through: :follows_as_follower
 
   has_many :groups, through: :group_roles
   has_many :admin_groups, through: :admin_group_roles, source: :group
@@ -56,7 +61,7 @@ class Performer < ApplicationRecord
   before_save :format_custom_contexts
   after_create :user_default_performer, :create_followed_skills
 
-  enum visibility: [:everyone, :friends]
+  enum visibility: [:everyone, :hidden]
 
   has_attached_file :avatar,
                     styles: { medium: '300x300#', thumb: '100x100#' },
@@ -66,15 +71,12 @@ class Performer < ApplicationRecord
 
   multisearchable against: :public_name
 
-  # TODO: Add friends to query
   def self.visible_to(performer)
-    # Can't currently do in one OR query w/ AR, because of bug w/ joining.
-    friend_ids = [performer.id]
-    where(visibility: 0).or(where(id: friend_ids))
+    where(visibility: 0).or(where(id: performer.id))
   end
 
   def visible_to?(performer)
-    performer == self || everyone? || friends.include?(performer)
+    performer == self || everyone?
   end
 
   def public_name

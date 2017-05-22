@@ -2,16 +2,9 @@ FactoryGirl.define do
   factory :area do
   end
 
-  factory :follower do
-    association :connector, factory: :performer
-    association :connected, factory: :performer
-
-    factory :accepted_follower do
-      status 2
-      after(:create) do |follower, evaluator|
-        follower.send(:create_accepted_activity)
-      end
-    end
+  factory :follow do
+    association :performer, factory: :performer
+    association :follower, factory: :performer
   end
 
   factory :group do

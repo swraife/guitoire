@@ -19,20 +19,15 @@ RSpec.describe Query::FeatQueryService do
         expect(subject).to include(feat)
       end
 
-      it 'returns the feat where feat visibility is friends' do
-        feat.friends!
-        expect(subject).to include(feat)
-      end
-
       it 'returns the feat where feat visibility is only_admins' do
         feat.only_admins!
         expect(subject).to include(feat)
       end
 
-      context 'when actor doesn\'t have a subscriber feat role for feat' do
+      context 'when actor doesn\'t have a subscriber feat_role for feat' do
         let(:owner) { create(:performer) }
 
-        it 'does not return feat when actor has not feat role' do
+        it 'does not return feat when actor has not feat_role' do
           expect(subject).to be_empty
         end
 
@@ -107,23 +102,6 @@ RSpec.describe Query::FeatQueryService do
       context 'feat visibility is everyone' do
         it 'returns the feat' do
           expect(subject).to include(feat)
-        end
-      end
-
-      context 'when feat visibility is friends' do
-        let(:visibility) { 'friends' }
-
-        context 'when viewer and actor are not friends' do
-          it 'does not return the feat' do
-            expect(subject).not_to include(feat)
-          end
-        end
-
-        context 'when viewer and actor are friends' do
-          let!(:follower) { Follower.create(connector: actor, connected: viewer, status: 'accepted') }
-          it 'returns the feat' do
-            expect(subject).to include(feat)
-          end
         end
       end
 

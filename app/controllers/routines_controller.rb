@@ -16,7 +16,7 @@ class RoutinesController < ApplicationController
 
   def new
     @routine = Routine.new
-    @friends = current_performer.friends
+    @followed = current_performer.followed
   end
 
   def create
@@ -28,7 +28,7 @@ class RoutinesController < ApplicationController
   end
 
   def edit
-    @friends = current_performer.friends
+    @followed = current_performer.followed
   end
 
   def update

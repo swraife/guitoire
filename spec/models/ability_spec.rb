@@ -25,10 +25,10 @@ describe Ability do
         let(:feat) { Feat.new(owner: other_performer) }
 
         it { expect(ability).to be_able_to(:show, feat) }
-        it { expect(ability).not_to be_able_to(:show, feat.tap { |u| u.visibility = 2 }) }
+        it { expect(ability).not_to be_able_to(:show, feat.tap { |u| u.visibility = Feat.visibilities[:only_admins] }) }
 
-        it 'allows admin_performers to be shown a private feat' do
-          feat.visibility = 2
+        it 'allows admin_performers to be shown an :only_admins feat' do
+          feat.visibility = Feat.visibilities[:only_admins]
           feat.admin_performers << performer
           expect(ability).to be_able_to(:show, feat)
         end
@@ -61,8 +61,8 @@ describe Ability do
 
         it { expect(ability).to be_able_to(:show, routine) }
 
-        it 'a non-friend cannot :index a private performer\'s routines' do
-          other_performer.friends!
+        it 'cannot :index a hidden performer\'s routines' do
+          other_performer.hidden!
           expect(described_class.new(performer, { performer_id: other_performer.id }))
             .not_to be_able_to(:index, Routine)
         end

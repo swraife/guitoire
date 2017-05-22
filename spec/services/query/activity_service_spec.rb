@@ -20,26 +20,8 @@ RSpec.describe Query::ActivityService do
           expect(subject).to include(feat.activities.first)
         end
 
-        it 'returns the activity when feat.owner visibility is :friends' do
-          feat.owner.friends!
-          expect(subject).to include(feat.activities.first)
-        end
-      end
-
-      context 'feat visibility is friends' do
-        let(:visibility) { 'friends' }
-
-        it 'does not return the activity when performer is not a friend' do
-          expect(subject).not_to include(feat.activities.first)
-        end
-
-        it 'returns the activity when performer is a friend' do
-          FactoryGirl.create(:accepted_follower, connector: feat.owner, connected: performer)
-          expect(subject).to include(feat.activities.first)
-        end
-
-        it 'returns the activity when performer is viewer' do
-          feat = FactoryGirl.create(:feat, owner: performer, creator: performer, visibility: visibility)
+        it 'returns the activity when feat.owner visibility is :hidden' do
+          feat.owner.hidden!
           expect(subject).to include(feat.activities.first)
         end
       end
@@ -72,14 +54,6 @@ RSpec.describe Query::ActivityService do
       end
     end
 
-    context 'follower.accepted activities' do
-      it 'returns follower.accepted activities' do
-        follower = FactoryGirl.create(:accepted_follower, connector: performer2)
-
-        expect(subject).to include(follower.activities.first)
-      end
-    end
-
     context 'for play.create activities' do
       context 'when the feat is visibility to everyone' do
         it 'returns the activity' do
@@ -88,38 +62,13 @@ RSpec.describe Query::ActivityService do
           expect(subject).to include(play.activities.first)
         end
 
-        context 'when the play performer is visible to friends' do
-          it 'includes the activity if viewer is friends with play.performer' do
+        context 'when the play performer is :hidden' do
+          it 'doesn\'t include the activity' do
             play = FactoryGirl.create(:play)
-            play.performer.friends!
-            FactoryGirl.create(:accepted_follower, connector: performer, connected: play.performer)
-
-            expect(subject).to include(play.activities.first)
-          end
-
-          it 'doesn\'t include the activity if viewer is not friends with play.performer' do
-            play = FactoryGirl.create(:play)
-            play.performer.friends!
+            play.performer.hidden!
 
             expect(subject).not_to include(play.activities.first)
           end
-        end
-      end
-
-      context 'when the feat is visible to friends' do
-        it 'returns the activity if viewer is friends with feat.owner' do
-          follower = FactoryGirl.create(:accepted_follower, connector: performer)
-          feat = FactoryGirl.create(:feat, visibility: 'friends', owner: follower.connected)
-          play = FactoryGirl.create(:play, feat_role: feat.feat_roles.first)
-
-          expect(subject).to include(play.activities.first)
-        end
-
-        it 'doesn\'t return the activity to non-friends' do
-          feat = FactoryGirl.create(:feat, visibility: 'friends')
-          play = FactoryGirl.create(:play, feat_role: feat.feat_roles.first)
-
-          expect(subject).not_to include(play.activities.first)
         end
       end
 
@@ -148,38 +97,13 @@ RSpec.describe Query::ActivityService do
           expect(subject).to include(resource.activities.first)
         end
 
-        context 'when the resource creator is visible to friends' do
-          it 'includes the activity if viewer is friends with resource.creator' do
-            resource = FactoryGirl.create(:resource, creator: performer2, target: feat)
-            resource.creator.friends!
-            FactoryGirl.create(:accepted_follower, connector: performer, connected: resource.creator)
-
-            expect(subject).to include(resource.activities.first)
-          end
-
-          it 'doesn\'t include the activity if viewer is not friends with resource.creator' do
+        context 'when the resource creator is hidden' do
+          it 'doesn\'t include the activity' do
             resource = FactoryGirl.create(:resource, creator: performer2)
-            resource.creator.friends!
+            resource.creator.hidden!
 
             expect(subject).not_to include(resource.activities.first)
           end
-        end
-      end
-
-      context 'when the feat is visible to friends' do
-        it 'returns the activity if viewer is friends with feat.owner' do
-          follower = FactoryGirl.create(:accepted_follower, connector: performer)
-          feat = FactoryGirl.create(:feat, visibility: 'friends', owner: follower.connected)
-          resource = FactoryGirl.create(:resource, target: feat, creator: follower.connected)
-
-          expect(subject).to include(resource.activities.first)
-        end
-
-        it 'doesn\'t return the activity to non-friends' do
-          feat = FactoryGirl.create(:feat, visibility: 'friends')
-          resource = FactoryGirl.create(:resource, target: feat)
-
-          expect(subject).not_to include(resource.activities.first)
         end
       end
 
@@ -213,45 +137,31 @@ RSpec.describe Query::ActivityService do
           expect(subject).to include(feat_role.activities.first)
         end
 
-        context 'when the activity.owner visibility is :friends' do
-          it 'does not return the activity if performer is not a friend' do
-            feat_role.owner.friends!
+        context 'when the activity.owner visibility is :hidden' do
+          it 'does not return the activity' do
+            feat_role.owner.hidden!
             expect(subject).not_to include(feat_role.activities.first)
           end
-
-          it 'does return the activity performer is a friend' do
-            feat_role.owner.friends!
-            FactoryGirl.create(:accepted_follower, connected: performer, connector: feat_role.owner)
-            expect(subject).to include(feat_role.activities.first)
-          end
-        end
-      end
-
-      context 'when the feat is visible to friends' do
-        let(:visibility) { 'friends' }
-
-        it 'doesn\'t return the activity if performer is not a friend' do
-          expect(subject).not_to include(feat_role.activities.first)
-        end
-
-        it 'returns the activity if performer is a friend' do
-          FactoryGirl.create(:accepted_follower, connected: performer, connector: feat.creator)
-          feat_role
-          expect(subject).to include(feat_role.activities.first)
         end
       end
     end
 
-    context 'for the performer\'s friends\' activities' do
-      let(:follower) do
-        FactoryGirl.create(:accepted_follower, connected: performer)
+    context 'for the performer\'s followed\'s activities' do
+      let(:follow) do
+        create(:follow, follower: performer)
       end
 
       it 'returns feat.create activities' do
-        friend = follower.connector
-        feat = create(:feat, owner: friend, creator: friend)
+        followed = follow.performer
+        feat = create(:feat, owner: followed, creator: followed)
 
         expect(subject).to include(feat.activities.first)
+      end
+
+      it 'returns follow.create activities' do
+        follow2 = create(:follow, follower: follow.performer)
+
+        expect(subject).to include(follow2.activities.first)
       end
     end
 

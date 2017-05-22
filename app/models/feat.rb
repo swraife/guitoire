@@ -66,7 +66,7 @@ class Feat < ApplicationRecord
   after_create :owner_feat_role
 
   enum permission: [:copiable, :followable, :hidden]
-  enum visibility: [:everyone, :friends, :only_admins]
+  enum visibility: [:everyone, :only_admins]
 
   multisearchable against: :name
 

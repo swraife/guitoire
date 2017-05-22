@@ -4,7 +4,7 @@ class MessageThreadsController < ApplicationController
 
   def index
     @message_threads = current_performer.message_threads.includes(:messages, :performers, :message_copies).order(updated_at: :desc)
-    @friends = current_performer.friends
+    @followed = current_performer.followed
   end
 
   def create

@@ -30,7 +30,7 @@ module Query
     def activity_matches
       joins.where(
         visible_activities.and(
-          belongs_to_friend.or(performer_belongs_to_area).or(tagged_with_skills))
+          belongs_to_followed.or(performer_belongs_to_area).or(tagged_with_skills))
       )
     end
 
@@ -61,9 +61,9 @@ module Query
         .or(follower_activities)
     end
 
-    def belongs_to_friend
+    def belongs_to_followed
       activities[:owner_type].eq('Performer')
-        .and(activities[:owner_id].in(friends_ids))
+        .and(activities[:owner_id].in(followed_ids))
     end
 
     def performer_belongs_to_area
@@ -96,8 +96,6 @@ module Query
     def routine_create_activities
       activities[:key].eq('routine.create')
         .and(visibility_everyone?(routines)
-        .or(visibility_friends?(routines)
-          .and(owner_is_friend?(routines)))
         .or(is_admin?(routines)))
     end
 
@@ -107,19 +105,17 @@ module Query
     end
 
     def follower_activities
-      activities[:key].eq('follower.accepted')
+      activities[:key].eq('follow.create')
         .and(visibility_everyone?(performers))
     end
 
     def recipient_feat_is_visible
       visibility_everyone?(feats)
-        .or(visibility_friends?(feats).and(owner_is_friend?(feats)))
         .or(is_admin?(feats))
     end
 
     def owner_is_visible
       visibility_everyone?(performers)
-        .or(visibility_friends?(performers).and(owner_is_friend?(activities)))
     end
 
     def polymorphic_join(arel_query, joined_table, column)
@@ -159,8 +155,8 @@ module Query
       @taggings ||= ActsAsTaggableOn::Tagging.arel_table
     end
 
-    def friends_ids
-      @friends_ids ||= performer.followers_performer_ids.push(performer.id)
+    def followed_ids
+      @followed_ids ||= performer.followed_ids.push(performer.id)
     end
 
     def tag_ids

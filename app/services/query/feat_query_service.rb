@@ -30,7 +30,6 @@ module Query
         feat_role_owner_is_in_actors
         .and(
           visibility_everyone?(feats)
-          .or(visibility_friends?(feats).and(owner_is_friend?(feats)))
           .or(is_admin?(feats))
         ).and(name_query)
       )
@@ -81,8 +80,8 @@ module Query
       end
     end
 
-    def friends_ids
-      @friends_ids ||= viewer.followers_performer_ids.push(viewer.id)
+    def followed_ids
+      @followed_ids ||= viewer.followed_ids.push(viewer.id)
     end
 
     def admin_feats_ids
