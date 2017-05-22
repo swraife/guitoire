@@ -19,8 +19,15 @@ end
 puts 'users created'
 
 puts 'creating performers...'
-User.each do |user|
-  Performer.create(user: user)
+User.all.each do |user|
+  area = Area.find(rand(1..4))
+  skill_ids = area.skill_ids.first(2)
+  Performer.create(user: user,
+                   area: area,
+                   public_name: user.public_name,
+                   name: area.name,
+                   standard_skill_ids: skill_ids,
+                   settings: {feat_name: 'Skill', routine_name: 'Routine'})
 end
 puts 'performers created!'
 
