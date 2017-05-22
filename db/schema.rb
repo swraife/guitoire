@@ -106,7 +106,7 @@ ActiveRecord::Schema.define(version: 20170522163825) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "followers", id: :serial, force: :cascade do |t|
+  create_table "follows", id: :serial, force: :cascade do |t|
     t.integer "performer_id"
     t.integer "follower_id"
     t.integer "status", default: 0
