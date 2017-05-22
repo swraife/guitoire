@@ -82,7 +82,7 @@ module Query
     end
 
     def friends_ids
-      @friends_ids ||= viewer.friendships_performer_ids.push(viewer.id)
+      @friends_ids ||= viewer.followers_performer_ids.push(viewer.id)
     end
 
     def admin_feats_ids

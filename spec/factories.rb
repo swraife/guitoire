@@ -2,14 +2,14 @@ FactoryGirl.define do
   factory :area do
   end
 
-  factory :friendship do
+  factory :follower do
     association :connector, factory: :performer
     association :connected, factory: :performer
 
-    factory :accepted_friendship do
+    factory :accepted_follower do
       status 2
-      after(:create) do |friendship, evaluator|
-        friendship.send(:create_accepted_activity)
+      after(:create) do |follower, evaluator|
+        follower.send(:create_accepted_activity)
       end
     end
   end

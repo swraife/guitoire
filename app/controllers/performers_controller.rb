@@ -9,7 +9,7 @@ class PerformersController < ApplicationController
 
   def show
     @friends = @performer.accepted_friends
-    @friendship = current_performer.friendship_with(@performer)
+    @follower = current_performer.follower_with(@performer)
   end
 
   def new

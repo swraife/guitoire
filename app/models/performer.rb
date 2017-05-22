@@ -21,7 +21,7 @@
 
 class Performer < ApplicationRecord
   include Actor
-  include Friendships
+  include Followers
   include GroupRoleable
   include PgSearch
   include RoutineRoleOwner

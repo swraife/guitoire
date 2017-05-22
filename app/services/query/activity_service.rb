@@ -58,7 +58,7 @@ module Query
         .or(feat_create_activities)
         .or(routine_create_activities)
         .or(feat_role_follower_activities)
-        .or(friendship_activities)
+        .or(follower_activities)
     end
 
     def belongs_to_friend
@@ -106,8 +106,8 @@ module Query
         .and(recipient_feat_is_visible)
     end
 
-    def friendship_activities
-      activities[:key].eq('friendship.accepted')
+    def follower_activities
+      activities[:key].eq('follower.accepted')
         .and(visibility_everyone?(performers))
     end
 
@@ -160,7 +160,7 @@ module Query
     end
 
     def friends_ids
-      @friends_ids ||= performer.friendships_performer_ids.push(performer.id)
+      @friends_ids ||= performer.followers_performer_ids.push(performer.id)
     end
 
     def tag_ids

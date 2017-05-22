@@ -120,7 +120,7 @@ RSpec.describe Query::FeatQueryService do
         end
 
         context 'when viewer and actor are friends' do
-          let!(:friendship) { Friendship.create(connector: actor, connected: viewer, status: 'accepted') }
+          let!(:follower) { Follower.create(connector: actor, connected: viewer, status: 'accepted') }
           it 'returns the feat' do
             expect(subject).to include(feat)
           end

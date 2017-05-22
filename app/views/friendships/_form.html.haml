@@ -1,19 +1,19 @@
-- if friendship.pending?
-  = form_for friendship, remote: true, html: { class: 'inl-block right' } do |f|
-    = f.hidden_field :connected_id, value: @friendship.connected_id
-    = f.submit 'Send Friendship Request', class: 'btn-small'
-- elsif friendship.requested?
-  - if friendship.connector == current_performer
+- if follower.pending?
+  = form_for follower, remote: true, html: { class: 'inl-block right' } do |f|
+    = f.hidden_field :connected_id, value: @follower.connected_id
+    = f.submit 'Send Follower Request', class: 'btn-small'
+- elsif follower.requested?
+  - if follower.connector == current_performer
     - button_text = 'Request Sent!'
     - disabled = true
   - else
-    - button_text = 'Accept Friendship Request'
+    - button_text = 'Accept Follower Request'
     - disabled = false
-  = form_for friendship, remote: true, html: { class: 'inl-block right' } do |f|
+  = form_for follower, remote: true, html: { class: 'inl-block right' } do |f|
     = f.submit button_text, disabled: disabled, class: 'btn-small'
-  - if friendship.connector != current_performer
-    = form_for friendship, remote: true, method: :delete, html: { class: 'inl-block right' } do |f|
+  - if follower.connector != current_performer
+    = form_for follower, remote: true, method: :delete, html: { class: 'inl-block right' } do |f|
       = f.submit 'Decline Request', class: 'btn-small'
-- elsif friendship.declined?
-  = form_for friendship, remote: true, html: { class: 'inl-block right' } do |f|
-    = f.submit 'Send Friendship Request', class: 'btn-small'
+- elsif follower.declined?
+  = form_for follower, remote: true, html: { class: 'inl-block right' } do |f|
+    = f.submit 'Send Follower Request', class: 'btn-small'

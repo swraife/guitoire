@@ -4,8 +4,8 @@
                 user_current_performers_path(current_user, performer_id: @performer.id),
                 class: 'btn-small', form_class: 'inl-block right'
 - else
-  .friendship__form-wrapper
-    = render partial: 'friendships/form', locals: { friendship: @friendship }
+  .follower__form-wrapper
+    = render partial: 'followers/form', locals: { follower: @follower }
 
 .performer__avatar
   = link_to image_tag(@performer.avatar.url(:medium)), @performer.avatar.url

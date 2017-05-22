@@ -34,7 +34,7 @@ RSpec.describe Query::ActivityService do
         end
 
         it 'returns the activity when performer is a friend' do
-          FactoryGirl.create(:accepted_friendship, connector: feat.owner, connected: performer)
+          FactoryGirl.create(:accepted_follower, connector: feat.owner, connected: performer)
           expect(subject).to include(feat.activities.first)
         end
 
@@ -72,11 +72,11 @@ RSpec.describe Query::ActivityService do
       end
     end
 
-    context 'friendship.accepted activities' do
-      it 'returns friendship.accepted activities' do
-        friendship = FactoryGirl.create(:accepted_friendship, connector: performer2)
+    context 'follower.accepted activities' do
+      it 'returns follower.accepted activities' do
+        follower = FactoryGirl.create(:accepted_follower, connector: performer2)
 
-        expect(subject).to include(friendship.activities.first)
+        expect(subject).to include(follower.activities.first)
       end
     end
 
@@ -92,7 +92,7 @@ RSpec.describe Query::ActivityService do
           it 'includes the activity if viewer is friends with play.performer' do
             play = FactoryGirl.create(:play)
             play.performer.friends!
-            FactoryGirl.create(:accepted_friendship, connector: performer, connected: play.performer)
+            FactoryGirl.create(:accepted_follower, connector: performer, connected: play.performer)
 
             expect(subject).to include(play.activities.first)
           end
@@ -108,8 +108,8 @@ RSpec.describe Query::ActivityService do
 
       context 'when the feat is visible to friends' do
         it 'returns the activity if viewer is friends with feat.owner' do
-          friendship = FactoryGirl.create(:accepted_friendship, connector: performer)
-          feat = FactoryGirl.create(:feat, visibility: 'friends', owner: friendship.connected)
+          follower = FactoryGirl.create(:accepted_follower, connector: performer)
+          feat = FactoryGirl.create(:feat, visibility: 'friends', owner: follower.connected)
           play = FactoryGirl.create(:play, feat_role: feat.feat_roles.first)
 
           expect(subject).to include(play.activities.first)
@@ -152,7 +152,7 @@ RSpec.describe Query::ActivityService do
           it 'includes the activity if viewer is friends with resource.creator' do
             resource = FactoryGirl.create(:resource, creator: performer2, target: feat)
             resource.creator.friends!
-            FactoryGirl.create(:accepted_friendship, connector: performer, connected: resource.creator)
+            FactoryGirl.create(:accepted_follower, connector: performer, connected: resource.creator)
 
             expect(subject).to include(resource.activities.first)
           end
@@ -168,9 +168,9 @@ RSpec.describe Query::ActivityService do
 
       context 'when the feat is visible to friends' do
         it 'returns the activity if viewer is friends with feat.owner' do
-          friendship = FactoryGirl.create(:accepted_friendship, connector: performer)
-          feat = FactoryGirl.create(:feat, visibility: 'friends', owner: friendship.connected)
-          resource = FactoryGirl.create(:resource, target: feat, creator: friendship.connected)
+          follower = FactoryGirl.create(:accepted_follower, connector: performer)
+          feat = FactoryGirl.create(:feat, visibility: 'friends', owner: follower.connected)
+          resource = FactoryGirl.create(:resource, target: feat, creator: follower.connected)
 
           expect(subject).to include(resource.activities.first)
         end
@@ -221,7 +221,7 @@ RSpec.describe Query::ActivityService do
 
           it 'does return the activity performer is a friend' do
             feat_role.owner.friends!
-            FactoryGirl.create(:accepted_friendship, connected: performer, connector: feat_role.owner)
+            FactoryGirl.create(:accepted_follower, connected: performer, connector: feat_role.owner)
             expect(subject).to include(feat_role.activities.first)
           end
         end
@@ -235,7 +235,7 @@ RSpec.describe Query::ActivityService do
         end
 
         it 'returns the activity if performer is a friend' do
-          FactoryGirl.create(:accepted_friendship, connected: performer, connector: feat.creator)
+          FactoryGirl.create(:accepted_follower, connected: performer, connector: feat.creator)
           feat_role
           expect(subject).to include(feat_role.activities.first)
         end
@@ -243,12 +243,12 @@ RSpec.describe Query::ActivityService do
     end
 
     context 'for the performer\'s friends\' activities' do
-      let(:friendship) do
-        FactoryGirl.create(:accepted_friendship, connected: performer)
+      let(:follower) do
+        FactoryGirl.create(:accepted_follower, connected: performer)
       end
 
       it 'returns feat.create activities' do
-        friend = friendship.connector
+        friend = follower.connector
         feat = create(:feat, owner: friend, creator: friend)
 
         expect(subject).to include(feat.activities.first)
