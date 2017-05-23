@@ -31,7 +31,7 @@ end
 puts 'creating users'
 names = [%w(Jet Li), %w(John Wayne), %w(Lucy Lawless), %w(Mo Rocco),
          %w(Al Capone), %w(Kim Possible), %w(Sally Goodin), %w(Shaun White),
-         %w(Weird Al), %w(Condolezza Rice), %w(Winston Churchill), %w(Al Green),
+         %w(Weird Al), %w(Taylor Swift), %w(Janet Jackson), %w(Al Green),
          %w(Frankie Munoz), %w(Bruce Lee), %w(John Glenn), %w(Count Olaf)]
 names.each do |first, last|
   User.where(email: "#{first.downcase}@#{last.downcase}.com").first_or_create(
