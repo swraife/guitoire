@@ -26,10 +26,10 @@ en:
       visibilities:
         everyone: Everyone
         only_admins: Only Admins
-    user:
+    performer:
       visibilities:
-        everyone: Everyone
-        friends: Friends
+        everyone: Public
+        hidden: Hidden
   performers:
     form:
       custom_tags: "Add your own tags such as 'Underwater Basket Weaving' or 'Cactus Throwing'."

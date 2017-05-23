@@ -65,6 +65,17 @@ class User < ApplicationRecord
     performers.map { |performer| [performer, performer.groups] }.flatten
   end
 
+  def admin_group_ids
+    @admin_group_ids ||=
+      GroupRole.where(performer_id: performer_ids, role: [1,2])
+      .pluck('distinct group_id')
+  end
+
+  def admin_feat_ids
+    @admin_feat_ids ||=
+      FeatRole.where(owner: actors, role: 'admin').pluck('distinct feat_id')
+  end
+
   def public_name
     name = "#{first_name} #{last_name}"
     name.present? ? name : "User#{id}"

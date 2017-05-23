@@ -94,7 +94,6 @@ class Feat < ApplicationRecord
     end
   end
 
-  # TODO: Add friends to query
   def self.visible_to(performer)
     # Can't currently do in one OR query w/ AR, because of bug w/ joining.
     has_role_ids = joins(:feat_roles).where(feat_roles: { owner: performer.actors }).ids

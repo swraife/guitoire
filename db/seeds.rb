@@ -34,6 +34,9 @@ puts 'performers created!'
 puts 'creating feats'
 feat_names = ['Cherokee Shuffle', 'Summertime', 'Golden Slippers']
 feat_names.each do |name|
-  Feat.where(name: name).first_or_create(name: name, creator: Performer.first)
+  Feat.where(name: name).first_or_create(name: name,
+                                         creator_id: 1,
+                                         owner_id: 1,
+                                         owner_type: 'Performer')
 end
 puts 'feats created'

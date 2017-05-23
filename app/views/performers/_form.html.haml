@@ -60,7 +60,7 @@
                    {include_blank: true}, {multiple: true}
 
         = f.label 'Who can see your stuff by default? (You can also hide/share things individually)'
-        = f.select :visibility, options_for_select(enum_select_options(User, :visibilities), @performer.visibility)
+        = f.select :visibility, options_for_select(enum_select_options(Performer, :visibilities), @performer.visibility)
 
       .lrg-horizontal-border
 
