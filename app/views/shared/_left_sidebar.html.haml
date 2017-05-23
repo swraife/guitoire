@@ -3,7 +3,7 @@
     - if current_user.performers.count > 1
       %h3
         = link_to '#', class: 'change-performer-btn' do
-          = current_performer.name
+          = current_performer.name.truncate(14)
           %i.fa.fa-caret-down
       .change-performer-dropdown.hide
         .header__dropdown-item.subtext
