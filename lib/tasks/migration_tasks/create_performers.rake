@@ -3,7 +3,10 @@ desc 'create performers for every user. Update user references to performer'
 task create_performers: :environment do
   ActiveRecord::Base.transaction do
     User.all.each do |user|
-      performer = Performer.create!(user: user)
+      performer = Performer.create!(user: user,
+                                    area: Area.find_by_name('music'),
+                                    name: 'Music',
+                                    public_name: user.public_name)
 
       GroupRole.where(performer_id: user.id).update_all(performer_id: performer.id)
       Play.where(performer_id: user.id).update_all(performer_id: performer.id)

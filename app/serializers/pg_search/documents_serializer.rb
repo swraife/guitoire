@@ -1,3 +1,3 @@
 class PgSearch::DocumentsSerializer < ActiveModel::Serializer
-  has_many :documents, serializer: DocumentSerializer
+  has_many :documents
 end
