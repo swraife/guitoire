@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: followers
+# Table name: follows
 #
 #  id           :integer          not null, primary key
 #  performer_id :integer

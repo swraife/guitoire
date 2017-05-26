@@ -17,6 +17,7 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  area_id             :integer
+#  username            :string
 #
 
 require 'rails_helper'
