@@ -34,7 +34,7 @@
 
         - @feat.custom_contexts.each do |context|
           - existing_tags = @feat.tags_on(context)
-          - unless existing_tags.empty?
+          - if existing_tags.present? && context != 'generics'
             = f.label t("skill_names.#{context}", default: context)
             = select_tag "custom_contexts[#{context}]",
                          options_for_select(actor.feat_tags(context) | existing_tags, @feat.tag_list_on(context)), {include_blank: true, multiple: true, class: 'add-select2 tag-field'}
