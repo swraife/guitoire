@@ -1,7 +1,7 @@
 class PgSearch::DocumentSerializer < ActiveModel::Serializer
   include Rails.application.routes.url_helpers
 
-  attributes :url, :name, :avatar, :description, :searchable_type
+  attributes :url, :name, :avatar, :description, :searchable_type, :username
 
   def url
     polymorphic_path(object.searchable)
@@ -9,6 +9,14 @@ class PgSearch::DocumentSerializer < ActiveModel::Serializer
 
   def name
     object.searchable.public_name
+  end
+
+  def username
+    if object.searchable.is_a?(Performer)
+      object.searchable.username
+    else
+      ''
+    end
   end
 
   def avatar

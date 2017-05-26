@@ -26,6 +26,7 @@
             url: datum.url,
             avatar: datum.avatar,
             name: datum.name,
+            username: datum.username,
             description: datum.description,
             searchable_type: datum.searchable_type
           };
@@ -57,13 +58,13 @@
           var subtext = 'Created by: ';
         } else if (data.searchable_type == 'Group') {
           var subtext = 'Members: ';
-        } else {
+        } else if (data.searchable_type == 'Performer') {
           var subtext = '';
         }
         return '<div>' +
             '<a href="' + data.url + '">' +
             '<img src="'+ data.avatar + '"/>' +
-            '<div class="suggestion_name">' + data.name + '</div>' +
+            '<div class="suggestion_name">' + data.name + ' - ' + data.username + '</div>' +
             '<div class="suggestion_description">' + subtext + data.description + '</div>' +
           '</a></div>';
       }

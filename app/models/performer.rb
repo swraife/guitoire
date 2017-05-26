@@ -58,7 +58,7 @@ class Performer < ApplicationRecord
   acts_as_taggable_on :standard_skills, :user_input_skills, :followed_skills
   store_accessor :settings, :feat_contexts, :feat_role_contexts, :feat_name, :routine_name
 
-  before_save :format_custom_contexts
+  before_save :format_custom_contexts, :downcase_username
   after_create :user_default_performer, :create_followed_skills
 
   enum visibility: [:everyone, :hidden]
@@ -67,7 +67,8 @@ class Performer < ApplicationRecord
                     styles: { medium: '300x300#', thumb: '100x100#' },
                     default_url: 'https://s3-us-west-2.amazonaws.com/guitoire/assorted/:style/default_avatar.png'
   validates_attachment_content_type :avatar,
-                                    :content_type => ['image/jpg', 'image/jpeg', 'image/png']
+                                    content_type: ['image/jpg', 'image/jpeg', 'image/png']
+  validates_uniqueness_of :username
 
   multisearchable against: :public_name
 
@@ -116,5 +117,9 @@ class Performer < ApplicationRecord
         hsh[Contexts.name_for(context)] = context if context.present?
       end
     end
+  end
+
+  def downcase_username
+    username.downcase!
   end
 end

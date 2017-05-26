@@ -48,6 +48,7 @@ User.all.each do |user|
   area = Area.find((user.id / 4.0).ceil)
   skill_ids = area.skill_ids.values_at(*[rand(1..10), rand(1..10), rand(1..10)].uniq.compact)
   Performer.create(user: user,
+                   username: "#{user.first_name.downcase}_#{user.last_name.downcase}",
                    area: area,
                    public_name: user.public_name,
                    name: area.name,
@@ -56,6 +57,7 @@ User.all.each do |user|
 end
 
 Performer.create(user: User.find_by_email('shaun@white.com'),
+                 username: 'shaun2',
                  area_id: 3,
                  public_name: 'Shaun White',
                  name: 'Music',

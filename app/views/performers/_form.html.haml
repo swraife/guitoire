@@ -24,6 +24,14 @@
         = f.select :user_input_skill_list,
                    options_for_select(current_user.performer_tags('user_input_skills'), @performer.user_input_skill_list),
                    {include_blank: true}, {multiple: true, class: 'add-select2'}
+      .performer__username
+        %h3
+          = 'Choose a username'
+        = f.text_field :username,
+                       placeholder: 'Only letters, numbers, and underscores allowed.',
+                       maxlength: 15
+        .performer__username-not-available.hide
+          That username is not available
       .performer__avatar-field
         %h3
           = 'Upload Profile Picture'
@@ -64,7 +72,7 @@
 
       .lrg-horizontal-border
 
-      = f.submit 'All Set!'
+      = f.submit 'All Set!', class: 'performer__submit-btn'
       = link_to "I'm not sure...", '#', class: 'performer__help-btn'
 
 .performer__help-featherlight-wrapper
@@ -109,6 +117,22 @@
       tags: true,
       maximumSelectionLength: 1,
     });
+
+    if ($('#performer_username').val() == '') {
+      $('.performer__submit-btn').prop('disabled', true);
+    }
+
+    $('#performer_username').keyup(function() {
+      var re = /^\w+$/;
+      var usernameInput = $(this).val().toLowerCase();
+      if (" #{@usernames.join(' ')} ".includes(' ' + usernameInput + ' ') || usernameInput.length < 3 || !re.test(usernameInput)) {
+        $('.performer__username-not-available').show();
+        $('.performer__submit-btn').prop('disabled', true);
+      } else {
+        $('.performer__username-not-available').hide();
+        $('.performer__submit-btn').prop('disabled', false);
+      }
+    })
   });
 
   function setFeatAndRoutineNames(areaName) {

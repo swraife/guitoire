@@ -15,6 +15,7 @@ class PerformersController < ApplicationController
   end
 
   def new
+    @usernames = Performer.pluck(:username)
     @performer = Performer.new
     @layout = 'full'
   end
@@ -25,6 +26,7 @@ class PerformersController < ApplicationController
   end
 
   def edit
+    @usernames = Performer.where.not(id: @performer.id).pluck(:username)
   end
 
   def update
@@ -41,8 +43,8 @@ class PerformersController < ApplicationController
   def performer_params
     params.require(:performer).permit(
       :name, :public_name, :avatar, :description, :email, :visibility,
-      :area_id, :feat_name, :routine_name, standard_skill_ids: [], user_input_skill_list: [],
-      feat_contexts: []
+      :username, :area_id, :feat_name, :routine_name, standard_skill_ids: [],
+      user_input_skill_list: [], feat_contexts: []
     )
   end
 
