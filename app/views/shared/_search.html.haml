@@ -61,10 +61,11 @@
         } else if (data.searchable_type == 'Performer') {
           var subtext = '';
         }
+        var username = data.username == '' ? '' : ' - ' + data.username;
         return '<div>' +
             '<a href="' + data.url + '">' +
             '<img src="'+ data.avatar + '"/>' +
-            '<div class="suggestion_name">' + data.name + ' - ' + data.username + '</div>' +
+            '<div class="suggestion_name">' + data.name + username + '</div>' +
             '<div class="suggestion_description">' + subtext + data.description + '</div>' +
           '</a></div>';
       }

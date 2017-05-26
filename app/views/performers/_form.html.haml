@@ -56,7 +56,7 @@
                    options_for_select(feat_name_options, @performer.feat_name),
                    {include_blank: true}, {multiple: true}
 
-        = f.label "Add Custom Fields to the things above (For example, 'tempo' for songs, or 'Number of People' for circus moves)"
+        = f.label "Add Custom Fields to the things above (For example, 'tempo' for songs, or 'Props' for circus moves)"
         = f.select :feat_contexts,
                    options_for_select(feat_context_options_for(@performer.actors), @performer.feat_contexts&.values),
                    {include_blank: true}, {multiple: true, class: 'add-select2'}
