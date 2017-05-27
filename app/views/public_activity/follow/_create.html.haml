@@ -1,8 +1,14 @@
-.activity__subject
-  = link_to activity.owner.public_name, activity.owner
-  = 'is now following'
-  = link_to activity.recipient.public_name, activity.recipient
-.activity_timestamp.subtext
-  %i.fa.fa-clock-o
-  = time_ago_in_words(activity.created_at)
-  = 'ago'
+.activity__top
+  .activity__top-left
+    .activity__avatar.inl-block
+      = image_tag(activity.owner.avatar.url(:thumb))
+  .activity__top-right
+    .activity__subject
+      = link_to activity.owner.public_name, activity.owner
+      = 'is now following'
+      - truncated_sentence_array(activities.map(&:recipient).uniq).each do |item|
+        = item.is_a?(String) ? item : link_to(item.public_name, item)
+    .activity_timestamp.subtext
+      %i.fa.fa-clock-o
+      = time_ago_in_words(activity.created_at)
+      = 'ago'

@@ -6,6 +6,18 @@
   padding: 10px;
   border-radius: 5px;
 }
+.activity__top-left {
+  width: 15%;
+  max-width: 70px;
+  display: inline-block;
+  border-radius: 3px;
+}
+.activity__top-right {
+  max-width: 80%;
+  display: inline-block;
+  vertical-align: top;
+  padding-left: 5px;
+}
 .activity__content {
   padding-top: 15px;
   padding-left: 15px;
