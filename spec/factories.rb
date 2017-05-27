@@ -81,6 +81,7 @@ FactoryGirl.define do
   factory :performer do
     settings { { feat_name: 'trick', routine_name: 'act' } }
     user
+    sequence(:username) { |n| "user#{n}" }
   end
 
   factory :message_thread do
