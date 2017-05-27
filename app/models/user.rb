@@ -82,14 +82,14 @@ class User < ApplicationRecord
   end
 
   def subscribed?
-    subscribed == 'true'
+    subscribed == true
   end
 
   private
 
   def add_email_settings
     if subscribed.nil?
-      self.subscribed = true
+      self.subscribed = 'true'
     end
   end
 end

@@ -19,7 +19,4 @@
     = ff.radio_button :subscribed, true, checked: @user.subscribed?, :style=>'margin-left:20px;'
     = ff.label 'Yes', class: 'inl-block'
 
-  = f.label 'Visible To:'
-  = f.select :visibility, options_for_select(enum_select_options(User, 'visibilities'), @user.visibility) 
-
   = f.submit
