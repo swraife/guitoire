@@ -117,6 +117,8 @@ class Performer < ApplicationRecord
       self.feat_contexts = feat_contexts.each_with_object({}) do |context, hsh|
         hsh[Contexts.name_for(context)] = context if context.present?
       end
+    elsif feat_contexts.nil?
+      self.feat_contexts = {}
     end
   end
 
