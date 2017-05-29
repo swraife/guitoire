@@ -19,4 +19,5 @@
     = ff.radio_button :subscribed, true, checked: @user.subscribed?, :style=>'margin-left:20px;'
     = ff.label 'Yes', class: 'inl-block'
 
-  = f.submit
+  .user__save-btn
+    = f.submit

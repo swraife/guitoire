@@ -33,11 +33,12 @@
                          options_for_select(actor.feat_tags(context) | @feat.tags_on(context), @feat.tag_list_on(context)), {include_blank: true, multiple: true, class: 'add-select2 tag-field'}
 
         - @feat.custom_contexts.each do |context|
-          - existing_tags = @feat.tags_on(context)
+          - existing_tags = @feat.tag_list_on(context)
           - if existing_tags.present? && context != 'generics'
             = f.label t("skill_names.#{context}", default: context)
             = select_tag "custom_contexts[#{context}]",
-                         options_for_select(actor.feat_tags(context) | existing_tags, @feat.tag_list_on(context)), {include_blank: true, multiple: true, class: 'add-select2 tag-field'}
+                         options_for_select(actor.feat_tags(context).pluck(:name) | existing_tags, @feat.tag_list_on(context)),
+                         {include_blank: true, multiple: true, class: 'add-select2 tag-field'}
 
     = f.label 'Admin Users'
     = f.select :admin_performer_ids, options_from_collection_for_select(@followed, :id, :public_name, @feat.admin_performers.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
@@ -49,6 +50,13 @@
     - default_visibility = @feat.persisted? ? @feat.visibility : current_performer.visibility
     = f.select :visibility, options_for_select(enum_select_options(Feat, 'visibilities'), default_visibility)
 
+    - if @copiable_feat && @copiable_feat.resources.present?
+      = f.label "Do you want to add all #{@copiable_feat.resources.count} links and attachments?"
+      = radio_button_tag :copy_resources, @copiable_feat.id, checked: true
+      = label_tag 'Yes', nil, class: 'inl-block'
+      = radio_button_tag :copy_resources, false
+      = label_tag 'No', nil, class: 'inl-block'
+
     %br
 
     = f.submit 'Save', class: 'save-feat-btn'
@@ -59,23 +67,6 @@
   $(document).ready(function() { 
     $('.feat__duplicate-link').hide();
     displayCustomContexts($('#feat_global_owner').val());
-
-    // $('#feat_name').keyup(function() {
-    //   $('.feat__duplicates-wrapper').hide();
-    //   var searchInput = $(this).val().toLowerCase();
-    //   if (searchInput.length > 2) {
-    //     feats.forEach(function(i) {
-    //       if (i[1].includes(searchInput)) {
-    //         $('.feat__duplicates-wrapper').show();
-    //         $('#feat_id_' + i[0]).show();
-    //       } else {
-    //         $('#feat_id_' + i[0]).hide();
-    //       }
-    //     });
-    //   } else {
-    //     $('.feat__duplicates-wrapper').hide();
-    //   }
-    // });
 
     // $('.save-feat-btn').click(function(e) {
     //   var featName = $('#feat_name').val().toLowerCase();

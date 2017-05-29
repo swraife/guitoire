@@ -102,6 +102,17 @@ class Feat < ApplicationRecord
 
   alias_attribute :public_name, :name
 
+  def save_and_copy_resources!(copied_feat)
+    transaction do
+      save!
+      copied_feat.resources.each do |resource|
+        Resource.create!(target: self,
+                         resourceable: resource.resourceable,
+                         creator: owner)
+      end
+    end
+  end
+
   def permissible_roles
     hidden? ? [] : %w(viewer follower)
   end

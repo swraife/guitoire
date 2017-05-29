@@ -24,7 +24,12 @@ class FeatsController < ApplicationController
   end
 
   def new
-    @feat = current_performer.feats_as_owner.build
+    @copiable_feat = Feat.copiable.where(id: params[:copiable_feat_id])
+                                  .first_or_initialize
+    @feat = current_performer.feats_as_owner.build(@copiable_feat.attributes)
+    @copiable_feat.custom_contexts.each do |context|
+      @feat.set_tag_list_on(context.to_sym, @copiable_feat.tags_on(context.to_sym))
+    end
     @feats = current_performer.feats.order(:name)
     @feat_role = @feat.feat_roles.build
     @followed = current_performer.followed
@@ -36,9 +41,12 @@ class FeatsController < ApplicationController
       @feat.set_tag_list_on(helpers.context_name_for(k), v)
     end
 
-    if @feat.save
-      redirect_to @feat
+    if @copiable_feat = Feat.copiable.find_by_id(params[:copy_resources])
+      @feat.save_and_copy_resources!(@copiable_feat)
+    else
+      @feat.save
     end
+    redirect_to @feat
   end
 
   def copy

@@ -21,11 +21,14 @@ class Ability
       end
 
       can [:create, :update, :destroy], [Feat, Routine] do |obj|
-        performer_is_in_owner_performers?(obj.owner) || performer_or_actors_are_admin?(obj)
+        performer_is_in_owner_performers?(obj.owner) ||
+          performer_or_actors_are_admin?(obj)
       end
 
       can :copy, Feat do |feat|
-        feat.copiable?
+        feat.copiable? ||
+          performer_is_in_owner_performers?(obj.owner) ||
+          performer_or_actors_are_admin?(obj)
       end
 
       can :follow, Feat do |feat|
@@ -38,7 +41,8 @@ class Ability
 
       can [:create, :update, :destroy], FeatRole do |feat_role|
         performer_is_in_owner_performers?(feat_role.owner) &&
-          (!params.dig(:feat_role, :role) || feat_role.feat.permissible_roles.include?(params[:feat_role][:role]))
+          (!params.dig(:feat_role, :role) ||
+          feat_role.feat.permissible_roles.include?(params[:feat_role][:role]))
       end
 
       can :create, Play do |play|
@@ -89,6 +93,7 @@ class Ability
   end
 
   def performer_or_actors_are_admin?(obj)
-    obj.admin_performers.include?(@performer) || (obj.admin_groups & @performer.actors).present?
+    obj.admin_performers.include?(@performer) ||
+      (obj.admin_groups & @performer.actors).present?
   end
 end
