@@ -27,8 +27,8 @@ class Ability
 
       can :copy, Feat do |feat|
         feat.copiable? ||
-          performer_is_in_owner_performers?(obj.owner) ||
-          performer_or_actors_are_admin?(obj)
+          performer_is_in_owner_performers?(feat.owner) ||
+          performer_or_actors_are_admin?(feat)
       end
 
       can :follow, Feat do |feat|
