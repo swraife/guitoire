@@ -5,9 +5,9 @@ class FileResourcesController < ApplicationController
 
     ActiveRecord::Base.transaction do
       file_resource = FileResource.create!(file_resource_params)
-      file_resource.resources.create(target: @target,
-                                     name: resource_params[:global_target],
-                                     creator: current_performer)
+      file_resource.resources.create!(target: @target,
+                                      name: resource_params[:name],
+                                      creator: current_performer)
     end
     redirect_to feat_path(params[:feat_id])
   rescue ActiveRecord::ActiveRecordError => exception

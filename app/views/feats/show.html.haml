@@ -110,13 +110,18 @@
 
   = form_for UrlResource.new, html: { class: 'feat-show-form disable-on-submit' } do |f|
     = f.label 'Add Link'
+    = fields_for :resource do |ff|
+      .feat__resource-target-buttons{ class: "#{'hide' unless can_edit_feat}" }
+        = ff.radio_button :global_target, @feat.global_id, checked: can_edit_feat
+        = label_tag 'Public', nil, class: 'inl-block'
+        = ff.radio_button :global_target, @current_performer_feat_role.global_id, checked: !can_edit_feat
+        = label_tag 'Private', nil, class: 'inl-block'
     = f.text_field :url
     = hidden_field_tag :feat_id, @feat.id
     = button_tag type: 'submit', class: 'url_resource-submit-btn' do |f|
       %i.fa.fa-save
       Save
 
-- if @current_performer_feat_role.subscriber? 
   = form_for @current_performer_feat_role, html: { class: 'feat-show-form feat-role-private-list-form disable-on-submit' } do |f|
     = f.label 'Private Tags'
     = f.select :private_list, options_for_select(current_performer.feat_role_tags('private'), @current_performer_feat_role.private_list), {include_blank: true}, {multiple: true, class: 'add-select2'}
