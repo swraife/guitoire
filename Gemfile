@@ -36,6 +36,7 @@ gem 'sprockets', '>= 3.0.0'
 gem 'title'
 gem 'uglifier'
 gem 'webpacker'
+gem 'youtube_rails'
 
 group :development do
   gem 'listen'

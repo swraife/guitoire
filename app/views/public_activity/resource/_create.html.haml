@@ -18,12 +18,15 @@
       = time_ago_in_words(activity.created_at)
       = 'ago'
     .activity__content
-      - download_target = activity.trackable.resourceable.displayable_in_browser? ? '_blank' : '_top'
       - activities.each do |grouped_activity|
+        - download_target = grouped_activity.trackable.resourceable.displayable_in_browser? ? '_blank' : '_top'
         .activity__resource-link
-          = link_to grouped_activity.trackable.resourceable.url, target: download_target do
-            %i{class: "fa #{activity.trackable.resourceable.icon}"}
-            = grouped_activity.trackable.resourceable.url_name
+          - if YouTubeRails.extract_video_id grouped_activity.trackable.resourceable.url
+            != YouTubeRails.youtube_embed_url grouped_activity.trackable.resourceable.url
+          - else
+            = link_to grouped_activity.trackable.resourceable.url, target: download_target do
+              %i{class: "fa #{activity.trackable.resourceable.icon}"}
+              = grouped_activity.trackable.resourceable.url_name
 .activity__bottom
   - tags = activities.each_with_object([]) { |act, arr| act.recipient.base_tags.each { |tag| arr.push(tag) } }
   - if tags.present?
