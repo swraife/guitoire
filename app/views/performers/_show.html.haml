@@ -6,6 +6,8 @@
         = link_to performer.name, performer_path(performer)
       - else
         = link_to performer.public_name, performer_path(performer)
+    .performer__username{ style: "font-size: 12px" }
+      = link_to "@#{performer.username}", performer_path(performer)
     .performer__links{ style: "font-size: 14px"}
       = link_to performer.feat_name.pluralize.capitalize, actor_feats_link(performer)
       %i.small-circle.fa.fa-circle{ style: "font-size:6px" }

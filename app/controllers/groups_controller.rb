@@ -21,6 +21,7 @@ class GroupsController < ApplicationController
 
   def new
     @group = Group.new
+    @followed = current_performer.followed
   end
 
   def create

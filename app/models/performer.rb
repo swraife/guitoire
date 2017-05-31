@@ -85,6 +85,10 @@ class Performer < ApplicationRecord
     self[:public_name] || user.public_name
   end
 
+  def name_and_username
+    "#{public_name} - #{username}"
+  end
+
   def skills
     base_tags.where(id: standard_skill_ids + user_input_skill_ids).distinct
   end

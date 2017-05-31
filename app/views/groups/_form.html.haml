@@ -13,7 +13,7 @@
 
     = f.label 'Group Admins'
     = f.select :admin_performer_ids,
-               options_from_collection_for_select(Performer.all, :id, :public_name, @group.admin_performers.pluck(:id).push(current_performer.id)),
+               options_from_collection_for_select(@followed.push(current_performer), :id, :name_and_username, @group.admin_performers.pluck(:id).push(current_performer.id)),
                {include_blank: true}, {multiple: true, required: true, class: 'add-select2'}
 
     = f.label 'Visible To:'

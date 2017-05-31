@@ -41,7 +41,7 @@
                          {include_blank: true, multiple: true, class: 'add-select2 tag-field'}
 
     = f.label 'Admin Users'
-    = f.select :admin_performer_ids, options_from_collection_for_select(@followed, :id, :public_name, @feat.admin_performers.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
+    = f.select :admin_performer_ids, options_from_collection_for_select(@followed, :id, :name_and_username, @feat.admin_performers.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
 
     = f.label 'Admin Groups'
     = f.select :admin_group_ids, options_from_collection_for_select(current_performer.admin_groups, :id, :name, @feat.admin_groups.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
