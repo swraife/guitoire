@@ -12,6 +12,8 @@ class PerformersController < ApplicationController
     @follow = current_performer.follows_as_follower
                                .where(performer: @performer)
                                .first_or_initialize
+    @feats = @performer.subscriber_feats.order(created_at: :desc)
+    @routines = @performer.routines.order(created_at: :desc)
   end
 
   def new

@@ -19,4 +19,22 @@
 .performer__tags
   - @performer.skills.each do |tag|
     .performer__tag
-      = t("skill_names.#{tag.name}", default: tag.name)
+      = link_to t("skill_names.#{tag.name}", default: tag.name), feats_path(filters: { tags: [tag.name] })
+
+- if @feats.present?
+  %h3
+    = @performer.feat_name.pluralize
+  .performer__feats
+    .feats__list
+      = render partial: 'feats/list', locals: { feats: @feats.first(10), sort_by: {} }
+  - if @feats.count > 10
+    = link_to "...see all #{@performer.feat_name.pluralize.downcase}", actor_feats_link(@performer)
+- if @routines.present?
+  %h3
+    = @performer.routine_name.pluralize
+  .performer__routines
+    - @routines.first(5).each do |routine|
+      .routine
+        = link_to routine.name, routine
+  - if @routines.count > 5
+    = link_to "(See all #{@performer.routine_name.pluralize.downcase})", performer_routines_path(@performer)

@@ -14,6 +14,9 @@
     - if current_user.performers.include? performer
       = link_to '(edit)', edit_performer_path(performer)
 .performer__bottom-section.subtext
-  - if performer.base_tags.present?
+  - tags = performer.base_tags.uniq
+  - if tags.present?
     %i.fa.fa-tags
-    = performer.base_tags.map { |tag| t("skill_names.#{tag.name}", default: tag.name) }.join(', ')
+    - tags.each_with_index do |tag, index|
+      = link_to t("skill_names.#{tag.name}", default: tag.name), feats_path(filters: { tags: [tag.name] })
+      = ', ' unless index == tags.count - 1
