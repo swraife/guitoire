@@ -79,7 +79,7 @@
     .feat__resource
       - download_target = resource.resourceable.displayable_in_browser? ? '_blank' : '_top'
       - if YouTubeRails.extract_video_id resource.resourceable.url
-        != YouTubeRails.youtube_embed_url resource.resourceable.url
+        != YouTubeRails.youtube_embed_url resource.resourceable.url, ssl: true
       - else
         = link_to resource.resourceable.url, target: download_target do
           %i{class: "fa #{resource.resourceable.icon}"}

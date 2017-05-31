@@ -22,7 +22,7 @@
         - download_target = grouped_activity.trackable.resourceable.displayable_in_browser? ? '_blank' : '_top'
         .activity__resource-link
           - if YouTubeRails.extract_video_id grouped_activity.trackable.resourceable.url
-            != YouTubeRails.youtube_embed_url grouped_activity.trackable.resourceable.url
+            != YouTubeRails.youtube_embed_url grouped_activity.trackable.resourceable.url, ssl: true
           - else
             = link_to grouped_activity.trackable.resourceable.url, target: download_target do
               %i{class: "fa #{activity.trackable.resourceable.icon}"}
