@@ -28,10 +28,4 @@
               %i{class: "fa #{activity.trackable.resourceable.icon}"}
               = grouped_activity.trackable.resourceable.url_name
 .activity__bottom
-  - tags = activities.each_with_object([]) { |act, arr| act.recipient.base_tags.each { |tag| arr.push(tag) } }
-  - if tags.present?
-    %i.fa.fa-tags
-    - uniq_tags = tags.uniq
-    - uniq_tags.each_with_index do |tag, index|
-      = link_to t("skill_names.#{tag.name}", default: tag.name), feats_path(filters: { tags: [tag.name] })
-      = ', ' unless index == uniq_tags.count - 1
+  = render partial: 'public_activity/tag_list', locals: { activities: activities }
