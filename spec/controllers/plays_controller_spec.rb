@@ -24,4 +24,17 @@ RSpec.describe PlaysController, type: :controller do
       expect(Play.first.feat_role_id).to eq(current_user_feat_role.id)
     end
   end
+
+  describe 'DELETE #destroy' do
+    it 'deletes the play' do
+      current_user_feat_role = FeatRole.new(feat: feat, owner: performer)
+      play = create(:play,
+                    feat: feat,
+                    performer: performer,
+                    feat_role: current_user_feat_role)
+
+      delete :destroy, params: { id: play.id }, xhr: true
+      expect(Play.count).to eq(0)
+    end
+  end
 end

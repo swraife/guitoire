@@ -3,6 +3,8 @@
     - user_facing_flashes.each do |key, value|
       .div{class: "flash-#{key}"}
         = value
+        - if key == 'play_create'
+          = link_to('(undo)', play_path(@play), method: :delete, remote: true)
         = button_tag '#', class: 'flash-close-btn btn-minimal right' do
           %i.fa.fa-times
 

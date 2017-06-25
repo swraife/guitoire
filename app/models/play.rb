@@ -39,6 +39,10 @@ class Play < ApplicationRecord
     "#{feat_name.capitalize} performed! You have performed this #{feat_name} #{feat_role.plays.count} times! #{others_text}"
   end
 
+  def destroy_flash_notice
+    "Delete Succesful! You have performed this #{performer.feat_name} #{feat_role.plays.count} times!"
+  end
+
   def feat_id
     feat.id
   end

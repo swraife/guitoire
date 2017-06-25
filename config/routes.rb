@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     end
   end
   resources :feat_roles
-  resources :plays, only: [:create]
+  resources :plays, only: [:create, :destroy]
 
   resources :performers do
     resources :feats
