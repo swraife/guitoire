@@ -9,7 +9,8 @@ class RoutinesController < ApplicationController
 
   def show
     # Watch out: including :routine_roles breaks routine_feats ordering
-    @routine = Routine.includes(:routine_feats, :feats).visible_to(current_performer)
+    @routine = Routine.includes(:routine_feats, :feats)
+                      .visible_to(current_performer)
                       .find(params[:id])
     @feats = @routine.owner.feats.order(:name)
   end
@@ -23,7 +24,8 @@ class RoutinesController < ApplicationController
     if @routine.save
       redirect_to @routine
     else
-      redirect_back fallback_location: root_path, flash: { error: 'Uh oh, something broke!' }
+      redirect_back fallback_location: root_path,
+                    flash: { error: 'Uh oh, something broke!' }
     end
   end
 
@@ -35,7 +37,8 @@ class RoutinesController < ApplicationController
     if @routine.update(routine_params)
       redirect_to @routine
     else
-      redirect_back fallback_location: @routine, flash: { error: 'Uh oh, something broke!' }
+      redirect_back fallback_location: @routine,
+                    flash: { error: 'Uh oh, something broke!' }
     end      
   end
 
@@ -44,7 +47,7 @@ class RoutinesController < ApplicationController
   def routine_params
     params.require(:routine).permit(
       :name, :description, :global_owner, :visibility,
-      performer_ids: [], group_ids: []
+      performer_ids: [], group_ids: [], generic_list: [],
     )
   end
 end

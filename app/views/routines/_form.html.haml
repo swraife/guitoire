@@ -1,4 +1,4 @@
-= form_for @routine do |f|
+= form_for @routine, html: { id: 'routine_form' } do |f|
   .routine-owner{class: "#{'hide' unless performer_has_groups(current_performer)}"}
     = f.label :owner
     = f.select :global_owner,
@@ -9,6 +9,11 @@
 
   = f.label :description
   = f.text_area :description
+
+  - current_performer.actors.each do |actor|
+    .routine__actor-fields{ id: "actor-fields-#{actor.global_id}" }
+      = f.label 'Tags'
+      = f.select :generic_list, options_from_collection_for_select(feat_tag_options(actor, 'generics'), :name, :translate_name, @routine.generic_list), {include_blank: true}, {multiple: true, class: 'add-select2 tag-field'}
 
   = f.label 'Admin Users'
   = f.select :performer_ids, options_from_collection_for_select(@followed, :id, :name_and_username, @routine.performers.pluck(:id)), {include_blank: true}, {multiple: true, class: 'add-select2'}
@@ -23,3 +28,23 @@
   %br
 
   = f.submit "Save #{routine_name.capitalize}"
+
+:javascript
+  $(document).ready(function() { 
+    displayCustomContexts($('#routine_global_owner').val());
+
+    $('#routine_form').submit(function() {
+      var globalOwner = $('#routine_global_owner').val();
+      $('.tag-field').not($('#actor-fields-' + globalOwner + ' .tag-field')).val('');
+    });
+
+    $('#routine_global_owner').change(function() {
+      var globalOwner = $(this).val();
+      displayCustomContexts(globalOwner);
+    });
+  });
+
+  function displayCustomContexts(globalOwner) {
+    $('.routine__actor-fields').hide();
+    $('#actor-fields-' + globalOwner).show();
+  }
