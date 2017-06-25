@@ -12,7 +12,9 @@ class RoutinesController < ApplicationController
     @routine = Routine.includes(:routine_feats, :feats)
                       .visible_to(current_performer)
                       .find(params[:id])
-    @feats = @routine.owner.feats.order(:name)
+    @actors = current_performer.actors
+    @feats = Query::FeatQueryService.new(actors: @actors,
+                                         viewer: current_performer).find_feats
   end
 
   def new
