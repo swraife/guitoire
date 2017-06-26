@@ -36,7 +36,6 @@ FactoryGirl.define do
   factory :routine_feat do
     feat_id 1
     routine_id 1
-    music_key 'MyString'
   end
 
   factory :routine do

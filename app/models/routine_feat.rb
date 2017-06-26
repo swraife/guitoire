@@ -2,18 +2,20 @@
 #
 # Table name: routine_feats
 #
-#  id         :integer          not null, primary key
-#  feat_id    :integer
-#  routine_id :integer
-#  music_key  :string
-#  tempo      :integer
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  sort_value :integer
+#  id          :integer          not null, primary key
+#  feat_id     :integer
+#  routine_id  :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  sort_value  :integer
+#  name        :string
+#  description :text
 #
 
 # left as routine_feat until decided what 'feat' will be named
 class RoutineFeat < ApplicationRecord
+  include Resourceable
+
   belongs_to :routine
   belongs_to :feat
 
@@ -30,5 +32,9 @@ class RoutineFeat < ApplicationRecord
     routine.routine_feats.each_with_index do |routine_feat, index|
       routine_feat.update(sort_value: (index + 1) * 1000)
     end
+  end
+
+  def public_name
+    name || feat.name
   end
 end

@@ -16,6 +16,7 @@ class Routine < ApplicationRecord
   include GlobalOwner
   include TrackableAssociations
   include PublicActivity::Model
+  include Resourceable
 
   tracked only: [:create], owner: :owner
 
