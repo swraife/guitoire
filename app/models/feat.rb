@@ -26,6 +26,7 @@ class Feat < ApplicationRecord
   include PgSearch
   include PublicActivity::Model
   include TrackableAssociations
+  include Resourceable
 
   tracked only: [:create], owner: :creator, recipient: :itself
 
@@ -49,10 +50,6 @@ class Feat < ApplicationRecord
   belongs_to :creator, class_name: 'Performer'
 
   belongs_to :owner, polymorphic: true
-
-  has_many :resources, as: :target, dependent: :destroy
-  has_many :file_resources, through: :resources, source: :resourceable, source_type: 'FileResource'
-  has_many :url_resources, through: :resources, source: :resourceable, source_type: 'UrlResource'
 
   has_many :plays
   has_many :players, -> { distinct }, through: :plays, source: :performer
