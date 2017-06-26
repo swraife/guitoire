@@ -58,8 +58,8 @@ class Play < ApplicationRecord
   end
 
   def decrement_feat_and_feat_roles_counter
-    feat_last_played = feat.plays.last.created_at
-    feat_role_last_played = feat_role.plays.last.created_at
+    feat_last_played = feat.plays.last&.created_at
+    feat_role_last_played = feat_role.plays.last&.created_at
     update_play_counters -1, feat_last_played, feat_role_last_played
   end
 
