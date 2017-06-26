@@ -20,7 +20,8 @@ class Play < ApplicationRecord
   belongs_to :feat_role
   belongs_to :feat
 
-  after_create :update_feat_and_feat_roles
+  after_create :increment_feat_and_feat_roles_counter
+  after_destroy :decrement_feat_and_feat_roles_counter
   # To be deleted once owner is made polymorphic
   def owner
     performer
@@ -31,16 +32,19 @@ class Play < ApplicationRecord
     other_players_count = feat.players.count - 1
     others_text =
       if other_players_count.positive?
-        "#{other_players_count} others have performed this #{feat_name} #{feat.plays.count - feat_role.plays.count} times."
+        "#{other_players_count} others have performed this #{feat_name}" +
+        " #{feat.plays.count - feat_role.plays.count} times."
       else
         ''
       end
 
-    "#{feat_name.capitalize} performed! You have performed this #{feat_name} #{feat_role.plays.count} times! #{others_text}"
+    "#{feat_name.capitalize} performed! You have performed this #{feat_name}" +
+    " #{feat_role.plays.count} times! #{others_text}"
   end
 
   def destroy_flash_notice
-    "Delete Succesful! You have performed this #{performer.feat_name} #{feat_role.plays.count} times!"
+    "Delete Succesful! You have performed this #{performer.feat_name}" +
+    " #{feat_role.plays.count} times!"
   end
 
   def feat_id
@@ -49,8 +53,20 @@ class Play < ApplicationRecord
 
   private
 
-  def update_feat_and_feat_roles
-    feat_role.update(last_played_at: created_at, plays_count: feat_role.plays_count + 1)
-    feat.update(last_played_at: created_at, plays_count: feat.plays_count + 1)
+  def increment_feat_and_feat_roles_counter
+    update_play_counters 1, created_at, created_at
+  end
+
+  def decrement_feat_and_feat_roles_counter
+    feat_last_played = feat.plays.last.created_at
+    feat_role_last_played = feat_role.plays.last.created_at
+    update_play_counters -1, feat_last_played, feat_role_last_played
+  end
+
+  def update_play_counters(amount, feat_last_played, feat_role_last_played)
+    feat_role.update(last_played_at: feat_role_last_played,
+                     plays_count: feat_role.plays_count + amount)
+    feat.update(last_played_at: feat_last_played,
+                plays_count: feat.plays_count + amount)
   end
 end
