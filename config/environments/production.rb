@@ -32,6 +32,8 @@ Rails.application.configure do
 
   config.action_mailer.asset_host = 'https://guitoire.herokuapp.com'
 
+  config.force_ssl = true
+
   ActionMailer::Base.smtp_settings = {
     :address        => ENV['SMTP_SERVER'],
     :port           => ENV['SMTP_PORT'],
