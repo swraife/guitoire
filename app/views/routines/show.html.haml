@@ -13,10 +13,11 @@
   %p
     = @routine.description
 
-.routine__generics
-  %h2.inl-block
-    Tags:
-  = translated_tag_list(@routine.generics)
+- if @routine.generics.present?
+  .routine__generics
+    %h2.inl-block
+      Tags:
+    = translated_tag_list(@routine.generics)
 
 - if can? :edit, @routine
   %h3
