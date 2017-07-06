@@ -9,9 +9,8 @@ class RoutinesController < ApplicationController
 
   def show
     # Watch out: including :routine_roles breaks routine_feats ordering
-    @routine = Routine.includes(:routine_feats, :feats)
-                      .visible_to(current_performer)
-                      .find(params[:id])
+    @routine = Routine.visible_to(current_performer).find(params[:id])
+    @routine_feats = @routine.routine_feats.includes(:feat).order(:sort_value)
     @actors = current_performer.actors
     @feats = Query::FeatQueryService.new(actors: @actors,
                                          viewer: current_performer).find_feats

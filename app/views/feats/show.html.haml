@@ -60,6 +60,16 @@
       Private Tags:
     = translated_tag_list(@current_performer_feat_role.private)
 
+- if @routines.present?
+  .feat__routines-list
+    %h2.inl-block
+      Routines:
+    - routines_size = @routines.size
+    - @routines.each_with_index do |routine, index|
+      - if can?(:show, routine)
+        = link_to routine.name, routine
+        = ',' unless index == routines_size - 1
+
 // - if @groups_feat_roles.any? { |feat_role| feat_role.private_list.present? }
 //   %h3
 //     Private Custom Fields

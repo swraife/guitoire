@@ -53,7 +53,8 @@ class Feat < ApplicationRecord
 
   has_many :plays
   has_many :players, -> { distinct }, through: :plays, source: :performer
-  has_many :routine_feats, dependent: :destroy
+  has_many :routine_feats, -> { unscoped }, dependent: :destroy
+  has_many :routines, -> { distinct }, through: :routine_feats
 
   scope :order_by_name, ->(_id) { group('feats.id').order('lower(feats.name)') }
   scope :order_by_created_at, ->(_id) { group('feats.id').order(created_at: :desc) }

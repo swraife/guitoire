@@ -23,14 +23,14 @@ class FileResource < ApplicationRecord
                       end
                     }
 
-  validates_attachment_content_type :main, content_type: [/\Aimage\/.*\Z/, /\Aaudio\/.*\Z/, /\Atext\/.*\Z/, 'application/pdf',
-    /application\/.*word\Z/, /application\/.*excel\Z/, /application\/vnd.*\Z/, /\Avideo\/.*\Z/],
-    message: 'Bad File Type'
+  validates_attachment_content_type :main, content_type: [
+    /\Aimage\/.*\Z/, /\Aaudio\/.*\Z/, /\Atext\/.*\Z/, 'application/pdf',
+    /application\/.*word\Z/, /application\/.*excel\Z/, /application\/vnd.*\Z/,
+    /\Avideo\/.*\Z/], message: 'Bad File Type'
   validates_attachment_size :main, in: 0..100.megabytes, message: 'File is too big!'
   validates_attachment_presence :main,
     message: 'File Missing'
 
-  # true if should open in new browser tab; false if should download
   def displayable_in_browser?
     extension = main_content_type.split('/')[-1]
     %w(pdf jpg png gif txt jpeg).include? extension
