@@ -21,7 +21,7 @@ class RoutineFeat < ApplicationRecord
 
   before_create :default_sort_value
 
-  default_scope { order(:sort_value) }
+  # default_scope { order(:sort_value) }
 
   def default_sort_value
     return if sort_value

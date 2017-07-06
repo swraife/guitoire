@@ -21,6 +21,7 @@ class FeatsController < ApplicationController
       @feat.feat_roles.where(owner: current_performer).first_or_initialize
     @groups_feat_roles = @feat.feat_roles.includes(:base_tags, :owner)
                            .where(owner: current_performer.groups)
+    @routines = @feat.routines
   end
 
   def new

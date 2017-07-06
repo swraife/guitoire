@@ -28,7 +28,7 @@
   = feat_name.pluralize
 
 %ul.routine_feats
-  - @routine.routine_feats.each do |routine_feat|
+  - @routine_feats.each do |routine_feat|
     = render partial: 'routine_feats/show', locals: { routine_feat: routine_feat }
 
 :javascript
