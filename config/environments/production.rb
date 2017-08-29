@@ -25,12 +25,12 @@ Rails.application.configure do
   config.public_file_server.headers = {
     'Cache-Control' => 'public, max-age=31557600',
   }
-  config.action_mailer.default_url_options = { :host => 'guitoire.herokuapp.com' }
+  config.action_mailer.default_url_options = { :host => 'performr.world' }
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
 
-  config.action_mailer.asset_host = 'https://guitoire.herokuapp.com'
+  config.action_mailer.asset_host = 'https://performr.world'
 
   config.force_ssl = true
 
