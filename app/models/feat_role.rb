@@ -16,6 +16,7 @@
 class FeatRole < ApplicationRecord
   include PublicActivity::Model
   include GlobalOwner
+  include Resourceable
 
   belongs_to :owner, polymorphic: true
   belongs_to :performer, class_name: 'Performer', foreign_key: 'owner_id'
@@ -23,7 +24,6 @@ class FeatRole < ApplicationRecord
   belongs_to :feat
 
   has_many :plays, dependent: :destroy
-  has_many :resources, as: :target, dependent: :destroy
 
   scope :order_by_last_played, -> { left_joins(:plays)
                                     .group('feat_roles.id')
@@ -55,12 +55,8 @@ class FeatRole < ApplicationRecord
     admin?
   end
 
-  def global_owner
-    owner&.to_global_id
-  end
-
-  def global_owner=(owner)
-    self.owner = GlobalID::Locator.locate owner
+  def redirect_target
+    feat
   end
 
   private

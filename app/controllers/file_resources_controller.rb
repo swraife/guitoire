@@ -9,9 +9,9 @@ class FileResourcesController < ApplicationController
                                       name: resource_params[:name],
                                       creator: current_performer)
     end
-    redirect_to feat_path(params[:feat_id])
+    redirect_to polymorphic_path(@target.redirect_target)
   rescue ActiveRecord::ActiveRecordError => exception
-    redirect_to feat_path(params[:feat_id]),
+    redirect_to polymorphic_path(@target.redirect_target),
       flash: { error: "Uh oh, something broke - #{exception}" }
   end
 

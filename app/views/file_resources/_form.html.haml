@@ -1,0 +1,13 @@
+= form_for file_resource, html: { class: 'feat-show-form disable-on-submit' } do |f|
+  = fields_for :resource do |ff|
+    .feat__resource-target-buttons{ class: "#{'hide' unless can_edit_target}" }
+      = ff.radio_button :global_target, target.global_id, checked: can_edit_target
+      = label_tag 'Public', nil, class: 'inl-block'
+      = ff.radio_button :global_target, current_performer_target_role.global_id, checked: !can_edit_target
+      = label_tag 'Private', nil, class: 'inl-block'
+    = label_tag 'Name'
+    = ff.text_field :name, placeholder: 'Optional'
+  = f.file_field :main, name: 'file_resource[main]', accept: '.jpg, .jpeg, .png, .pdf, .gif, .docx, .doc, .xls, .xlsx, .mp3, .wav, .mp4, .txt, .mov'
+  = button_tag type: 'submit', class: 'file_resource-upload-btn hide' do
+    %i.fa.fa-save
+    Upload

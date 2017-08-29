@@ -12,8 +12,20 @@
 #
 
 class RoutineRole < ApplicationRecord
+  include GlobalOwner
+  include Resourceable
+
   belongs_to :owner, polymorphic: true
   belongs_to :routine
 
   enum role: [:admin]
+
+  # TODO: Make sure prevents unauthorized resource adding to routines
+  def has_edit_permission?
+    persisted?
+  end
+
+  def redirect_target
+    routine
+  end
 end

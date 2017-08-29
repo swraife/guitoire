@@ -106,38 +106,19 @@
 - if @current_performer_feat_role.subscriber?
   = button_tag 'Attach File', class: 'add-resource-btn btn'
   = button_tag 'Add Link', class: 'add-link-btn btn'
-- if @current_performer_feat_role.subscriber? 
   = button_tag 'Add Private Tags', class: 'add-private-tags-btn btn'
 
-- if @current_performer_feat_role.subscriber?
-  = form_for FileResource.new, html: { class: 'feat-show-form disable-on-submit' } do |f|
-    = fields_for :resource do |ff|
-      .feat__resource-target-buttons{ class: "#{'hide' unless can_edit_feat}" }
-        = ff.radio_button :global_target, @feat.global_id, checked: can_edit_feat
-        = label_tag 'Public', nil, class: 'inl-block'
-        = ff.radio_button :global_target, @current_performer_feat_role.global_id, checked: !can_edit_feat
-        = label_tag 'Private', nil, class: 'inl-block'
-      = label_tag 'Name'
-      = ff.text_field :name, placeholder: 'Optional'
-    = f.file_field :main, name: 'file_resource[main]', accept: '.jpg, .jpeg, .png, .pdf, .gif, .docx, .doc, .xls, .xlsx, .mp3, .wav, .mp4, .txt, .mov'
-    = hidden_field_tag :feat_id, @feat.id
-    = button_tag type: 'submit', class: 'file_resource-upload-btn hide' do
-      %i.fa.fa-save
-      Upload
+  = render partial: 'file_resources/form',
+           locals: { file_resource: FileResource.new,
+                     target: @feat,
+                     current_performer_target_role: @current_performer_feat_role,
+                     can_edit_target: can_edit_feat }
 
-  = form_for UrlResource.new, html: { class: 'feat-show-form disable-on-submit' } do |f|
-    = f.label 'Add Link'
-    = fields_for :resource do |ff|
-      .feat__resource-target-buttons{ class: "#{'hide' unless can_edit_feat}" }
-        = ff.radio_button :global_target, @feat.global_id, checked: can_edit_feat
-        = label_tag 'Public', nil, class: 'inl-block'
-        = ff.radio_button :global_target, @current_performer_feat_role.global_id, checked: !can_edit_feat
-        = label_tag 'Private', nil, class: 'inl-block'
-    = f.text_field :url
-    = hidden_field_tag :feat_id, @feat.id
-    = button_tag type: 'submit', class: 'url_resource-submit-btn' do |f|
-      %i.fa.fa-save
-      Save
+  = render partial: 'url_resources/form',
+           locals: { url_resource: UrlResource.new,
+                     target: @feat,
+                     current_performer_target_role: @current_performer_feat_role,
+                     can_edit_target: can_edit_feat }
 
   = form_for @current_performer_feat_role, html: { class: 'feat-show-form feat-role-private-list-form disable-on-submit' } do |f|
     = f.label 'Private Tags'
@@ -146,24 +127,8 @@
       %i.fa.fa-save
       Save
 
-
 :javascript
   $(document).ready(function() {
-    $('#new_file_resource').hide();
-    $('.add-resource-btn').click(function() {
-      $('.feat-show-form').hide();
-      $('#new_file_resource').toggle();
-    });
-
-    $('#new_url_resource').hide();
-    $('.add-link-btn').click(function() {
-      $('.feat-show-form').hide();
-      $('#new_url_resource').toggle();
-    });
-    $('input:file').change(function (){
-      $('.file_resource-upload-btn').show();
-    });
-
     $('.feat-role-private-list-form').hide();
     $('.add-private-tags-btn').click(function() {
       $('.feat-show-form').hide();

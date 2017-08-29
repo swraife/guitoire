@@ -1,0 +1,12 @@
+= form_for url_resource, html: { class: 'feat-show-form disable-on-submit' } do |f|
+  = f.label 'Add Link'
+  = fields_for :resource do |ff|
+    .feat__resource-target-buttons{ class: "#{'hide' unless can_edit_target}" }
+      = ff.radio_button :global_target, target.global_id, checked: can_edit_target
+      = label_tag 'Public', nil, class: 'inl-block'
+      = ff.radio_button :global_target, current_performer_target_role.global_id, checked: !can_edit_target
+      = label_tag 'Private', nil, class: 'inl-block'
+  = f.text_field :url
+  = button_tag type: 'submit', class: 'url_resource-submit-btn' do |f|
+    %i.fa.fa-save
+    Save

@@ -14,6 +14,8 @@ class RoutinesController < ApplicationController
     @actors = current_performer.actors
     @feats = Query::FeatQueryService.new(actors: @actors,
                                          viewer: current_performer).find_feats
+    @routine_role = @routine.routine_roles.where(owner: current_performer)
+                            .first_or_initialize
   end
 
   def new

@@ -49,6 +49,10 @@ class Routine < ApplicationRecord
     where(visibility: 0).or(where(id: ids))
   end
 
+  def redirect_target
+    self
+  end
+
   private
 
   def owner_routine_role
