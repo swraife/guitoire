@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170626153149) do
+ActiveRecord::Schema.define(version: 20170829065104) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -206,6 +206,17 @@ ActiveRecord::Schema.define(version: 20170626153149) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "feat_id"
+  end
+
+  create_table "received_emails", force: :cascade do |t|
+    t.jsonb "to"
+    t.jsonb "from"
+    t.text "body"
+    t.text "subject"
+    t.string "sender_type"
+    t.integer "sender_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "resources", id: :serial, force: :cascade do |t|

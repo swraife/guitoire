@@ -7,6 +7,25 @@ FactoryGirl.define do
     association :follower, factory: :performer
   end
 
+  factory :griddler_email, class: OpenStruct do
+    # Assumes Griddler.configure.to is :hash (default)
+    to [{ full: 'to_user@performr.world', email: 'to_user@performr.world', token: 'to_user', host: 'performr.world', name: nil }]
+    from({ token: 'from_user', host: 'email.com', email: 'from_email@email.com', full: 'From User <from_user@email.com>', name: 'From User' })
+    subject 'email subject'
+    body 'Hello!'
+    attachments {[]}
+
+    trait :with_attachment do
+      attachments {[
+        ActionDispatch::Http::UploadedFile.new({
+          filename: 'img.jpeg',
+          type: 'image/jpeg',
+          tempfile: File.new("#{Rails.root}/app/assets/images/guitoire_logo.jpeg")
+        })
+      ]}
+    end
+  end
+
   factory :group do
     name 'Name'
     description 'Description'
