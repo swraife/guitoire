@@ -102,6 +102,17 @@ class Performer < ApplicationRecord
     [self]
   end
 
+  def default_feat_visibility
+    @default_feat_visibility ||=
+      if Feat.where(owner: self)
+             .pluck(:visibility)
+             .include? 'only_admins'
+        'only_admins'
+      else
+        'everyone'
+      end
+  end
+
   private
 
   def user_default_performer
