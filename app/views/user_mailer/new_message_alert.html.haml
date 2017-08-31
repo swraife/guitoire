@@ -1,7 +1,7 @@
-= "New message from #{@message.user.name}:"
+= "New message from #{@message.performer.name}:"
 
 %blockquote
   = @message.content
 
 %p
-  = link_to 'Reply on Guitoire', message_threads_url
+  = link_to 'Reply on Performr', message_threads_url

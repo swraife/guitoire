@@ -119,6 +119,10 @@ class Feat < ApplicationRecord
     feat_roles.where(owner: actor).first_or_initialize
   end
 
+  def redirect_target
+    self
+  end
+
   private
 
   def owner_feat_role

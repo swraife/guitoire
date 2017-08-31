@@ -8,9 +8,9 @@ class UrlResourcesController < ApplicationController
       url_resource.resources.create!(target: @target,
                                      creator: current_performer)
     end
-    redirect_to performer_feat_path(current_performer, params[:feat_id])
+    redirect_to polymorphic_path(@target.redirect_target)
   rescue ActiveRecord::ActiveRecordError => exception
-    redirect_to performer_feat_path(current_performer, params[:feat_id]),
+    redirect_to polymorphic_path(@target.redirect_target),
       flash: { error: "Uh oh, something broke - #{exception}" }
   end
 

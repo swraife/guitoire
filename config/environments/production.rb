@@ -1,4 +1,3 @@
-require Rails.root.join('config/smtp')
 Rails.application.configure do
   config.cache_classes = true
   config.eager_load = true
@@ -11,7 +10,6 @@ Rails.application.configure do
   config.log_tags = [:request_id]
   config.action_mailer.perform_caching = false
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = SMTP_SETTINGS
   config.i18n.fallbacks = true
   config.active_support.deprecation = :notify
   config.log_formatter = ::Logger::Formatter.new
@@ -25,12 +23,12 @@ Rails.application.configure do
   config.public_file_server.headers = {
     'Cache-Control' => 'public, max-age=31557600',
   }
-  config.action_mailer.default_url_options = { :host => 'guitoire.herokuapp.com' }
+  config.action_mailer.default_url_options = { :host => 'performr.world' }
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
 
-  config.action_mailer.asset_host = 'https://guitoire.herokuapp.com'
+  config.action_mailer.asset_host = 'https://performr.world'
 
   config.force_ssl = true
 

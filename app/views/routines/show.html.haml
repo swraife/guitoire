@@ -22,8 +22,44 @@
 - if can? :edit, @routine
   %h3
     = "Add #{feat_name}"
-
   = render partial: 'routine_feats/form', locals: { routine: @routine, feats: @feats }
+  %h3
+    Attachments
+  = button_tag 'Attach File', class: 'add-resource-btn btn'
+  = button_tag 'Add Link', class: 'add-link-btn btn'
+
+  = render partial: 'file_resources/form',
+           locals: { file_resource: FileResource.new,
+                     target: @routine,
+                     current_performer_target_role: @routine_role,
+                     can_edit_target: true }
+
+  = render partial: 'url_resources/form',
+           locals: { url_resource: UrlResource.new,
+                     target: @routine,
+                     current_performer_target_role: @routine_role,
+                     can_edit_target: true }
+
+.feat__resources-wrapper
+  %h2
+    Attachments:
+  - (@routine.resources + @routine_role.resources).each do |resource|
+    .feat__resource
+      - download_target = resource.resourceable.displayable_in_browser? ? '_blank' : '_top'
+      - if YouTubeRails.extract_video_id resource.resourceable.url
+        .iframe-wrapper
+          != YouTubeRails.youtube_embed_url resource.resourceable.url, 560, 349, ssl: true
+      - elsif resource.resourceable.icon == 'fa-file-video-o'
+        .video__inline-wrapper
+          = video_tag resource.resourceable.url, controls: true, type: 'video/mp4'
+      - else
+        = link_to resource.resourceable.url, target: download_target do
+          %i{class: "fa #{resource.resourceable.icon}"}
+          = resource.resourceable.url_name
+      - if @routine_role.has_edit_permission? || resource.creator == current_performer
+        .feat__resource-delete-link
+          = link_to resource_path(resource), method: :delete, data: { confirm: "Are you sure you want to delete this #{resource.resourceable.is_a?(FileResource) ? 'file' : 'link'}?" } do
+            = '(delete)'
 
 %h3
   = feat_name.pluralize
@@ -34,7 +70,7 @@
 
 :javascript
   $(document).ready(function() {
-    if (#{ can? :edit, @routine}) {
+    if (#{ can? :edit, @routine }) {
       $('.routine_feats').sortable({
         cursor: 'move',
         update: function(e, ui) {
