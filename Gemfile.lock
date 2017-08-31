@@ -43,6 +43,9 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    RubyInline (3.12.4)
+      ZenTest (~> 4.3)
+    ZenTest (4.11.1)
     aasm (4.11.1)
     actioncable (5.1.0)
       actionpack (= 5.1.0)
@@ -155,6 +158,8 @@ GEM
       activesupport
       capybara
       i18n
+    fuzzy-string-match (1.0.1)
+      RubyInline (>= 3.8.6)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
     griddler (1.4.0)
@@ -434,6 +439,7 @@ DEPENDENCIES
   flutie
   font-awesome-rails!
   formulaic
+  fuzzy-string-match
   griddler
   griddler-sendgrid
   guard-rails
