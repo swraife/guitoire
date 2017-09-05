@@ -31,13 +31,13 @@ class EmailProcessor
   # there are no attachments, and one or more matches, it might be a new
   # feat or an accidental duplicate, so we'll create it as pending
   def create_or_set_feat
-    if feat_matches.length == 1 && email.attachments.present?
+    if feat_matches.length == 1 && resources_in_email?
       self.resource_status = 'published'
       self.feat = feat_matches.first[:match]
-    elsif feat_matches.length > 1 && email.attachments.present?
+    elsif feat_matches.length > 1 && resources_in_email?
       self.resource_status = 'pending'
       self.feat = Feat.new
-    elsif feat_matches.length > 0 && email.attachments.empty?
+    elsif feat_matches.length > 0 && !resources_in_email?
       self.feat_status = 'pending'
       self.feat = create_feat
     elsif feat_matches.length.zero?
@@ -130,5 +130,9 @@ class EmailProcessor
       (word.include?('http') || word.include?('www.')) &&
         UrlResource.valid_url?(word)
     end
+  end
+
+  def resources_in_email?
+    email.attachments.present? || urls.present?
   end
 end
