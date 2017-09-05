@@ -82,19 +82,16 @@ class EmailProcessor
     @sender ||= User.find_by_email(email.from[:email])
   end
 
-  # Returns the sender's performer if there is only one.
-  # If there are multiple performers, returns the ONE that matches
-  # the sender\'s email. If there are multiple matches, returns nil.
-  # Obviously not an ideal solution for user experience.
   def owner
+    return nil unless sender
+
     @owner ||=
-      if sender
-        if sender_performers.count > 1
-          matches = sender_performers.where(email: email.from[:email])
-          matches.count > 1 ? sender : matches.first
-        else
-          sender_performers.first
-        end
+      if sender_performers.count == 1
+        sender_performers.first
+      elsif performer_matches.count == 1
+        performer_matches.first[:match]
+      else
+        sender
       end
   end
 
@@ -106,5 +103,14 @@ class EmailProcessor
     @feat_matches ||=
       NameMatcher.new(email.subject,
                       sender.actors_subscriber_feats).find_matches
+  end
+
+  def performer_matches
+    @performer_matches ||= NameMatcher.new(to_performr_emails.first[:token],
+                                           sender_performers).find_matches
+  end
+
+  def to_performr_emails
+    email.to.select { |to| to[:host].include? 'performr.world' }
   end
 end

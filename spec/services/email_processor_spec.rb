@@ -101,5 +101,34 @@ describe EmailProcessor do
         end
       end
     end
+
+    context 'when the sender only has one performer' do
+      it 'makes the performer the feat owner' do
+        performer
+        subject.process
+
+        expect(Feat.first.owner).to eq(performer)
+      end
+    end
+
+    context 'when the sender has multiple performers' do
+      let(:to) { [{ full: 'Music@performr.world', email: 'music@performr.world', token: 'music', host: 'performr.world', name: nil }] }
+
+      it 'checks the email.to locate the correct performer' do
+        performer
+        performer2 = create(:performer, user: performer.user, name: 'music')
+        subject.process
+
+        expect(Feat.first.owner).to eq(performer2)
+      end
+
+      it 'uses the sender if there isn\'t a matching performer' do
+        performer
+        performer2 = create(:performer, user: performer.user, name: 'nonmatch')
+        subject.process
+
+        expect(Feat.first.owner).to eq(performer.user)
+      end
+    end
   end
 end

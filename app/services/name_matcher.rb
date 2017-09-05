@@ -15,7 +15,7 @@ class NameMatcher
 
   def find_matches
     collection.each_with_object([]) do |item, results|
-      item_str = item.send(attribute).downcase
+      item_str = item.send(attribute).to_s.downcase
       dist = distance(item_str, string)
       if dist > certainty
         results.push({ match: item, distance: dist })
