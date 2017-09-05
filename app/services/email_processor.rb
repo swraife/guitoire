@@ -122,7 +122,7 @@ class EmailProcessor
   end
 
   def to_performr_emails
-    email.to.select { |to| to[:host].include? 'performr.world' }
+    (email.to + email.cc).select { |to| to[:host].include? 'performr.world' }
   end
 
   def urls
