@@ -19,6 +19,7 @@
 #  visibility     :integer          default("everyone")
 #  plays_count    :integer          default(0)
 #  last_played_at :datetime
+#  status         :integer          default("published")
 #
 
 class Feat < ApplicationRecord
@@ -65,6 +66,7 @@ class Feat < ApplicationRecord
 
   enum permission: [:copiable, :followable, :hidden]
   enum visibility: [:everyone, :only_admins]
+  enum status: [:published, :pending]
 
   multisearchable against: :name
 

@@ -12,6 +12,7 @@
 #  target_type       :string
 #  creator_type      :string
 #  creator_id        :integer
+#  status            :integer          default(0)
 #
 
 require 'rails_helper'

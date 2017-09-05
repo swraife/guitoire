@@ -19,6 +19,7 @@
 #  visibility     :integer          default("everyone")
 #  plays_count    :integer          default(0)
 #  last_played_at :datetime
+#  status         :integer          default("published")
 #
 
 require 'rails_helper'

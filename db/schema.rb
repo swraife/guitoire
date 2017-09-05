@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170829065104) do
+ActiveRecord::Schema.define(version: 20170905024806) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -95,6 +95,7 @@ ActiveRecord::Schema.define(version: 20170829065104) do
     t.integer "visibility", default: 0
     t.integer "plays_count", default: 0
     t.datetime "last_played_at"
+    t.integer "status", default: 0
   end
 
   create_table "file_resources", id: :serial, force: :cascade do |t|
@@ -217,6 +218,7 @@ ActiveRecord::Schema.define(version: 20170829065104) do
     t.integer "sender_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "headers"
   end
 
   create_table "resources", id: :serial, force: :cascade do |t|
@@ -229,6 +231,7 @@ ActiveRecord::Schema.define(version: 20170829065104) do
     t.string "target_type"
     t.string "creator_type"
     t.integer "creator_id"
+    t.integer "status", default: 0
     t.index ["creator_type", "creator_id"], name: "index_resources_on_creator_type_and_creator_id"
     t.index ["resourceable_type", "resourceable_id"], name: "index_resources_on_resourceable_type_and_resourceable_id"
     t.index ["target_id", "target_type"], name: "index_resources_on_target_id_and_target_type"

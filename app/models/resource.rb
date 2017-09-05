@@ -12,6 +12,7 @@
 #  target_type       :string
 #  creator_type      :string
 #  creator_id        :integer
+#  status            :integer          default(0)
 #
 
 class Resource < ApplicationRecord
@@ -25,6 +26,8 @@ class Resource < ApplicationRecord
   belongs_to :target, polymorphic: true
 
   after_destroy :destroy_resourceable
+
+  enum status: [:published, :pending]
 
   def destroy_resourceable
     resourceable.destroy if resourceable.resources.count == 0

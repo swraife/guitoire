@@ -65,6 +65,10 @@ class User < ApplicationRecord
     performers.map { |performer| [performer, performer.groups] }.flatten
   end
 
+  def actors_subscriber_feats
+    Feat.joins(:feat_roles).where(feat_roles: { owner: actors, role: [1,2] })
+  end
+
   def admin_group_ids
     @admin_group_ids ||=
       GroupRole.where(performer_id: performer_ids, role: [1,2])
