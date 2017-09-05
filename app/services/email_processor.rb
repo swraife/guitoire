@@ -11,6 +11,7 @@ class EmailProcessor
     return unless sender
     create_or_set_feat
     create_file_resources
+    create_url_resources
   end
 
   private
@@ -48,6 +49,7 @@ class EmailProcessor
 
   def create_feat
     Feat.create!(owner: owner,
+                 creator_id: owner&.id,
                  name: email.subject,
                  status: feat_status,
                  visibility: owner&.default_feat_visibility)
@@ -60,6 +62,15 @@ class EmailProcessor
                                       name: file_resource.main_file_name,
                                       status: resource_status,
                                       creator: owner)
+    end
+  end
+
+  def create_url_resources
+    urls.each do |url|
+      url_resource = UrlResource.create!(url: url)
+      url_resource.resources.create!(target: resource_target,
+                                     status: resource_status,
+                                     creator: owner)
     end
   end
 
@@ -112,5 +123,12 @@ class EmailProcessor
 
   def to_performr_emails
     email.to.select { |to| to[:host].include? 'performr.world' }
+  end
+
+  def urls
+    email.body.split(' ').select do |word|
+      (word.include?('http') || word.include?('www.')) &&
+        UrlResource.valid_url?(word)
+    end
   end
 end

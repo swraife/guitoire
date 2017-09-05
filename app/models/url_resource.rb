@@ -12,6 +12,12 @@ class UrlResource < ApplicationRecord
   has_many :resources, as: :resourceable
   before_save :format_url
 
+  def self.valid_url?(uri)
+    uri = URI.parse(uri)
+  rescue URI::InvalidURIError
+    false
+  end
+
   def displayable_in_browser?
     true
   end

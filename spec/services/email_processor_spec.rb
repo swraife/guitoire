@@ -2,7 +2,8 @@ require 'rails_helper'
 
 describe EmailProcessor do
   let(:subject) { described_class.new(griddler_email) }
-  let(:griddler_email) { build(:griddler_email, to: to) }
+  let(:griddler_email) { build(:griddler_email, to: to, body: body) }
+  let(:body) { 'Hello!' }
   let(:to) { [{ full: 'new@performr.world', email: 'new@performr.world', token: 'new', host: 'performr.world', name: nil }] }
   let(:performer) do
     create(:performer, user: create(:user, email: griddler_email.from[:email]))
@@ -98,6 +99,18 @@ describe EmailProcessor do
           subject.process
 
           expect(Feat.published.count).to eq(1)
+        end
+      end
+
+      context 'when the body includes links' do
+        let(:body) { "www.at.co and stuff http://bo.com stuff"}
+
+        it 'creates url_resources' do
+          performer
+          subject.process
+
+          expect(Resource.published.count).to eq(2)
+          expect(UrlResource.pluck(:url)).to contain_exactly('http://www.at.co', 'http://bo.com')
         end
       end
     end
